@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}", // Ajoutez cette ligne pour inclure les fichiers TypeScript
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        talktheglobe: "#E8FDF4",
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/line-clamp'),  // Ajoute cette ligne
