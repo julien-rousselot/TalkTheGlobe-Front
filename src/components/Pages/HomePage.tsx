@@ -1,15 +1,16 @@
 import NavigationBar from "../NavigationBar/NavigationBar";
-import Cours from "../Home/Cours";
+import Home from "../Home/Home";
 import Footer from "../Footer/Footer";
 
-const CoursPage = () => {
+const HomePage = () => {
     return (
       <div>
         <NavigationBar />
-        <Cours/>
+        <Home/>
         <Footer/>       
       </div>
     );
   };
   
-  export default CoursPage;
+  export default HomePage;
+  

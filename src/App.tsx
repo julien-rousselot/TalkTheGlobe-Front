@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Homepage from "./components/NavigationBar/NavigationBar";
-import AccueilPage from "./components/Pages/AccueilPage";
+// import Homepage from "./components/NavigationBar/NavigationBar";
+import HomePage from "./components/Pages/HomePage";
 import CoursPage from "./components/Pages/CoursPage.";
 
 const App = () => {
@@ -8,8 +8,8 @@ const App = () => {
     <Router>
       <Routes>
         {/* Route pour la page d'accueil */}
-        <Route path="/" element={<Homepage />} />
-        <Route path="/accueil" element={<AccueilPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/cours" element={<CoursPage />} />
       </Routes>
     </Router>

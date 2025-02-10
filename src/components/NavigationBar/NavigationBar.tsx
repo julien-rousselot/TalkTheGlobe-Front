@@ -1,22 +1,55 @@
 import { Link } from 'react-router-dom';
 import Talktheglobe from '../../assets/Talk_the_globe-removebg-preview.png';
+import { Menu, X } from "lucide-react"; // Icônes pour le menu
+import { useState } from 'react';
+import useIsMobile from "../../hooks/useIsMobile"; // Import du hook
+
 
 const NavigationBar = () => {
+  const isMobile = useIsMobile();
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <div className="flex justify-center items-center space-x-6 bg-white text-black p-4 h-24">
-      <Link to="/accueil">
-        <img className="h-24" src={Talktheglobe} alt="Logo site web" />
+    <nav className=" p-6 text-black h-[5rem] flex items-center justify-between">
+      {/* Logo */}
+      <Link to="/home">
+        <img className="h-16" src={Talktheglobe} alt="Logo site web" />
       </Link>
-      <Link to="/accueil" className=" font-semibold hover:text-yellow-500 transition-colors">ACCUEIL</Link>
-      <Link to="/cours" className=" font-semibold hover:text-yellow-500 transition-colors">COURS</Link>
-      <Link to="/contact" className=" font-semibold hover:text-yellow-500 transition-colors">CONTACT</Link>
-      <Link to="/apropos" className=" font-semibold hover:text-yellow-500 transition-colors">A PROPOS</Link>
-      <Link to="/blog" className=" font-semibold hover:text-yellow-500 transition-colors">BLOG</Link>
-      <Link to="/reservations" className=" font-semibold hover:text-yellow-500 transition-colors">RESERVATIONS</Link>
-      <Link to="/tarifs" className=" font-semibold hover:text-yellow-500 transition-colors">TARIFS</Link>
-      <Link to="/temoignages" className=" font-semibold hover:text-yellow-500 transition-colors">TEMOIGNAGES</Link>
-      <Link to="/evenements" className=" font-semibold hover:text-yellow-500 transition-colors">EVENEMENTS</Link>
-    </div>
+
+      {/* Version Desktop */}
+      {!isMobile ? (
+        <div className="flex space-x-6">
+          <Link to="/home" className="font-semibold hover:text-yellow-500 transition-colors">HOME</Link>
+          <Link to="/about" className="font-semibold hover:text-yellow-500 transition-colors">ABOUT ME</Link>
+          <Link to="/services" className="font-semibold hover:text-yellow-500 transition-colors">SERVICES</Link>
+          <Link to="/resources" className="font-semibold hover:text-yellow-500 transition-colors">RESOURCES</Link>
+          <Link to="/blog" className="font-semibold hover:text-yellow-500 transition-colors">BLOG</Link>
+          <Link to="/testimonials" className="font-semibold hover:text-yellow-500 transition-colors">TESTIMONIALS</Link>
+          <Link to="/contact" className="font-semibold hover:text-yellow-500 transition-colors">CONTACT</Link>
+          <Link to="/shop" className="font-semibold hover:text-yellow-500 transition-colors">SHOP</Link>
+        </div>
+      ) : (
+        // Version Mobile avec menu burger
+        <div>
+          <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none">
+            {menuOpen ? <X size={32} /> : <Menu size={32} />}
+          </button>
+
+          {menuOpen && (
+            <div className="absolute flex flex-col items-center justify-around top-20 right-0 bg-white shadow-md py-[10rem] space-y-4 w-full h-[calc(100vh-5rem)] z-10">
+              <Link to="/home" onClick={() => setMenuOpen(false)} className="font-semibold hover:text-yellow-500 transition-colors">HOME</Link>
+              <Link to="/about" onClick={() => setMenuOpen(false)} className="font-semibold hover:text-yellow-500 transition-colors">ABOUT ME</Link>
+              <Link to="/services" onClick={() => setMenuOpen(false)} className="font-semibold hover:text-yellow-500 transition-colors">SERVICES</Link>
+              <Link to="/resources" onClick={() => setMenuOpen(false)} className="font-semibold hover:text-yellow-500 transition-colors">RESOURCES</Link>
+              <Link to="/blog" onClick={() => setMenuOpen(false)} className="font-semibold hover:text-yellow-500 transition-colors">BLOG</Link>
+              <Link to="/testimonials" onClick={() => setMenuOpen(false)} className="font-semibold hover:text-yellow-500 transition-colors">TESTIMONIALS</Link>
+              <Link to="/contact" onClick={() => setMenuOpen(false)} className="font-semibold hover:text-yellow-500 transition-colors">CONTACT</Link>
+              <Link to="/shop" onClick={() => setMenuOpen(false)} className="font-semibold hover:text-yellow-500 transition-colors">SHOP</Link>
+            </div>
+          )}
+        </div>
+      )}
+    </nav>
   );
 };
 
