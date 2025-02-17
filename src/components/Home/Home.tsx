@@ -3,10 +3,8 @@ import Student from '../../assets/student.png';
 import Teacher from '../../assets/teacher.png';
 import assistante from '../../assets/qualites-assistante-direction.jpg';
 import { Link } from 'react-router-dom';
-// import useIsMobile from "../../hooks/useIsMobile"; // Import du hook
 
 const Home = () => {
-  // const isMobile = useIsMobile();
 
   return (
     <section>
@@ -60,7 +58,7 @@ const Home = () => {
               <img src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
             </div>
             <div className='flex justify-around'>
-              <Link to="/resources" className='bg-black text-white rounded-md w-1/2 p-4 m-6 text-lg text-center font-semibold'><button >Free ressources</button></Link>
+              <Link to="/resources" className='bg-black text-white rounded-md w-1/2 p-4 m-6 text-lg text-center font-semibold'><button>Free ressources</button></Link>
               <Link to="/resources" className='bg-black text-white rounded-md w-1/2 p-4 m-6 text-lg text-center flex justify-center font-semibold'><button >Classes</button></Link>
             </div>
           </div>
@@ -71,7 +69,7 @@ const Home = () => {
               <img src={Teacher} alt="image to select if you are a teacher and you want to get free resources or go to the shop part"/>
             </div>
             <div className='flex justify-around'>
-              <Link to="/resources" className='bg-black text-white rounded-md w-1/2 p-4 m-6 text-lg text-center font-semibold'><button >Free ressources</button></Link>
+              <Link to="/resources" className='bg-black text-white rounded-md w-1/2 p-4 m-6 text-lg text-center font-semibold'><button>Free ressources</button></Link>
               <Link to="/resources" className='bg-black text-white rounded-md w-1/2 p-4 m-6 text-lg text-center flex justify-center font-semibold'><button >Shop</button></Link>
             </div>
           </div>

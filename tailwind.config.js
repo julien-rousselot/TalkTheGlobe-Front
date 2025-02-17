@@ -8,6 +8,10 @@ export default {
     extend: {
       colors: {
         talktheglobe: "#E8FDF4",
+        redTitle: "#f24822",
+        purple: "#e3ccff",
+        green: "#aff4c6",
+        yellow: "#ffe8a3",
       },
     },
   },
