@@ -13,20 +13,20 @@ const NavigationBar = () => {
     <nav className=" p-6 text-black h-[5rem] flex items-center justify-between">
       {/* Logo */}
       <Link to="/home">
-        <img className="h-16" src={Talktheglobe} alt="Logo site web" />
+        <img className="w-1/4 md:w-[4rem]" src={Talktheglobe} alt="Logo site web" />
       </Link>
 
       {/* Version Desktop */}
       {!isMobile ? (
-        <div className="flex space-x-6">
-          <Link to="/home" className="font-semibold hover:text-yellow-500 transition-colors">HOME</Link>
-          <Link to="/about" className="font-semibold hover:text-yellow-500 transition-colors">ABOUT ME</Link>
-          <Link to="/services" className="font-semibold hover:text-yellow-500 transition-colors">SERVICES</Link>
-          <Link to="/resources" className="font-semibold hover:text-yellow-500 transition-colors">RESOURCES</Link>
-          <Link to="/blog" className="font-semibold hover:text-yellow-500 transition-colors">BLOG</Link>
-          <Link to="/testimonials" className="font-semibold hover:text-yellow-500 transition-colors">TESTIMONIALS</Link>
-          <Link to="/contact" className="font-semibold hover:text-yellow-500 transition-colors">CONTACT</Link>
-          <Link to="/shop" className="font-semibold hover:text-yellow-500 transition-colors">SHOP</Link>
+        <div className="flex space-x-5">
+          <Link to="/home" className="hover:text-yellow-500 transition-colors whitespace-nowrap">HOME</Link>
+          <Link to="/about" className="hover:text-yellow-500 transition-colors whitespace-nowrap">ABOUT ME</Link>
+          <Link to="/services" className="hover:text-yellow-500 transition-colors whitespace-nowrap">SERVICES</Link>
+          <Link to="/resources" className="hover:text-yellow-500 transition-colors whitespace-nowrap">RESOURCES</Link>
+          <Link to="/blog" className="hover:text-yellow-500 transition-colors whitespace-nowrap">BLOG</Link>
+          <Link to="/testimonials" className="hover:text-yellow-500 transition-colors whitespace-nowrap">TESTIMONIALS</Link>
+          <Link to="/contact" className="hover:text-yellow-500 transition-colors whitespace-nowrap">CONTACT</Link>
+          <Link to="/shop" className="hover:text-yellow-500 transition-colors whitespace-nowrap">SHOP</Link>
         </div>
       ) : (
         // Version Mobile avec menu burger

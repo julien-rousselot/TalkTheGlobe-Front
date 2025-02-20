@@ -1,23 +1,14 @@
-import Talktheglobe from '../../assets/Talk_the_globe-removebg-preview.png';
 import Student from '../../assets/student.png';
 import Teacher from '../../assets/teacher.png';
 import assistante from '../../assets/qualites-assistante-direction.jpg';
 import { Link } from 'react-router-dom';
+import Banner from '../Banner/Banner';
 
 const Home = () => {
 
   return (
     <section>
-      <header className='bg-talktheglobe'>
-        <div className='text-center p-6 flex md:items-center md:text-left flex-col md:flex-row md:p-0'>
-          <img src={Talktheglobe} alt="Logo website"/>
-          <div className=''>
-            <h1 className='text-3xl'>LEARN ENGLISH AND SPANISH TO EXPLORE THE WORLD! 🗺️</h1>
-            <h2 className='text-xl my-6'>Interactive online classes and resources to help you master the language</h2>
-            <button className='bg-red-500 rounded-md text-white p-4 text-md hover:bg-red-600'>START LEARNING TODAY! 🚀</button>
-          </div>
-        </div>
-      </header>
+      <Banner Title="LEARN ENGLISH AND SPANISH TO EXPLORE THE WORLD! 🗺️" Subtitle="Interactive online classes and resources to help you master the language" ButtonText="START LEARNING TODAY! 🚀"/>
       <main>
         <h2 className='text-red-500 font-bold text-center pt-12'>WHY LEARN WITH TALK THE GLOBE?</h2>
         <div className="relative">
