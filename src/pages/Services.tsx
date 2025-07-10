@@ -1,10 +1,9 @@
-import Blackboard from '../../assets/blackboard.png';
-import OneToOne from '../../assets/onetoone.png';
-import SemiPrivate from '../../assets/semi-private.png';
-import Group from '../../assets/Group.png';
-import Banner from '../Banner/Banner';
-import Email from '../Email/Email';
-
+import Blackboard from '../assets/blackboard.png';
+import OneToOne from '../assets/onetoone.png';
+import SemiPrivate from '../assets/semi-private.png';
+import Group from '../assets/Group.png';
+import Banner from '../components/Banner/Banner';
+import Email from '../components/Email/Email';
 
 const Services = () => {
   return (

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import useIsMobile from "../../hooks/useIsMobile"; // Import du hook
 
 
-const NavigationBar = () => {
+const Header = () => {
   const isMobile = useIsMobile();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -53,4 +53,4 @@ const NavigationBar = () => {
   );
 };
 
-export default NavigationBar;
+export default Header;

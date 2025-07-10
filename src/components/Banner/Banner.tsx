@@ -10,7 +10,6 @@ interface BannerProps {
 const Banner: React.FC<BannerProps> = ({ Title, Subtitle, Image, ButtonText }) => {
     return (
       <header className='bg-talktheglobe'>
-        
         <div className='text-center flex pt-12 px-4 md:pl-6 md:items-center md:text-left flex-col '>
           <div className='md:flex flex-row items-center'>
             <img src={Talktheglobe} className='block mx-auto w-[60%] md:w-[15%] md:mx-0' alt="Logo website"/>
@@ -25,9 +24,9 @@ const Banner: React.FC<BannerProps> = ({ Title, Subtitle, Image, ButtonText }) =
        
           </div>    
            {ButtonText && ( // Vérifie si ButtonText est défini avant d'afficher le bouton
-                <button className='bg-red-500 rounded-md text-white p-4 md:p-3 text-md hover:bg-red-600 m-6'>
-                  {ButtonText}
-                </button>
+              <button className='bg-[#D94C4C] rounded-md text-white p-4 md:p-3 text-md hover:bg-red-600 m-6'>
+                {ButtonText}
+              </button>
             )}
         </div>
       </header>

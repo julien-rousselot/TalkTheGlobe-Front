@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useState } from 'react';
 import EmailLogo from '../../assets/Email.png';
 
@@ -26,7 +25,7 @@ const [sent, setSent] = useState('');
   };
 
     return (
-      <section className='p-8 '>
+      <section className='p-8'>
         <h3 className='text-center text-redTitle text-4xl flex flex-col'>CHOOSE THE BEST OPTION FOR YOU!</h3>     
         <div className='flex flex-col md:flex-row text-center justify-around'>
             <div className='m-auto'>

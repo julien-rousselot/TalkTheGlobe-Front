@@ -1,19 +1,19 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-import HomePage from "./components/Pages/HomePage";
-import CoursPage from "./components/Pages/CoursPage.";
-import ServicesPage from "./components/Pages/ServicesPage";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Services from "./pages/Services";
+import Home from "./pages/Home";
+import Layout from "./layouts/layout";
+import './icons';
 
 const App = () => {
   return (
     <Router>
-      <Routes>
-        {/* Route pour la page d'accueil */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/cours" element={<CoursPage />} />
-        <Route path="/services" element={<ServicesPage />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 };
