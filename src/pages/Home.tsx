@@ -9,13 +9,32 @@ const Home = () => {
 
   return (
     <section>
-      <Banner Title="LEARN ENGLISH AND SPANISH TO EXPLORE THE WORLD! 🗺️" Subtitle="Interactive online classes and resources to help you master the language" ButtonText="START LEARNING TODAY! 🚀"/>
-      <div className="px-[5%] md:px-[15%] bg-peach">
+      <Banner Title={
+                <>
+                  🗺️ LEARN{" "}
+                  <span className="text-[#C6192E]">ENGLISH</span> AND{" "}
+                  <span className="text-[#C6192E]">SPANISH</span> TO EXPLORE THE WORLD ! 🗺️
+                </>
+              } 
+              Subtitle={
+                <>
+                  <FontAwesomeIcon icon="bolt" className="text-[#FFD43B] mr-2" />  
+                  Interactive <span> online classes</span> and{" "} <span>resources</span> to help you master the language
+                  <FontAwesomeIcon icon="bolt" className="text-[#FFD43B] ml-2" />                
+                </>
+              } 
+              Button={
+                <button className="flex items-center gap-2  px-4 py-2">
+                  <span>START LEARNING TODAY !</span>
+                  <FontAwesomeIcon icon="rocket"/>
+                </button>
+              }/>
+      <div className="px-[5%] md:px-[15%] bg-[#f9f9f4] bg-cover bg-center p-16">
         <main>
-          <h2 className='text-[#D94C4C] text-center text-4xl py-[30px]'>
-          <FontAwesomeIcon icon="graduation-cap" className="text-[#D94C4C] pr-5" />
-          WHY LEARN WITH TALK THE GLOBE?
-          <FontAwesomeIcon icon="graduation-cap" className="text-[#D94C4C] pl-5" />
+          <h2 className='text-[#C6192E] text-center text-4xl pb-16'>
+            <FontAwesomeIcon icon="graduation-cap" className="text-[#C6192E] pr-5" />
+            WHY LEARN WITH TALK THE GLOBE?
+            <FontAwesomeIcon icon="graduation-cap" className="text-[#C6192E] pl-5" />
           </h2>
           <section className="w-full">
             <div className="relative h-[300px] md:h-[750px] w-full">

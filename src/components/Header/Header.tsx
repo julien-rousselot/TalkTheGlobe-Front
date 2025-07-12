@@ -1,16 +1,15 @@
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {Menu, X} from "lucide-react"; // Icônes pour le menu
+import {useState} from 'react';
 import Talktheglobe from '../../assets/Talk_the_globe-removebg-preview.png';
-import { Menu, X } from "lucide-react"; // Icônes pour le menu
-import { useState } from 'react';
 import useIsMobile from "../../hooks/useIsMobile"; // Import du hook
-
 
 const Header = () => {
   const isMobile = useIsMobile();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className=" p-6 text-black h-[5rem] flex items-center justify-between">
+    <nav className="fixed p-6 bg-white w-full z-50 text-black h-[5rem] flex items-center justify-between">
       {/* Logo */}
       <Link to="/home">
         <img className="w-1/4 md:w-[4rem]" src={Talktheglobe} alt="Logo site web" />
@@ -18,13 +17,11 @@ const Header = () => {
 
       {/* Version Desktop */}
       {!isMobile ? (
-        <div className="flex space-x-5">
+        <div className="flex space-x-5 w-3/4 justify-between xl:pr-[400px]">
           <Link to="/home" className="hover:text-yellow-500 transition-colors whitespace-nowrap">HOME</Link>
           <Link to="/about" className="hover:text-yellow-500 transition-colors whitespace-nowrap">ABOUT ME</Link>
           <Link to="/services" className="hover:text-yellow-500 transition-colors whitespace-nowrap">SERVICES</Link>
           <Link to="/resources" className="hover:text-yellow-500 transition-colors whitespace-nowrap">RESOURCES</Link>
-          <Link to="/blog" className="hover:text-yellow-500 transition-colors whitespace-nowrap">BLOG</Link>
-          <Link to="/testimonials" className="hover:text-yellow-500 transition-colors whitespace-nowrap">TESTIMONIALS</Link>
           <Link to="/contact" className="hover:text-yellow-500 transition-colors whitespace-nowrap">CONTACT</Link>
           <Link to="/shop" className="hover:text-yellow-500 transition-colors whitespace-nowrap">SHOP</Link>
         </div>

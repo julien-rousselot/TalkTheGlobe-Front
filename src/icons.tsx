@@ -9,7 +9,11 @@ import {
   faArrowRight,
   faGlobe,
   faBookOpen,
-  faGraduationCap
+  faGraduationCap,
+  faRocket,
+  faMapLocation,
+  faMapLocationDot,
+  faBolt
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -22,4 +26,8 @@ library.add(
   faGlobe,
   faBookOpen,
   faGraduationCap,
+  faRocket,
+  faMapLocation,
+  faMapLocationDot,
+  faBolt
 )

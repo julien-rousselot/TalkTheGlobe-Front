@@ -13,6 +13,10 @@ export default {
         purple: "#e3ccff",
         green: "#aff4c6",
         yellow: "#ffe8a3",
+        text: '#1e293b'
+      },
+      fontFamily: {
+        nunito: ['"Nunito"', 'sans-serif'],
       },
     },
   },
