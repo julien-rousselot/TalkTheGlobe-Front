@@ -8,29 +8,25 @@ interface BannerProps {
 }
   
 
-const Banner: React.FC<BannerProps> = ({ Title, Subtitle, Image, Button }) => {
+const Banner: React.FC<BannerProps> = ({Title, Subtitle, Image, Button}) => {
   return (
-<header className="bg-gradient-to-b from-[#d1f7e6] via-[#E9FDF4] to-[#eafdf3] py-8 mt-[80px]">
-<div className='text-center flex px-4 md:pl-6 md:items-center md:text-left flex-col'>
+    <header className="bg-gradient-to-b from-[#75e8b4] via-[#96f3c9] to-[#E9FDF4] py-48 mt-[80px] flex flex-row w-full">  
         
-        <div className='md:flex flex-row items-center'>
-          <img src={Talktheglobe} className='block mx-auto w-[200px] md:mx-0' alt="Logo website"/>
-          <h1 className="md:text-5xl md:ml-20">{Title}</h1>
+        <div className='w-1/3 flex justify-center items-center'>
+          <img src={Talktheglobe} className='block mx-auto w-[350px] md:mx-0' alt="Logo website"/>
         </div>
 
-        <div className='md:mx-16 md:mb-12 flex'>
-          <div className='md:flex items-center'>
-            <h2 className='md:text-3xl my-6 md:my-0 md:text-center'> {Subtitle}</h2>
-            {Image &&(<img className='w-[30%] pb-6 md:pb-0 block mx-auto md:w-[13%] ' src={Image} alt="board"/>)}
-          </div>
-        </div>  
-
-          {Button && ( // Vérifie si ButtonText est défini avant d'afficher le bouton
-            <button className='bg-[#C6192E] rounded-xl text-white p-4 text-md hover:bg-[#c53a3a]'>
+        <div className='w-2/3 flex flex-col gap-8 justify-center'>
+          <h1 className="md:text-5xl font-extrabold">{Title}</h1>
+          <h2 className='md:text-2xl my-6 md:my-0 '> {Subtitle}</h2>
+          {Image &&(<img className='w-[30%] pb-6 md:pb-0 block mx-auto md:w-[13%]' src={Image} alt="board"/>)}
+          {Button && (
+            <button className='bg-[#C6192E] rounded-full text-white text-md hover:bg-red-700 px-2 w-fit pulse' style={{ boxShadow: '10px 5px 5px black' }}>
               {Button}
             </button>
           )}
-      </div>
+        </div>
+
     </header>
   );
 }

@@ -1,15 +1,20 @@
-import instagramLogo from '../../assets/instagram.svg';
-import tiktokLogo from '../../assets/tiktok.svg';
-import facebookLogo from '../../assets/facebook.svg';
-import { Link } from 'react-router-dom';
+
+import {NavLink} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const Footer = () => {
   return (
     <footer className='flex justify-center flex-col items-center bg-gray-100 p-4'>
-      <div className='flex flez-row'>
-        <Link to="/home"><img src={instagramLogo} alt="lien vers instagram" className='w-10'/></Link>
-        <Link to="/home"><img src={tiktokLogo} alt="lien vers tiktok" className='w-10 mx-10'/></Link>
-        <Link to="/home"><img src={facebookLogo} alt="lien vers facebook" className='w-10'/></Link>
+      <div className='flex flez-row gap-5 w-full  justify-center p-4'>
+        <NavLink to="/home" className="text-[#1e293b] hover:text-[#C6192E]">
+          <FontAwesomeIcon icon={['fab', 'instagram']} className="text-[#1e293b] text-4xl"/>
+        </NavLink>
+        <NavLink to="/home">
+          <FontAwesomeIcon icon={['fab', 'tiktok']} className="text-[#1e293b] text-4xl" />
+        </NavLink>
+        <NavLink to="/home">
+          <FontAwesomeIcon icon={['fab', 'facebook']} className="text-[#1e293b] text-4xl" />
+        </NavLink>
       </div>
       <div className='m-2'>
         <p>© 2025 Talk The Globe. All Rights Reserved</p>
