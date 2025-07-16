@@ -13,7 +13,10 @@ import {
   faRocket,
   faMapLocation,
   faMapLocationDot,
-  faBolt
+  faBolt,
+  faUserGraduate,
+  faEarthEurope,
+  faStar
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -38,5 +41,8 @@ library.add(
   faBolt,
   faInstagram,
   faTiktok,
-  faFacebook
+  faFacebook,
+  faUserGraduate,
+  faEarthEurope,
+  faStar
 )

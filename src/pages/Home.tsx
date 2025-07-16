@@ -4,6 +4,7 @@ import Student from '../assets/studentHome.png';
 import Teacher from '../assets/teacher.png';
 import Picme from '../assets/Picme.jpg';
 import Banner from '../components/Banner/Banner';
+import CommentarySlider from '../components/CommentarySlider/CommentarySlider';
 
 const Home = () => {
 
@@ -30,7 +31,31 @@ const Home = () => {
                 </button>
               }/>
       <div className="px-[5%] md:px-[15%] bg-[#f9f9f4] bg-cover bg-center p-16">
-        <main>
+        <main  className='3xl:w-[60%] m-auto'>
+          <h2 className='text-red-500 font-bold text-center text-5xl p-5'>WHAT I OFFER</h2>
+          <div className='flex flex-col justify-evenly gap-8 md:flex-row md:py-4'>
+
+            <div className='bg-talktheglobe md:w-[400px] border-[3px] border-[#1e293b] rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
+              <h3 className='text-center text-5xl font-semibold'>I’M A <strong>STUDENT</strong>  !</h3>
+              <img className='h-[270px] mx-auto my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
+              <div className='flex justify-around gap-4'>
+                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
+                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Classes</button></Link>
+              </div>
+            </div>
+
+            <div className='bg-talktheglobe md:w-[400px] border-[4px] border-[#1e293b] rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
+              <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>  !</h3>
+              <img className='h-[270px] w-[250px] mx-auto my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
+              <div className='flex justify-around gap-4'>
+                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
+                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Shop</button></Link>
+              </div>
+            </div>
+
+          </div>
+        </main>
+        <section className='mt-16'>          
           <h2 className='text-[#C6192E] text-center text-4xl pb-16'>
             <FontAwesomeIcon icon="graduation-cap" className="text-[#C6192E] pr-5" />
             WHY LEARN WITH TALK THE GLOBE?
@@ -98,30 +123,19 @@ const Home = () => {
               </div>
             </div>
           </section>
-        </main>
-        <footer className='3xl:w-[60%] m-auto'>          
-          <h2 className='text-red-500 font-bold text-center text-5xl p-5'>WHAT I OFFER</h2>
-          <div className='flex flex-col justify-evenly gap-8 md:flex-row md:py-4'>
-
-            <div className='bg-talktheglobe md:w-[400px] border-[3px] border-[#1e293b] rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
-              <h3 className='text-center text-5xl font-semibold'>I’M A <strong>STUDENT</strong>  !</h3>
-              <img className='h-[270px] mx-auto my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
-              <div className='flex justify-around gap-4'>
-                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
-                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Classes</button></Link>
-              </div>
-            </div>
-
-            <div className='bg-talktheglobe md:w-[400px] border-[4px] border-[#1e293b] rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
-              <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>  !</h3>
-              <img className='h-[270px] w-[250px] mx-auto my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
-              <div className='flex justify-around gap-4'>
-                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
-                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Shop</button></Link>
-              </div>
-            </div>
-
+        </section>
+        <footer>
+          <h2 className='text-[#C6192E] text-center text-4xl pt-16'>
+            <FontAwesomeIcon icon="star" className="text-[#C6192E] pr-5" />
+            WHAT MY AMAZING STUDENTS SAY
+            <FontAwesomeIcon icon="star" className="text-[#C6192E] pl-5" />
+          </h2>
+          <div className='flex flex-row justify-center gap-8 pb-16 mt-5'>
+            <p><FontAwesomeIcon icon="user-graduate" className="text-[#C6192E] pr-5" />+100 students</p>
+            <p><FontAwesomeIcon icon="earth-europe" className="text-[#C6192E] pr-5" />8 countries</p>
+            <p><FontAwesomeIcon icon="graduation-cap" className="text-[#C6192E] pr-5" />+5 years of experience</p>
           </div>
+          <CommentarySlider />
         </footer>
       </div>
     </section>
