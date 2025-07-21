@@ -4,16 +4,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const Footer = () => {
   return (
-    <footer className='flex justify-center flex-col items-center bg-gray-100 p-4'>
+    <footer className='flex justify-center flex-col items-center bg-talktheglobe p-4'>
       <div className='flex flez-row gap-5 w-full  justify-center p-4'>
-        <NavLink to="/home" className="text-[#1e293b] hover:text-[#C6192E]">
-          <FontAwesomeIcon icon={['fab', 'instagram']} className="text-[#1e293b] text-4xl"/>
+        <NavLink to="/home" className="text-text">
+          <FontAwesomeIcon icon={['fab', 'instagram']} color="" className="text-text hover:text-redText text-4xl "/>
         </NavLink>
         <NavLink to="/home">
-          <FontAwesomeIcon icon={['fab', 'tiktok']} className="text-[#1e293b] text-4xl" />
+          <FontAwesomeIcon icon={['fab', 'tiktok']} className="text-text hover:text-redText text-4xl" />
         </NavLink>
         <NavLink to="/home">
-          <FontAwesomeIcon icon={['fab', 'facebook']} className="text-[#1e293b] text-4xl" />
+          <FontAwesomeIcon icon={['fab', 'facebook']} className="text-text hover:text-redText text-4xl" />
         </NavLink>
       </div>
       <div className='m-2'>

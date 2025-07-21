@@ -13,15 +13,17 @@ const Home = () => {
       <Banner Title={
                 <>
                    LEARN{" "}
-                  <span className="text-[#C6192E] animated-word">ENGLISH</span> AND{" "}
-                  <span className="text-[#C6192E] animated-word">SPANISH</span> <br /> TO EXPLORE THE WORLD ! 🗺️
+                  <span className="text-redText animated-word">ENGLISH</span>
+                   {/* AND{" "} */}
+                  {/* <span className="text-redText animated-word">SPANISH</span> */}
+                   <br /> TO EXPLORE THE WORLD ! 🗺️
                 </>
               } 
               Subtitle={
                 <>
-                  <FontAwesomeIcon icon="bolt" className="text-[#1e293b] mr-2" />  
+                  <FontAwesomeIcon icon="bolt" className="text-text mr-2" />  
                   Interactive <span> online classes</span> and{" "} <span>resources</span> to help you master the language
-                  <FontAwesomeIcon icon="bolt" className="text-[#1e293b] ml-2" />                
+                  <FontAwesomeIcon icon="bolt" className="text-text ml-2" />                
                 </>
               } 
               Button={
@@ -33,36 +35,36 @@ const Home = () => {
       <div className="px-[5%] md:px-[15%] bg-[#f9f9f4] bg-cover bg-center p-16">
         <main  className='3xl:w-[60%] m-auto'>
           <h2 className='text-red-500 font-bold text-center text-5xl p-5'>WHAT I OFFER</h2>
-          <div className='flex flex-col justify-evenly gap-8 md:flex-row md:py-4'>
+          <div className='flex flex-col justify-evenly md:flex-row md:py-4'>
 
-            <div className='bg-talktheglobe md:w-[400px] border-[3px] border-[#1e293b] rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
+            <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
               <h3 className='text-center text-5xl font-semibold'>I’M A <strong>STUDENT</strong>  !</h3>
               <img className='h-[270px] mx-auto my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
               <div className='flex justify-around gap-4'>
-                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
-                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Classes</button></Link>
+                <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
+                <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Classes</button></Link>
               </div>
             </div>
 
-            <div className='bg-talktheglobe md:w-[400px] border-[4px] border-[#1e293b] rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
+            <div className='bg-talktheglobe md:w-[400px] border-[4px] border-text rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
               <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>  !</h3>
               <img className='h-[270px] w-[250px] mx-auto my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
               <div className='flex justify-around gap-4'>
-                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
-                <Link to="/resources" className='bg-[#C6192E] hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Shop</button></Link>
+                <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
+                <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Shop</button></Link>
               </div>
             </div>
 
           </div>
         </main>
         <section className='mt-16'>          
-          <h2 className='text-[#C6192E] text-center text-4xl pb-16'>
-            <FontAwesomeIcon icon="graduation-cap" className="text-[#C6192E] pr-5" />
+          <h2 className='text-redText text-center text-4xl pb-16'>
+            <FontAwesomeIcon icon="graduation-cap" className="text-redText pr-5" />
             WHY LEARN WITH TALK THE GLOBE?
-            <FontAwesomeIcon icon="graduation-cap" className="text-[#C6192E] pl-5" />
+            <FontAwesomeIcon icon="graduation-cap" className="text-redText pl-5" />
           </h2>
           <section className="w-full">
-            <div className="relative h-[300px] md:h-[750px] w-full">
+            <div className="relative h-[300px] md:h-[550px] w-[90%] m-auto">
               <img
                 src={Picme}
                 alt="Photo de fond"
@@ -70,25 +72,25 @@ const Home = () => {
               />
 
               <div className="hidden md:flex relative z-10 flex-col items-center justify-center h-full text-white text-center px-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl w-full">
-                  <div className="bg-white/10 p-6 rounded-xl backdrop-blur-md">
-                    <h3 className="text-2xl font-bold mb-2">⚡ INTERACTIVE ONLINE CLASSES</h3>
-                    <p className="text-lg">Engaging lessons tailored to your needs</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-32 max-w-5xl w-full justify-items-center">
+                  <div className="bg-white/10 p-2 flex justify-center flex-col text rounded-xl backdrop-blur-md w-[350px]">
+                    <h3 className="text-lg font-bold">⚡ INTERACTIVE ONLINE CLASSES</h3>
+                    <p className="text-md">Engaging lessons tailored to your needs</p>
                   </div>
 
-                  <div className="bg-white/10 p-6 rounded-xl backdrop-blur-md">
-                    <h3 className="text-2xl font-bold mb-2">📝 FREE RESOURCES</h3>
-                    <p className="text-lg">Access a library of free materials to boost your learning</p>
+                  <div className="bg-white/10 p-2 flex justify-center flex-col text rounded-xl backdrop-blur-md w-[350px]">
+                    <h3 className="text-lg font-bold">📝 FREE RESOURCES</h3>
+                    <p className="text-md">Access a library of free materials to boost your learning</p>
                   </div>
 
-                  <div className="bg-white/10 p-6 rounded-xl backdrop-blur-md">
-                    <h3 className="text-2xl font-bold mb-2">📚 PERSONALIZED CURRICULUM</h3>
-                    <p className="text-lg">Learn at your own pace with customized lessons</p>
+                  <div className="bg-white/10 p-2 flex justify-center flex-col text rounded-xl backdrop-blur-md w-[350px]">
+                    <h3 className="text-lg font-bold">🍵 CULTURAL EXPLORATION</h3>
+                    <p className="text-md">Learn the language while exploring traditions</p>
                   </div>
 
-                  <div className="bg-white/10 p-6 rounded-xl backdrop-blur-md">
-                    <h3 className="text-2xl font-bold mb-2">🎯 REAL-WORLD APPLICATION</h3>
-                    <p className="text-lg">Practical exercises to improve retention</p>
+                  <div className="bg-white/10 p-2 flex justify-center flex-col text rounded-xl backdrop-blur-md w-[350px]">
+                    <h3 className="text-lg font-bold">🎓 CERTIFIED AND EXPERIENCED TEACHER</h3>
+                    <p className="text-md">To guaranty the quality of your learning journey</p>
                   </div>
                 </div>
               </div>
@@ -125,15 +127,15 @@ const Home = () => {
           </section>
         </section>
         <footer>
-          <h2 className='text-[#C6192E] text-center text-4xl pt-16'>
-            <FontAwesomeIcon icon="star" className="text-[#C6192E] pr-5" />
+          <h2 className='text-redText text-center text-4xl pt-16'>
+            <FontAwesomeIcon icon="star" className="text-redText pr-5" />
             WHAT MY AMAZING STUDENTS SAY
-            <FontAwesomeIcon icon="star" className="text-[#C6192E] pl-5" />
+            <FontAwesomeIcon icon="star" className="text-redText pl-5" />
           </h2>
           <div className='flex flex-row justify-center gap-8 pb-16 mt-5'>
-            <p><FontAwesomeIcon icon="user-graduate" className="text-[#C6192E] pr-5" />+100 students</p>
-            <p><FontAwesomeIcon icon="earth-europe" className="text-[#C6192E] pr-5" />8 countries</p>
-            <p><FontAwesomeIcon icon="graduation-cap" className="text-[#C6192E] pr-5" />+5 years of experience</p>
+            <p><FontAwesomeIcon icon="user-graduate" className="text-redText pr-5" />+100 students</p>
+            <p><FontAwesomeIcon icon="earth-europe" className="text-redText pr-5" />8 countries</p>
+            <p><FontAwesomeIcon icon="graduation-cap" className="text-redText pr-5" />+5 years of experience</p>
           </div>
           <CommentarySlider />
         </footer>

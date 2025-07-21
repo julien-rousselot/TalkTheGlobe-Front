@@ -60,7 +60,7 @@ const CommentarySlider: React.FC = () => {
   return (
     <div className="w-full max-w-3xl mx-auto flex items-center justify-between px-4">
       {/* Flèche gauche */}
-      <button onClick={handlePrev} className="p-3 bg-[#C6192E] text-white rounded-full hover:bg-red-700 transition">
+      <button onClick={handlePrev} className="p-3 bg-redText text-white rounded-full hover:bg-red-700 transition">
         <ChevronLeft size={28} />
       </button>
 
@@ -71,7 +71,7 @@ const CommentarySlider: React.FC = () => {
       </div>
 
       {/* Flèche droite */}
-      <button onClick={handleNext} className="p-3 bg-[#C6192E] text-white rounded-full hover:bg-red-700 transition">
+      <button onClick={handleNext} className="p-3 bg-redText text-white rounded-full hover:bg-red-700 transition">
         <ChevronRight size={28} />
       </button>
     </div>

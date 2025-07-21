@@ -11,7 +11,7 @@ const Navbar = () => {
   const baseLinkClass = "transition-colors duration-300 whitespace-nowrap font-semibold";
   const getActiveClass = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? `${baseLinkClass} text-[#C6192E] border-b-2 border-[#C6192E] pb-1` 
+      ? `${baseLinkClass} text-redText border-b-2 border-redText pb-1` 
       : `${baseLinkClass}`;
   
 

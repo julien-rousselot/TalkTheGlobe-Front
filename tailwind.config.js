@@ -10,6 +10,7 @@ export default {
         talktheglobe: "#E8FDF4",
         peach: "#FFF9F0",
         redTitle: "#f24822",
+        redText: "#C6192E",
         purple: "#e3ccff",
         green: "#aff4c6",
         yellow: "#ffe8a3",

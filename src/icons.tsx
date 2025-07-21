@@ -16,7 +16,9 @@ import {
   faBolt,
   faUserGraduate,
   faEarthEurope,
-  faStar
+  faStar,
+  faMapPin,
+  faUserGroup
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -44,5 +46,7 @@ library.add(
   faFacebook,
   faUserGraduate,
   faEarthEurope,
-  faStar
+  faStar,
+  faMapPin,
+  faUserGroup
 )

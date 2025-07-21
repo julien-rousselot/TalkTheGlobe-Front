@@ -21,7 +21,7 @@ const Banner: React.FC<BannerProps> = ({Title, Subtitle, Image, Button}) => {
           <h2 className='md:text-2xl my-6 md:my-0 '> {Subtitle}</h2>
           {Image &&(<img className='w-[30%] pb-6 md:pb-0 block mx-auto md:w-[13%]' src={Image} alt="board"/>)}
           {Button && (
-            <button className='bg-[#C6192E] rounded-full text-white text-md hover:bg-red-700 px-2 w-fit pulse' style={{ boxShadow: '10px 5px 5px black' }}>
+            <button className='bg-redText rounded-full text-white text-md hover:bg-red-700 px-2 w-fit pulse' style={{ boxShadow: '10px 5px 5px black' }}>
               {Button}
             </button>
           )}
