@@ -32,12 +32,12 @@ const Home = () => {
                   <FontAwesomeIcon icon="graduation-cap"/>
                 </button>
               }/>
-      <div className="px-[5%] md:px-[15%] bg-[#f9f9f4] bg-cover bg-center p-16">
+      <div className="px-[5%] md:px-[15%] bg-[#f9f9f4] p-16">
         <main  className='3xl:w-[60%] m-auto'>
           <h2 className='text-red-500 font-bold text-center text-5xl p-5'>WHAT I OFFER</h2>
-          <div className='flex flex-col justify-evenly md:flex-row md:py-4'>
+          <div className='flex flex-col justify-center gap-14 m-auto md:flex-row md:py-4'>
 
-            <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
+            <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[30px]  hover:bg-text hover:text-white'>
               <h3 className='text-center text-5xl font-semibold'>I’M A <strong>STUDENT</strong>  !</h3>
               <img className='h-[270px] mx-auto my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
               <div className='flex justify-around gap-4'>
@@ -46,7 +46,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className='bg-talktheglobe md:w-[400px] border-[4px] border-text rounded-3xl p-[30px] m-auto hover:bg-text hover:text-white'>
+            <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[30px] hover:bg-text hover:text-white'>
               <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>  !</h3>
               <img className='h-[270px] w-[250px] mx-auto my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
               <div className='flex justify-around gap-4'>
@@ -68,7 +68,7 @@ const Home = () => {
               <img
                 src={Picme}
                 alt="Photo de fond"
-                className="absolute inset-0 w-full h-full object-cover object-top brightness-75 rounded-xl"
+                className="absolute inset-0 w-full h-full object-cover object-top brightness-90 rounded-xl"
               />
 
               <div className="hidden md:flex relative z-10 flex-col items-center justify-center h-full text-white text-center px-4">

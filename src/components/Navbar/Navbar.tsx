@@ -26,7 +26,7 @@ const Navbar = () => {
       {!isMobile ? (
         <div className="flex space-x-5 w-3/4 justify-between xl:pr-[400px]">
           <NavLink to="/home" className={getActiveClass}>HOME</NavLink>
-          <NavLink to="/about" className={getActiveClass}>ABOUT ME</NavLink>
+          <NavLink to="/aboutme" className={getActiveClass}>ABOUT ME</NavLink>
           <NavLink to="/services" className={getActiveClass}>SERVICES</NavLink>
           <NavLink to="/resources" className={getActiveClass}>RESOURCES</NavLink>
           <NavLink to="/contact" className={getActiveClass}>CONTACT</NavLink>
@@ -42,13 +42,14 @@ const Navbar = () => {
           {menuOpen && (
             <div className="absolute flex flex-col items-center justify-around top-20 right-0 bg-white shadow-md py-[10rem] space-y-4 w-full h-[calc(100vh-5rem)] z-10">
               <NavLink to="/home" onClick={() => setMenuOpen(false)} className={getActiveClass}>HOME</NavLink>
-              <NavLink to="/about" onClick={() => setMenuOpen(false)} className={getActiveClass}>ABOUT ME</NavLink>
+              <NavLink to="/aboutme" onClick={() => setMenuOpen(false)} className={getActiveClass}>ABOUT ME</NavLink>
               <NavLink to="/services" onClick={() => setMenuOpen(false)} className={getActiveClass}>SERVICES</NavLink>
               <NavLink to="/resources" onClick={() => setMenuOpen(false)} className={getActiveClass}>RESOURCES</NavLink>
               <NavLink to="/blog" onClick={() => setMenuOpen(false)} className={getActiveClass}>BLOG</NavLink>
               <NavLink to="/testimonials" onClick={() => setMenuOpen(false)} className={getActiveClass}>TESTIMONIALS</NavLink>
               <NavLink to="/contact" onClick={() => setMenuOpen(false)} className={getActiveClass}>CONTACT</NavLink>
               <NavLink to="/shop" onClick={() => setMenuOpen(false)} className={getActiveClass}>SHOP</NavLink>
+            
             </div>
           )}
         </div>
