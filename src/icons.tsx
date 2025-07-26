@@ -18,13 +18,15 @@ import {
   faEarthEurope,
   faStar,
   faMapPin,
-  faUserGroup
+  faUserGroup,
+  faEnvelopeOpenText,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
   faTiktok,
   faFacebook,
-  faInstagram
+  faInstagram,
+  faFacebookMessenger
 } from '@fortawesome/free-brands-svg-icons';
 
 library.add(
@@ -48,5 +50,7 @@ library.add(
   faEarthEurope,
   faStar,
   faMapPin,
-  faUserGroup
+  faUserGroup,
+  faEnvelopeOpenText,
+  faFacebookMessenger
 )

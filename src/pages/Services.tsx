@@ -9,7 +9,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 const Services = () => {
   return (
     <section>
-        <Banner Title="LEARN ENGLISH AND SPANISH WITH ME!" Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth" Image={Blackboard} ButtonText=""/>
+        <Banner Title="LEARN ENGLISH AND SPANISH WITH ME!" Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth" Image={Blackboard}/>
         <main className="bg-[#f9f9f4] w-full">
         <h2 className='text-redText font-bold text-center text-5xl p-20'>
             <FontAwesomeIcon icon="star" className="text-redText pr-5" />
@@ -57,8 +57,13 @@ const Services = () => {
                     <img src={OneToOne} alt="" />
                 </div>
             </div>
+            <div className='text-center text-redText text-4xl flex flex-row justify-center items-center gap-8 pt-20'>
+                <FontAwesomeIcon icon="envelope" className='text-5xl'/>
+                CHOOSE THE BEST OPTION FOR YOU ! 
+                <FontAwesomeIcon icon="envelope" className='text-5xl'/>
+            </div>     
+            <Email/>
         </main>
-        <Email/>
     </section>
   );
 };

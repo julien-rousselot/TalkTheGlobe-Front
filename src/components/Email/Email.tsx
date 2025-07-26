@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Email = () => {
 const [sent, setSent] = useState('');
@@ -25,12 +24,7 @@ const [sent, setSent] = useState('');
   };
 
     return (
-      <section className='p-20'>
-        <div className='text-center text-redText text-4xl flex flex-row justify-center items-center gap-8'>
-          <FontAwesomeIcon icon="envelope" className='text-5xl'/>
-          CHOOSE THE BEST OPTION FOR YOU ! 
-          <FontAwesomeIcon icon="envelope" className='text-5xl'/>
-        </div>     
+      <section className='pb-20'>
         <div className='flex flex-col md:flex-row text-center justify-around'>
             <form onSubmit={handleSubmit} className='flex flex-col mt-6 '>
               <div className='flex flex-col md:flex-row'>
