@@ -5,8 +5,11 @@ import Layout from "./layouts/layout";
 import './icons';
 import AboutMe from "./pages/AboutMe";
 import Resources from "./pages/Resources";
+import Login from "./pages/Login";
 import Contact from "./pages/Contact";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
   return (
@@ -14,8 +17,10 @@ const App = () => {
       <ScrollToTop />
       <Layout>
         <Routes>
-        <Route path="*" element={<Navigate to="/home" replace />} />
-        <Route path="/" element={<Home />} />
+          <Route path="*" element={<Navigate to="/home" replace />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={ <PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/home" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/aboutme" element={<AboutMe />} />

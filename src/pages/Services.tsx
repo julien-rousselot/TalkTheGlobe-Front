@@ -11,59 +11,80 @@ const Services = () => {
     <section>
         <Banner Title="LEARN ENGLISH AND SPANISH WITH ME!" Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth" Image={Blackboard}/>
         <main className="bg-[#f9f9f4] w-full">
-        <h2 className='text-redText font-bold text-center text-5xl p-20'>
-            <FontAwesomeIcon icon="star" className="text-redText pr-5" />
-            CHOOSE THE BEST OPTION FOR YOU !
-            <FontAwesomeIcon icon="star" className="text-redText pl-5" />
-        </h2>
-            <div className='flex flex-col-reverse md:flex-row w-full justify-center h-[400px]'>
-                <div className='bg-[#ffe8a3] w-[50%] h-full flex justify-center flex-col'>
-                <h4 className='text-3xl font-bold p-8 text-center'><FontAwesomeIcon icon="earth-europe" className='text-3xl '/> Small Group Classes (3-6 People) — Coming Soon!</h4>
-                    <ul>
-                        <li className='text-3xl px-8 pb-6 md:px-12'>Join a small, supportive learning community.</li>
-                        <li className='text-3xl px-8 pb-6 md:px-12'>Fun, interactive lessons covering all skills (speaking, listening, reading, and writing).</li>
-                        <li className='text-3xl px-8 pb-6 md:px-12'>Great for motivation and conversation practice.</li>
-                    </ul>
-                </div>
-                <div className='flex-1 flex justify-center w-[50%] h-full'>
-                    <img src={Group} alt="picture representing a group of students for a course"/>
-                </div>
-            </div>
+  <h2 className="text-redText font-bold text-center text-3xl sm:text-4xl md:text-5xl px-4 pt-16 pb-12">
+    <FontAwesomeIcon icon="star" className="text-redText pr-3" />
+    CHOOSE THE BEST OPTION FOR YOU !
+    <FontAwesomeIcon icon="star" className="text-redText pl-3" />
+  </h2>
 
-            <div className='flex flex-col md:flex-row items-center w-full h-[400px]'>
-                <div className='flex-1 flex justify-center w-[50%] h-full'>
-                    <img src={SemiPrivate} className='p-10' alt="picture representing a group of students for a course"/>
-                </div>
-                <div className='bg-green w-[50%] h-full flex justify-center flex-col' >
-                <h4 className='text-3xl font-bold p-8 text-center'><FontAwesomeIcon icon="user-group" className='text-3xl '/> Semi-Private Lessons (2 People)</h4>
-                    <ul>
-                        <li className='text-3xl px-8 pb-6 md:px-12'>Ideal for friends or family learning together.</li>
-                        <li className='text-3xl px-8 pb-6 md:px-12'>Same level required for both students.</li>
-                        <li className='text-3xl px-8 pb-6 md:px-12'>Interactive and engaging lessons at a lower price per person.</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div className='flex flex-col-reverse items-center md:flex-row h-[400px]'>
-                <div className='bg-purple pb-8 md:pb-0 w-[50%] h-full flex justify-center flex-col'>
-                    <h4 className='text-3xl font-bold p-8 text-center'><FontAwesomeIcon icon="map-pin" className='text-3xl '/> 1-on-1 Private Lessons</h4>
-                    <ul>
-                        <li className='text-3xl px-8 pb-6 md:px-12 m-auto'>Personalized lessons tailored to your level and goals.</li>
-                        <li className='text-3xl px-8 pb-6 md:px-12 m-auto'>Flexible scheduling to fit your lifestyle.</li>
-                        <li className='text-3xl px-8 pb-6 md:px-12 m-auto'>Perfect for rapid progress and customized learning.</li>
-                    </ul>                   
-                </div>
-                <div className='flex justify-center w-[50%] h-full'>
-                    <img src={OneToOne} alt="" />
-                </div>
-            </div>
-            <div className='text-center text-redText text-4xl flex flex-row justify-center items-center gap-8 pt-20'>
-                <FontAwesomeIcon icon="envelope" className='text-5xl'/>
-                CHOOSE THE BEST OPTION FOR YOU ! 
-                <FontAwesomeIcon icon="envelope" className='text-5xl'/>
-            </div>     
-            <Email/>
-        </main>
+  {/* Group Classes */}
+    <div className="flex flex-col-reverse md:flex-row items-center justify-center w-full h-auto md:h-[400px]">
+    <div className="bg-[#ffe8a3] w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
+        <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+        <FontAwesomeIcon icon="earth-europe" className="mr-2" />
+        Small Group Classes (3–6 People) — Coming Soon!
+        </h4>
+        <ul className="space-y-4 text-lg sm:text-xl">
+        <li>Join a small, supportive learning community.</li>
+        <li>Fun, interactive lessons covering all skills.</li>
+        <li>Great for motivation and conversation practice.</li>
+        </ul>
+    </div>
+    <div className="w-full md:w-1/2 h-auto md:h-full flex justify-center p-6">
+        <img src={Group} alt="Group of students" className="max-h-full object-contain" />
+    </div>
+    </div>
+
+
+  {/* Semi Private */}
+    <div className="flex flex-col md:flex-row items-center justify-center w-full h-auto md:h-[400px]">
+    <div className="w-full md:w-1/2 h-auto md:h-full flex justify-center p-6">
+        <img src={SemiPrivate} alt="Semi-private lesson" className="max-h-full object-contain" />
+    </div>
+    <div className="bg-green w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
+        <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+        <FontAwesomeIcon icon="user-group" className="mr-2" />
+        Semi-Private Lessons (2 People)
+        </h4>
+        <ul className="space-y-4 text-lg sm:text-xl">
+        <li>Ideal for friends or family learning together.</li>
+        <li>Same level required for both students.</li>
+        <li>Interactive and engaging lessons at a lower price per person.</li>
+        </ul>
+    </div>
+    </div>
+
+
+  {/* 1-on-1 */}
+    <div className="flex flex-col-reverse md:flex-row items-center justify-center w-full h-auto md:h-[400px]">
+    <div className="bg-purple w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
+        <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+        <FontAwesomeIcon icon="map-pin" className="mr-2" />
+        1-on-1 Private Lessons
+        </h4>
+        <ul className="space-y-4 text-lg sm:text-xl">
+        <li>Personalized lessons tailored to your level and goals.</li>
+        <li>Flexible scheduling to fit your lifestyle.</li>
+        <li>Perfect for rapid progress and customized learning.</li>
+        </ul>
+    </div>
+    <div className="w-full md:w-1/2 h-auto md:h-full flex justify-center p-6">
+        <img src={OneToOne} alt="Private lesson" className="max-h-full object-contain" />
+    </div>
+    </div>
+
+
+  {/* Call to Action */}
+  <div className="text-center text-redText text-2xl sm:text-3xl md:text-4xl flex flex-col sm:flex-row justify-center items-center gap-4 pt-16 px-4">
+    <FontAwesomeIcon icon="envelope" className="text-4xl sm:text-5xl" />
+    CHOOSE THE BEST OPTION FOR YOU !
+    <FontAwesomeIcon icon="envelope" className="text-4xl sm:text-5xl" />
+  </div>
+    <div className="p-6">
+        <Email />
+    </div>
+</main>
+
     </section>
   );
 };

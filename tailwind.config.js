@@ -2,7 +2,7 @@
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // Ajoutez cette ligne pour inclure les fichiers TypeScript
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -22,7 +22,7 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/line-clamp'),  // Ajoute cette ligne
+    require('@tailwindcss/line-clamp'), 
   ],
 }
 

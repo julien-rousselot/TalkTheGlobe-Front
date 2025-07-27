@@ -86,40 +86,51 @@ const CommentarySlider: React.FC = () => {
 };
 
 
-  return (
-    <div className="w-full max-w-3xl mx-auto flex items-center justify-between px-4">
-      {/* Flèche gauche */}
-      <button onClick={handlePrev} className="p-3 bg-redText text-white rounded-full hover:bg-red-700 transition">
-        <ChevronLeft size={28} />
-      </button>
+return (
+  <div className="w-full max-w-3xl mx-auto flex items-center justify-between sm:px-4">
+    {/* Flèche gauche */}
+    <button
+      onClick={handlePrev}
+      className="p-2 sm:p-3 mr-4 bg-redText text-white rounded-full hover:bg-red-700 transition"
+      aria-label="Previous testimonial"
+    >
+      <ChevronLeft size={24} className="sm:size-7" />
+    </button>
 
-      {/* Cadre fixe */}
-      <div className="flex-1 mx-6 text-center bg-white/10 p-6 h-[200px] rounded-xl backdrop-blur-md shadow-md flex flex-col justify-center items-center  overflow-hidden">
-        <AnimatePresence custom={direction} mode="wait">
-          <motion.div
-            key={count}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.4 }}
-            className="text-center px-4" // 👈 largeur stable
-          >
-            <h3 className="text-xl font-bold mb-2">
-              {current.name} from {current.country}
-            </h3>
-            <p className="text-lg italic text-balance">{`"${current.commentary}"`}</p>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Flèche droite */}
-      <button onClick={handleNext} className="p-3 bg-redText text-white rounded-full hover:bg-red-700 transition">
-        <ChevronRight size={28} />
-      </button>
+    {/* Cadre fixe (avec responsive) */}
+    <div className="flex-1 mx-2 sm:mx-6 bg-white/10 p-4 sm:p-6 rounded-xl backdrop-blur-md shadow-md flex flex-col justify-center items-center overflow-hidden h-[200px] text-center">
+      <AnimatePresence custom={direction} mode="wait">
+        <motion.div
+          key={count}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.4 }}
+          className="w-full px-1 sm:px-4"
+        >
+          <h3 className="text-base leading-relaxed sm:text-xl font-bold mb-2 break-words">
+            {current.name} from {current.country}
+          </h3>
+          <p className="text-md sm:text-lg italic text-balance break-words line-clamp-5">
+            {`"${current.commentary}"`}
+          </p>
+        </motion.div>
+      </AnimatePresence>
     </div>
-  );
+
+    {/* Flèche droite */}
+    <button
+      onClick={handleNext}
+      className="p-2 sm:p-3 ml-4 bg-redText text-white rounded-full hover:bg-red-700 transition"
+      aria-label="Next testimonial"
+    >
+      <ChevronRight size={24} className="sm:size-7" />
+    </button>
+  </div>
+);
+
 };
 
 export default CommentarySlider;

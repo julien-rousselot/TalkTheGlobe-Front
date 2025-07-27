@@ -41,18 +41,18 @@ const Home = () => {
 
           <div className='flex flex-col justify-center gap-14 m-auto md:flex-row md:py-4'>
             <FadeInSection className="flex flex-col justify-center gap-14 m-auto md:flex-row md:py-4">
-              <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[30px]  hover:bg-text hover:text-white'>
+              <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[12px] md:p-[30px]  hover:bg-text hover:text-white'>
                 <h3 className='text-center text-5xl font-semibold'>I’M A <strong>STUDENT</strong>  !</h3>
-                <img className='h-[270px] mx-auto my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
+                <img className='h-[200px] md:h-[270px] mx-auto my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
                 <div className='flex justify-around gap-4'>
                   <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
                   <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Classes</button></Link>
                 </div>
               </div>
 
-              <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[30px] hover:bg-text hover:text-white'>
+              <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[12px] md:p-[30px] hover:bg-text hover:text-white'>
                 <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>  !</h3>
-                <img className='h-[270px] w-[250px] mx-auto my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
+                <img className='h-[200px] md:h-[270px] md:w-[250px] mx-auto my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
                 <div className='flex justify-around gap-4'>
                   <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
                   <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Shop</button></Link>
@@ -62,9 +62,9 @@ const Home = () => {
 
           </div>
         </main>
-        <section className='mt-16'> 
+        <section className='pt-8 md:mt-16'> 
           <FadeInSection>        
-            <h2 className='text-redText text-center text-4xl pb-16'>
+            <h2 className='text-redText text-center text-2xl md:text-4xl pb-6 md:pb-16'>
               <FontAwesomeIcon icon="graduation-cap" className="text-redText pr-5" />
               WHY LEARN WITH TALK THE GLOBE?
               <FontAwesomeIcon icon="graduation-cap" className="text-redText pl-5" />
@@ -111,12 +111,6 @@ const Home = () => {
 
               {/* Texte sous l’image en mobile */}
               <div className="md:hidden mt-6 px-4 text-center">
-                <FadeInSection>
-                  <h2 className="text-2xl font-bold mb-6">
-                    Why Learn with Talk The Globe?
-                  </h2>
-                </FadeInSection>
-
                 <div className="space-y-4">
                   <FadeInSection>
                     <div className="bg-[#E8FDF4] p-4 rounded-xl shadow-md">
@@ -149,16 +143,25 @@ const Home = () => {
         </section>
         <footer>
           <FadeInSection>
-            <h2 className='text-redText text-center text-4xl pt-16'>
-              <FontAwesomeIcon icon="star" className="text-redText pr-5" />
+            <h2 className='text-redText text-center text-2xl md:text-4xl pt-16'>
+              <FontAwesomeIcon icon="star" className="text-redText pr-5"/>
               WHAT MY AMAZING STUDENTS SAY
-              <FontAwesomeIcon icon="star" className="text-redText pl-5" />
+              <FontAwesomeIcon icon="star" className="text-redText pl-5"/>
             </h2>
           
-            <div className='flex flex-row justify-center gap-8 pb-16 mt-5'>
-              <p><FontAwesomeIcon icon="user-graduate" className="text-redText pr-5" />+100 students</p>
-              <p><FontAwesomeIcon icon="earth-europe" className="text-redText pr-5" />8 countries</p>
-              <p><FontAwesomeIcon icon="graduation-cap" className="text-redText pr-5" />+5 years of experience</p>
+            <div className='flex flex-row gap-8 py-10 font-bold'>
+              <div className='flex flex-col md:flex-row justify-center items-center gap-2 md:gap-0 text-center w-1/3'>
+                <FontAwesomeIcon icon="user-graduate" className="text-redText md:pr-5"/>
+                <p>+100 students</p>
+              </div>
+              <div className='flex flex-col md:flex-row md:justify-center items-center gap-2 md:gap-0 text-center w-1/3'>
+                <FontAwesomeIcon icon="earth-europe" className="text-redText md:pr-5"/>
+                <p>8 countries</p>
+              </div>
+              <div className='flex flex-col md:flex-row justify-center items-center gap-2 md:gap-0 text-center w-1/3'>
+                <FontAwesomeIcon icon="graduation-cap" className="text-redText md:pr-5"/>
+                <p>+5 years of experience</p>
+              </div>
             </div>
           </FadeInSection>
           <FadeInSection>
