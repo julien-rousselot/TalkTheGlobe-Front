@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
-import api from '../api';
 import { useNavigate } from 'react-router-dom';
+import api from '../api';
 
 function Dashboard() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [coverPhoto, setCoverPhoto] = useState('');
-  const [photos, setPhotos] = useState<string[]>([]);
-  const [newPhoto, setNewPhoto] = useState('');
-  const [materials, setMaterials] = useState<any[]>([]);
+  const [cover, setCover] = useState<File | null>(null);
+  const [pictures, setPictures] = useState<File[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const allImages = cover ? [cover, ...pictures] : pictures;
 
   // Au montage, récupérer le token du localStorage
   useEffect(() => {
@@ -27,175 +27,203 @@ function Dashboard() {
   }, [navigate]);
 
   // Fonction pour récupérer les matériaux, lancée uniquement si token défini
-  const fetchMaterials = async () => {
-    if (!token) return; // sécurité si token pas encore chargé
 
-    try {
-      setLoading(true);
-      const res = await api.get('/materials', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setMaterials(res.data);
-      setLoading(false);
-    } catch {
-      setError('Impossible de charger les matériels');
-      setLoading(false);
-    }
-  };
-
-  // Dès que token est défini, fetch les matériaux
-  useEffect(() => {
-    if (token) {
-      fetchMaterials();
-    }
-  }, [token]);
-
-  const addPhoto = () => {
-    if (newPhoto.trim()) {
-      setPhotos([...photos, newPhoto.trim()]);
-      setNewPhoto('');
-    }
-  };
-
-  const submit = async () => {
-    if (!title || !description || !price) {
-      setError('Veuillez remplir les champs obligatoires');
+  const submitMaterial = async () => {
+    if (!title || !description || !cover || cover === null) {
+      setError('Please fill in all required fields');
       return;
     }
 
     if (!token) {
-      setError('Utilisateur non authentifié');
+      setError('User not authenticated');
       return;
     }
 
     setError('');
     try {
       await api.post(
-        '/materials',
-        { title, description, price: Number(price), coverPhoto, photos },
+        '/material',
+        { title, description, price: Number(price), cover, pictures },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       // Reset form
       setTitle('');
       setDescription('');
       setPrice('');
-      setCoverPhoto('');
-      setPhotos([]);
-      fetchMaterials();
+      setCover(null);
+      setPictures([]);
+      setError('');
     } catch {
-      setError('Erreur lors de l’enregistrement');
+      setError('Error during submission, please try again later.');
     }
   };
 
+  const removePhoto = (index: number) => {
+    setPictures(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleAddPictures = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const files = e.target.files;
+  if (!files) return;
+
+  // Convertir FileList en tableau
+  const newFiles = Array.from(files);
+
+  // Ajouter les nouvelles images sans supprimer les précédentes
+  setPictures(prev => [...prev, ...newFiles]);
+
+  // Réinitialiser le champ file pour pouvoir re-sélectionner les mêmes images plus tard
+  e.target.value = '';
+  };
+
   return (
-    <div className="max-w-3xl mx-auto p-6 my-[100px] bg-red rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Ajouter un matériel</h2>
+    <div className='flex flex-row m-[100px] justify-center gap-20'>
+      <div className=" w-1/2 p-6 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Add your material</h2>
 
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>
-      )}
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Title *"
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+          />
+          <textarea
+            placeholder="Description *"
+            rows={3}
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Price"
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            value={price}
+            onChange={e => setPrice(e.target.value)}
+            min="0"
+            step="0.01"
+          />
+          <label className="block mb-1 text-lg font-bold">Cover picture</label>
+          {/* Ajout cover */}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setCover(file);
+                setCurrentIndex(0); // utile si tu as un carrousel et veux revenir à l’image principale
+              }
+            }}
+          />
 
-      <div className="space-y-4">
-        <input
-          type="text"
-          placeholder="Titre *"
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-        />
-        <textarea
-          placeholder="Description *"
-          rows={3}
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Prix *"
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          value={price}
-          onChange={e => setPrice(e.target.value)}
-          min="0"
-          step="0.01"
-        />
-        <input
-          type="url"
-          placeholder="Photo de couverture (URL)"
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          value={coverPhoto}
-          onChange={e => setCoverPhoto(e.target.value)}
-        />
-
-        <div>
-          <label className="block mb-1 font-semibold text-gray-700">
-            Photos supplémentaires (URL)
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="url"
-              placeholder="Ajouter une photo (URL)"
-              className="flex-grow px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              value={newPhoto}
-              onChange={e => setNewPhoto(e.target.value)}
-            />
-            <button
-              type="button"
-              className="bg-indigo-600 text-white px-4 rounded hover:bg-indigo-700 transition"
-              onClick={addPhoto}
-            >
-              Ajouter
-            </button>
-          </div>
-          {photos.length > 0 && (
-            <ul className="mt-2 text-sm text-gray-600 space-y-1">
-              {photos.map((photo, i) => (
-                <li key={i} className="break-words">
-                  • {photo}
-                </li>
-              ))}
-            </ul>
+          {cover && (
+            <div className="relative mt-2 w-32 h-32">
+              <img
+                src={URL.createObjectURL(cover)}
+                alt="Cover Preview"
+                className="w-full h-full object-cover rounded border"
+              />
+              <button
+                type="button"
+                onClick={() => setCover(null)}
+                className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-700"
+                title="Supprimer la cover"
+              >
+                &times;
+              </button>
+            </div>
           )}
+
+
+          <div>
+            {/* Ajout de plusieurs photos */}
+            <label className="block mb-1 font-bold text-lg text-gray-700">More pictures</label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleAddPictures}
+            />
+            {pictures.length > 0 && (
+              <ul className="mt-2 text-gray-600 gap-2 flex flex-row flex-wrap">
+                {pictures.map((photo, i) => (
+                  <li key={i} className="relative">
+                    <img
+                      src={URL.createObjectURL(photo)}
+                      alt={`Aperçu ${i + 1}`}
+                      className="w-32 h-32 object-cover rounded border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(i)}
+                      className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-700"
+                      title="Supprimer cette photo"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>
+          )}
+          <button
+            className="w-full bg-red-600 text-white py-3 rounded font-semibold hover:bg-red-700"
+            onClick={submitMaterial}
+            disabled={!!error}
+          >
+            {loading ? 'Loading...' : 'Saved'}
+          </button>
         </div>
 
-        <button
-          className="w-full bg-green-600 text-white py-3 rounded font-semibold hover:bg-green-700 transition"
-          onClick={submit}
-          disabled={loading}
-        >
-          {loading ? 'Enregistrement...' : 'Enregistrer'}
-        </button>
       </div>
+      <div className='w-1/2 rounded-lg p-10 flex flex-row gap-20 bg-[#E8FDF4]'>
+      <div>
+        {allImages.length > 0 && (
+          <div className="relative w-[600px] h-[600px] mx-auto mb-6">
+            <img
+              src={URL.createObjectURL(allImages[currentIndex])}
+              alt={`Image ${currentIndex + 1}`}
+              className="w-[600px] h-full rounded-lg"
+            />
 
-      <hr className="my-8" />
+            {/* Flèche gauche */}
+            {allImages.length > 1 && (
+              <button
+                onClick={() =>
+                  setCurrentIndex((currentIndex - 1 + allImages.length) % allImages.length)
+                }
+                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 px-3 py-1 rounded-full shadow"
+              >
+                ◀
+              </button>
+            )}
 
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">Matériels existants</h2>
-
-      {loading ? (
-        <p>Chargement...</p>
-      ) : materials.length === 0 ? (
-        <p>Aucun matériel enregistré pour le moment.</p>
-      ) : (
-        <ul className="space-y-4">
-          {materials.map((m) => (
-            <li
-              key={m.id}
-              className="border p-4 rounded shadow-sm hover:shadow-md transition cursor-pointer"
-            >
-              <h3 className="text-lg font-bold">{m.title}</h3>
-              <p className="text-gray-700 mb-1">{m.description}</p>
-              <p className="font-semibold text-green-700">{m.price} €</p>
-              {m.cover_photo && (
-                <img
-                  src={m.cover_photo}
-                  alt={m.title}
-                  className="mt-2 w-full max-h-48 object-cover rounded"
-                />
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+            {/* Flèche droite */}
+            {allImages.length > 1 && (
+              <button
+                onClick={() => setCurrentIndex((currentIndex + 1) % allImages.length)}
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 px-3 py-1 rounded-full shadow"
+              >
+                ▶
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+      <div className='flex flex-col gap-4'>  
+        <h1 className='text-5xl text-text font-bold'>{title}</h1>
+        <p className='text-text text-xl'>{description}</p>
+        {price && (
+          <p className='text-text text-xl'>Price: {price} €</p>
+        )}
+      </div>
+      </div>
     </div>
   );
 }
