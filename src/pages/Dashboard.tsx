@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
-import { div } from 'framer-motion/client';
 
 function Dashboard() {
   const [title, setTitle] = useState('');
@@ -14,6 +13,9 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const [publishAt, setPublishAt] = useState<string | null>(null);
+  const [selectedResource, setSelectedResource] = useState<'free' | 'paid' | null>('free');
+
+
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
@@ -28,54 +30,81 @@ function Dashboard() {
     }
   }, [navigate]);
 
-const submitMaterial = async () => {
-  if (!title || !description || !cover) {
-    setError('Please fill in all required fields');
-    return;
-  }
+  const cleanFileName = (file: File) => {
+    // Remplace les espaces et caractères spéciaux par des underscores
+    const cleanName = file.name.replace(/\s+/g, '_').replace(/[^\w.-]/g, '');
+    return new File([file], cleanName, { type: file.type });
+  };
 
-  if (!token) {
-    setError('User not authenticated');
-    return;
-  }
-
-  setError('');
-
-  try {
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('price', String(price));
-    formData.append('isDraft', String(isDraft));
-    formData.append('cover', cover)
-    console.log(isDraft);
-
-    pictures.forEach((pic) => {
-      formData.append('pictures', pic);
-    });
-
-    if (publishAt) {
-      formData.append('publishAt', publishAt);
+  const submitMaterial = async () => {
+    if (!title || !description || !cover) {
+      setError('Please fill in all required fields');
+      return;
     }
 
-    await api.post('/material', formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    if (!token) {
+      setError('User not authenticated');
+      return;
+    }
 
-    setTitle('');
-    setDescription('');
-    setPrice('');
-    setCover(null);
-    setPictures([]);
-    setPublishAt(null);
     setError('');
-  } catch {
-    setError('Error during submission, please try again later.');
-  }
-};
+
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('price', String(price));
+      formData.append('isDraft', String(isDraft));
+      formData.append('cover', cover)
+
+      pictures.forEach((pic) => {
+        const cleanPic = cleanFileName(pic);
+        formData.append('pictures', cleanPic);
+      });
+
+      if (publishAt) {
+        const date = new Date(publishAt);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+        formData.append('publish_at', formattedDate);
+      } else {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+        formData.append('publish_at', formattedDate);
+      }
+
+      await api.post('/material', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      setTitle('');
+      setDescription('');
+      setPrice('');
+      setCover(null);
+      setPictures([]);
+      setPublishAt(null);
+      setError('');
+      setLoading(true);
+    } catch {
+      setError('Error during submission, please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   const removePhoto = (index: number) => {
@@ -100,8 +129,25 @@ const submitMaterial = async () => {
     <div className='bg-gray-100 py-10'>
       <div className='flex flex-row m-[100px] justify-center gap-5'>
         <div className=" w-1/2 p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">Add your material</h2>
-
+          <div className='flex items-center p-4'>
+            <h2 className="text-2xl font-bold text-gray-800 mr-4">Add your material</h2>
+            <button
+              onClick={() => setSelectedResource('free')}
+              className={`px-4 py-2 text-white ${
+                selectedResource === 'free' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-300'
+              } rounded-l`}
+            >
+              Free
+            </button>
+            <button
+              onClick={() => setSelectedResource('paid')}
+              className={`px-4 py-2 text-white ${
+                selectedResource === 'paid' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-300'
+              } rounded-r`}
+            >
+              Shop
+            </button>
+          </div>
           <div className="space-y-4">
             <input
               type="text"
@@ -117,15 +163,17 @@ const submitMaterial = async () => {
               value={description}
               onChange={e => setDescription(e.target.value)}
             />
-            <input
-              type="number"
-              placeholder="Price"
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              value={price}
+            {selectedResource === 'paid' && (
+              <input
+                type="number"
+                placeholder="Price"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                value={price}
               onChange={e => setPrice(e.target.value)}
               min="0"
               step="0.01"
-            />
+            />)}
+
             <label className="block mb-1 text-lg font-bold">Cover picture</label>
             {/* Ajout cover */}
             <input
@@ -159,44 +207,59 @@ const submitMaterial = async () => {
             )}
 
 
-            <div>
+            {selectedResource === 'paid' && (
+              <div>
               {/* Ajout de plusieurs photos */}
-              <label className="block mb-1 font-bold text-lg text-gray-700">More pictures</label>
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handleAddPictures}
-              />
-              {pictures.length > 0 && (
-                <ul className="mt-2 text-gray-600 gap-2 flex flex-row flex-wrap">
-                  {pictures.map((photo, i) => (
-                    <li key={i} className="relative">
-                      <img
-                        src={URL.createObjectURL(photo)}
-                        alt={`Aperçu ${i + 1}`}
-                        className="w-20 h-20 object-cover rounded border"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removePhoto(i)}
-                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-700"
-                        title="Supprimer cette photo"
-                      >
-                        ✕
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+                <label className="block mb-1 font-bold text-lg text-gray-700">More pictures</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleAddPictures}
+                />
+
+                {pictures.length > 0 && (
+                  <ul className="mt-2 text-gray-600 gap-2 flex flex-row flex-wrap">
+                    {pictures.map((photo, i) => (
+                      <li key={i} className="relative">
+                        <img
+                          src={URL.createObjectURL(photo)}
+                          alt={`Aperçu ${i + 1}`}
+                          className="w-20 h-20 object-cover rounded border"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removePhoto(i)}
+                          className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-700"
+                          title="Supprimer cette photo"
+                        >
+                          ✕
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
             {error && (
               <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>
             )}
+            <div className='flex flex-row rounded-lg bg-text text-white border-lg p-4 my-2 items-center justify-center gap-5'>           
+              <label htmlFor="publishAt">Planified Date</label>
+              <input
+                className='p-2 rounded-lg text-text'
+                id="publishAt"
+                type="datetime-local"
+                value={publishAt || ''}
+                onChange={(e) => setPublishAt(e.target.value)}
+              />
+            </div>
             <button
-              className="bg-text w-[150px] mr-10 text-white py-3 rounded-lg font-semibold hover:bg-red-700"
+              className={`w-[150px] mr-10 py-3 rounded-lg font-semibold text-white ${
+                loading ? 'bg-gray-500 cursor-not-allowed' : 'bg-text hover:bg-red-700'
+              }`}
               onClick={submitMaterial}
-              disabled={!!error}
+              disabled={loading}
             >
               {loading ? 'Loading...' : 'Send Material'}
             </button>
@@ -205,21 +268,11 @@ const submitMaterial = async () => {
                 className='mr-2'
                 type="checkbox"
                 checked={isDraft}
-                onChange={(e) => (setIsDraft(e.target.checked), console.log(isDraft))}
+                onChange={(e) => (setIsDraft(e.target.checked))}
               />
               Check to draft
             </label>
           </div> 
-          <div className='flex flex-row rounded-lg bg-text text-white border-lg p-4 my-2 items-center justify-center gap-5'>           
-            <label htmlFor="publishAt">Planified Date</label>
-            <input
-              className='p-2 rounded-lg text-text'
-              id="publishAt"
-              type="datetime-local"
-              value={publishAt || ''}
-              onChange={(e) => setPublishAt(e.target.value)}
-            />
-          </div>
         </div>
         <div className='w-full rounded-lg p-10 flex flex-row gap-20 bg-[#E8FDF4]'>
           <div className='w-1/2'>

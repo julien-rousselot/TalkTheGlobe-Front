@@ -2,19 +2,25 @@ import Banner from '../components/Banner/Banner';
 import your from '../assets/yourvsyoure.png';
 import colours from '../assets/thecolours.png';
 import pronons from '../assets/pronouns.png';
+import api from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Resources = () => {
   const [sent, setSent] = useState('');
+  const [materials, setMaterials] = useState<any[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    getFreeMaterials();
+  }, []);
+
+  const handleMailSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formdata = new FormData(form);
     const message = formdata.get('message');
 
-    await fetch("http://localhost:8000/api/send-suggestion", {
+    await fetch("http://localhost:3000/api/send-suggestion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,23 +33,48 @@ const Resources = () => {
     form.reset();
   };
 
-  const resources = [
-    {
-      imgUrl: your,
-      title: "YOUR VS YOU’RE",
-      desc: "This is a common grammar mistake. Get the guide to never mix them up again!",
-    },
-    {
-      imgUrl: colours,
-      title: "THE COLOURS",
-      desc: "Visual flashcards to learn the most common colours in English.",
-    },
-    {
-      imgUrl: pronons,
-      title: "PERSONAL PRONOUNS",
-      desc: "Learning a new language means starting with the very basics.",
-    },
-  ];
+  const getFreeMaterials = async () => {
+    try {
+      const response = await api.get('/materials/resource');
+      // console.log("Matériaux sans prix récupérés :", response.data);
+      setMaterials(response.data);
+      response.data.forEach((material: any) => {
+        console.log('Material cover URL:', 'http://localhost:3000' + material.cover);
+      });
+      // console.log('http://localhost:3000' + response.data.cover);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des matériaux sans prix :", error);
+      return [];
+    }
+  };
+
+  // const resources = [
+  //   {
+  //     imgUrl: your,
+  //     title: "YOUR VS YOU’RE",
+  //     desc: "This is a common grammar mistake. Get the guide to never mix them up again!",
+  //   },
+  //   {
+  //     imgUrl: colours,
+  //     title: "THE COLOURS",
+  //     desc: "Visual flashcards to learn the most common colours in English.",
+  //   },
+  //   {
+  //     imgUrl: pronons,
+  //     title: "PERSONAL PRONOUNS",
+  //     desc: "Learning a new language means starting with the very basics.",
+  //   },
+  //   {
+  //     imgUrl: pronons,
+  //     title: "PERSONAL PRONOUNS",
+  //     desc: "Learning a new language means starting with the very basics.",
+  //   },
+  //   {
+  //     imgUrl: pronons,
+  //     title: "PERSONAL PRONOUNS",
+  //     desc: "Learning a new language means starting with the very basics.",
+  //   },
+  // ];
 
   return (
     <section>
@@ -52,25 +83,34 @@ const Resources = () => {
         Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth"
       />
       <main className="px-[5%] bg-[#f9f9f4] p-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-          {resources.map((item, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+          {materials.map((resource, index) => (
             <div
-              key={i}
+              key={index}
               className="flex flex-col justify-between items-center p-4 bg-white rounded-xl shadow-sm"
             >
               <div className="flex flex-col items-center gap-4 flex-grow">
                 <img
-                  src={item.imgUrl}
+                  src={
+                    resource.cover 
+                      ? `http://localhost:3000${encodeURI(resource.cover)}` 
+                      : '/path/to/default-image.jpg'  // image par défaut si cover manquant
+                  }                   
                   loading="lazy"
                   className="border rounded-2xl max-w-full h-auto"
-                  alt={item.title}
+                  alt={resource.title}
                 />
-                <h4 className="text-redText font-bold text-center text-xl">{item.title}</h4>
-                <p className="text-center text-md line-clamp-3">{item.desc}</p>
+                <h4 className="text-redText font-bold text-center text-xl">{resource.title}</h4>
+                <p className="text-center text-md line-clamp-3">{resource.description}</p>
               </div>
-              <button className="bg-redText rounded-full text-white hover:bg-red-700 p-3 px-8 shadow-lg mt-6">
+              <a
+                href="/files/document.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-redText rounded-full text-white hover:bg-red-700 p-3 px-8 shadow-lg mt-6 inline-block text-center"
+              >
                 DOWNLOAD
-              </button>
+              </a>
             </div>
           ))}
         </div>
@@ -84,7 +124,7 @@ const Resources = () => {
             <FontAwesomeIcon icon="envelope-open-text" className="text-redText text-7xl" />
           </div>
           <div className='flex justify-center items-center w-full max-w-xl'>
-            <form onSubmit={handleSubmit} className='flex flex-col mt-6 w-full'>
+            <form onSubmit={handleMailSubmit} className='flex flex-col mt-6 w-full'>
               <div className='flex flex-col'>
                 <textarea
                   name='message'

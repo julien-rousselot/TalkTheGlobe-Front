@@ -11,7 +11,7 @@ const [sent, setSent] = useState('');
     const message = formdata.get('message');
     const name = formdata.get('name');
 
-     await fetch("http://localhost:8000/api/send-email", {
+     await fetch("http://localhost:3000/api/send-email", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
