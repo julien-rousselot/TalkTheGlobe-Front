@@ -12,7 +12,6 @@ function Login() {
     setError('');
     try {
       const res = await api.post('/login', { email, password });
-      console.log('Login successful:', res.data);
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err: any) {

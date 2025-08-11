@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import { form } from 'framer-motion/client';
 
 function Dashboard() {
   const [title, setTitle] = useState('');
@@ -13,6 +14,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const [publishAt, setPublishAt] = useState<string | null>(null);
+  const [pdf, setPDF] = useState<File | null>(null);
   const [selectedResource, setSelectedResource] = useState<'free' | 'paid' | null>('free');
 
 
@@ -55,7 +57,11 @@ function Dashboard() {
       formData.append('description', description);
       formData.append('price', String(price));
       formData.append('isDraft', String(isDraft));
-      formData.append('cover', cover)
+      formData.append('cover', cover);
+
+      if (pdf) {
+        formData.append('pdf', pdf);
+      }
 
       pictures.forEach((pic) => {
         const cleanPic = cleanFileName(pic);
@@ -174,6 +180,18 @@ function Dashboard() {
               step="0.01"
             />)}
 
+            <label htmlFor="pdf-upload" className="block mb-1 text-lg font-bold">Upload PDF</label>
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={(e) => {
+                const files = e.target.files;
+                if (files && files[0]) {
+                  setPDF(files[0]);
+                }
+              }}
+            />
+
             <label className="block mb-1 text-lg font-bold">Cover picture</label>
             {/* Ajout cover */}
             <input
@@ -205,7 +223,6 @@ function Dashboard() {
                 </button>
               </div>
             )}
-
 
             {selectedResource === 'paid' && (
               <div>

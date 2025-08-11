@@ -3,13 +3,15 @@ import api from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Material } from '../types/types';
+import { useNavigate } from 'react-router-dom';
 
-const Resources = () => {
+const Shop = () => {
+  const navigate = useNavigate();
   const [sent, setSent] = useState('');
-  const [materials, setMaterials] = useState<any[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
 
   useEffect(() => {
-    getFreeMaterials();
+    getPaidMaterials();
   }, []);
 
   const handleMailSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,23 +33,32 @@ const Resources = () => {
     form.reset();
   };
 
-const getFreeMaterials = async () => {
-  try {
-    const response = await api.get('/materials/resource');
-    const materials = response.data.map((material: Material) => {
-      if (material.pdf && material.pdf.data) {
-        const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-        return { ...material, pdfUrl: `http://localhost:3000${path}` };
-      }
-      return material;
-    });
-    setMaterials(materials);
-    console.log("Matériaux récupérés avec PDF transformé :", materials);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des matériaux sans prix :", error);
-    return [];
+  const getPaidMaterials = async () => {
+    try {
+      const response = await api.get('/materials/shop');
+      const materials = response.data.map((material: Material) => {
+        if (material.pdf && material.pdf.data) {
+          const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
+          return { ...material, pdfUrl: `http://localhost:3000${path}` };
+        }
+        return material;
+      });
+      setMaterials(materials);
+      console.log("Matériaux récupérés avec PDF transformé :", materials);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des matériaux sans prix :", error);
+      return [];
+    }
+  }; 
+
+  const addToCart = (resource: Material) => {
+    // Logic to add the resource to the cart
+   
   }
-};
+
+  const viewProduct = (resource: Material) => {
+    navigate(`/product/${resource.id}`);
+  }
 
   return (
     <section>
@@ -60,27 +71,37 @@ const getFreeMaterials = async () => {
           {materials.map((resource, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between items-center p-4 bg-white rounded-xl shadow-sm"
+              onClick={() => viewProduct(resource)}
+              className="flex flex-col justify-between items-center gap-4 p-4 bg-white rounded-xl shadow-md 
+                        transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+              onKeyDown={e => e.key === 'Enter' && viewProduct(resource)}
+              role="button"
+              tabIndex={0}
             >
-              <div className="flex flex-col items-center gap-4 flex-grow">
-                <div className="w-full h-72 overflow-hidden rounded-2xl border">
-                  <img
-                    src={`http://localhost:3000${encodeURI(resource.cover)}`}
-                    loading="lazy"
-                    className="w-full"
-                    alt={resource.title}
-                  />
-                </div>
-                <h4 className="text-redText font-bold text-center text-xl">{resource.title}</h4>
-                <p className="text-center text-md line-clamp-3">{resource.description}</p>
+              <div className="w-full h-72 overflow-hidden rounded-2xl border border-gray-200">
+                <img
+                  src={`http://localhost:3000${encodeURI(resource.cover)}`}
+                  loading="lazy"
+                  alt={resource.title}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
               </div>
-              <a href={resource.pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-redText rounded-full text-white hover:bg-red-700 p-3 px-8 shadow-lg mt-6 inline-block text-center"
+
+              <h4 className="text-red-600 font-bold text-xl text-center">{resource.title}</h4>
+              <h3 className="text-2xl font-extrabold text-center">{resource.price} €</h3>
+
+              <button
+                onClick={e => {
+                  e.stopPropagation(); // éviter que le clic sur le bouton déclenche la carte
+                  addToCart(resource);
+                }}
+                className="bg-red-600 rounded-full text-white hover:bg-red-700 px-6 py-2 shadow-lg flex items-center gap-2 select-none mt-2"
+                type="button"
               >
-                OPEN PDF
-              </a>
+                ADD TO CART
+                <FontAwesomeIcon icon="cart-plus" className="text-white text-lg" />
+              </button>
             </div>
           ))}
         </div>
@@ -117,4 +138,4 @@ const getFreeMaterials = async () => {
   );
 };
 
-export default Resources;
+export default Shop;

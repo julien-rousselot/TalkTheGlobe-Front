@@ -10,6 +10,8 @@ import Contact from "./pages/Contact";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from './components/PrivateRoute';
+import Shop from "./pages/Shop";
+import ProductDetail from "./pages/ProductDetail";
 
 const App = () => {
   return (
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/home" element={<Home />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/aboutme" element={<AboutMe />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/contact" element={<Contact />} />
