@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { useState } from 'react';
 import Talktheglobe from '../../assets/Talk_the_globe-removebg-preview.png';
 import useIsMobile from "../../hooks/useIsMobile";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Navbar = () => {
   const isMobile = useIsMobile();
@@ -20,17 +21,15 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed p-6 bg-white w-full z-50 text-black h-[5rem] flex items-center justify-between">
+    <nav className="fixed px-[60px] bg-white w-full z-50 text-black h-[5rem] flex items-center justify-between">
       {/* Logo */}
-      <NavLink to="/home">
-        <img className="w-1/4 md:w-[4rem] ml-[60px]" src={Talktheglobe} alt="Logo site web" />
+      <NavLink className="w-1/5" to="/home">
+        <img className="  md:w-[4rem]" src={Talktheglobe} alt="Logo site web" />
       </NavLink>
-
- 
 
       {/* Version Desktop */}
       {!isMobile ? (
-        <div className="flex space-x-5 w-3/4 justify-between xl:pr-[400px]">
+        <div className="flex space-x-5 w-3/5 justify-between">
           <NavLink to="/home" className={() => getLinkClass("/home")}>HOME</NavLink>
           <NavLink to="/aboutme" className={getActiveClass}>ABOUT ME</NavLink>
           <NavLink to="/services" className={getActiveClass}>SERVICES</NavLink>
@@ -57,6 +56,17 @@ const Navbar = () => {
           )}
         </div>
       )}
+      <div className="w-1/5 flex justify-end items-center relative">
+        {/* Icône panier */}
+        <div className="text-2xl text-text transition-transform duration-300 origin-right hover:scale-125">
+          <FontAwesomeIcon icon="shopping-cart" />
+        </div>
+
+        {/* Bulle du nombre d'articles */}
+        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg">
+          3
+        </span>
+      </div>
     </nav>
   );
 };

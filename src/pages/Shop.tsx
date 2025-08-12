@@ -78,7 +78,7 @@ const Shop = () => {
               role="button"
               tabIndex={0}
             >
-              <div className="w-full h-72 overflow-hidden rounded-2xl border border-gray-200">
+              <div className="w-full h-60 overflow-hidden rounded-2xl border border-gray-200">
                 <img
                   src={`http://localhost:3000${encodeURI(resource.cover)}`}
                   loading="lazy"

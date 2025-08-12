@@ -20,7 +20,9 @@ import {
   faMapPin,
   faUserGroup,
   faEnvelopeOpenText,
-  faCartPlus
+  faCartPlus,
+  faCreditCard,
+  faShoppingCart
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -54,5 +56,7 @@ library.add(
   faUserGroup,
   faEnvelopeOpenText,
   faFacebookMessenger,
-  faCartPlus
+  faCartPlus,
+  faCreditCard,
+  faShoppingCart
 )

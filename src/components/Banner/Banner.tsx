@@ -10,7 +10,7 @@ interface BannerProps {
 
 const Banner: React.FC<BannerProps> = ({Title, Subtitle, Image, Button}) => {
   return (
-    <header className="bg-gradient-to-b from-[#75e8b4] via-[#96f3c9] to-[#E9FDF4] py-48 mt-[80px] flex flex-row w-full">  
+    <header className="bg-gradient-to-b from-[#75e8b4] via-[#96f3c9] to-[#E9FDF4] py-48 flex flex-row w-full">  
         
         <div className='w-1/3 flex justify-center items-center'>
           <img src={Talktheglobe} className='block mx-auto w-[350px] md:mx-0' alt="Logo website"/>
