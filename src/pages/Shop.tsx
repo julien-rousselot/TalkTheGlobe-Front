@@ -4,11 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Material } from '../types/types';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
 
 const Shop = () => {
   const navigate = useNavigate();
   const [sent, setSent] = useState('');
   const [materials, setMaterials] = useState<Material[]>([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     getPaidMaterials();
@@ -51,11 +53,6 @@ const Shop = () => {
     }
   }; 
 
-  const addToCart = (resource: Material) => {
-    // Logic to add the resource to the cart
-   
-  }
-
   const viewProduct = (resource: Material) => {
     navigate(`/product/${resource.id}`);
   }
@@ -78,16 +75,15 @@ const Shop = () => {
               role="button"
               tabIndex={0}
             >
-              <div className="w-full h-60 overflow-hidden rounded-2xl border border-gray-200">
+              <div className="w-full aspect-[1/1] overflow-hidden rounded-2xl border border-gray-200">
                 <img
                   src={`http://localhost:3000${encodeURI(resource.cover)}`}
                   loading="lazy"
                   alt={resource.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full"
                   draggable={false}
                 />
               </div>
-
               <h4 className="text-red-600 font-bold text-xl text-center">{resource.title}</h4>
               <h3 className="text-2xl font-extrabold text-center">{resource.price} €</h3>
 

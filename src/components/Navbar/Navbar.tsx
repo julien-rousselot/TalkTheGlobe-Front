@@ -4,11 +4,15 @@ import { useState } from 'react';
 import Talktheglobe from '../../assets/Talk_the_globe-removebg-preview.png';
 import useIsMobile from "../../hooks/useIsMobile";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useCart } from '../../contexts/CartContext';
+import CartModal from '../Cart/CartModal';
 
 const Navbar = () => {
   const isMobile = useIsMobile();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const location = useLocation();
+  const { totalItems } = useCart();
 
   const baseLinkClass = "transition-colors duration-300 whitespace-nowrap font-semibold";
   const getActiveClass = ({ isActive }: { isActive: boolean }) => isActive ? `${baseLinkClass} text-redText border-b-2 border-redText pb-1` : `${baseLinkClass}`;
@@ -58,15 +62,23 @@ const Navbar = () => {
       )}
       <div className="w-1/5 flex justify-end items-center relative">
         {/* Icône panier */}
-        <div className="text-2xl text-text transition-transform duration-300 origin-right hover:scale-125">
+        <button
+          onClick={() => setCartOpen(true)}
+          className="text-2xl text-text transition-transform duration-300 origin-right hover:scale-125 focus:outline-none"
+        >
           <FontAwesomeIcon icon="shopping-cart" />
-        </div>
+        </button>
 
         {/* Bulle du nombre d'articles */}
-        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg">
-          3
-        </span>
+        {totalItems > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg pointer-events-none">
+            {totalItems}
+          </span>
+        )}
       </div>
+      
+      {/* Cart Modal */}
+      <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </nav>
   );
 };

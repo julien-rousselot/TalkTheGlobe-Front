@@ -60,14 +60,14 @@ const getFreeMaterials = async () => {
           {materials.map((resource, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between items-center p-4 bg-white rounded-xl shadow-sm"
-            >
+              className="flex flex-col justify-between items-center gap-4 p-4 bg-white rounded-xl shadow-md
+                transform transition-transform duration-300 hover:scale-105 cursor-pointer"            >
               <div className="flex flex-col items-center gap-4 flex-grow">
-                <div className="w-full h-72 overflow-hidden rounded-2xl border">
+                <div className="w-full aspect-[1/1] overflow-hidden rounded-2xl border">
                   <img
                     src={`http://localhost:3000${encodeURI(resource.cover)}`}
                     loading="lazy"
-                    className="w-full"
+                    className="w-full h-full"
                     alt={resource.title}
                   />
                 </div>

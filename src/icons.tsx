@@ -22,7 +22,21 @@ import {
   faEnvelopeOpenText,
   faCartPlus,
   faCreditCard,
-  faShoppingCart
+  faShoppingCart,
+  faCheckCircle,
+  faTimesCircle,
+  faInfoCircle,
+  faTrash,
+  faImage,
+  faExclamationTriangle,
+  faEye,
+  faGift,
+  faShoppingBag,
+  faFilePdf,
+  faExclamationCircle,
+  faPaperPlane,
+  faDownload,
+  faCalendar
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -58,5 +72,19 @@ library.add(
   faFacebookMessenger,
   faCartPlus,
   faCreditCard,
-  faShoppingCart
+  faShoppingCart,
+  faCheckCircle,
+  faTimesCircle,
+  faInfoCircle,
+  faTrash,
+  faImage,
+  faExclamationTriangle,
+  faEye,
+  faGift,
+  faShoppingBag,
+  faFilePdf,
+  faExclamationCircle,
+  faPaperPlane,
+  faDownload,
+  faCalendar
 )

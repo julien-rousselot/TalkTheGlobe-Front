@@ -12,9 +12,11 @@ export default {
         redTitle: "#f24822",
         redText: "#C6192E",
         purple: "#e3ccff",
-        green: "#aff4c6",
+        greenSelf: "#aff4c6",
         yellow: "#ffe8a3",
-        text: '#1e293b'
+        text: '#1e293b',
+        success: '#4caf50',
+        error: '#f44336',
       },
       fontFamily: {
         nunito: ['"Nunito"', 'sans-serif'],

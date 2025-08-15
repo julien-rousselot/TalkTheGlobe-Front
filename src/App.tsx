@@ -12,27 +12,35 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from './components/PrivateRoute';
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
+import ToastContainer from "./components/Toast/ToastContainer";
+import { CartProvider } from "./contexts/CartContext";
+import { ToastProvider } from "./contexts/ToastContext";
 
 const App = () => {
   return (
-    <Router>
-      <ScrollToTop />
-      <Layout>
-        <Routes>
-          <Route path="*" element={<Navigate to="/home" replace />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/aboutme" element={<AboutMe />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <ToastProvider>
+      <CartProvider>
+        <Router>
+          <ScrollToTop />
+          <Layout>
+            <Routes>
+              <Route path="*" element={<Navigate to="/home" replace />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/aboutme" element={<AboutMe />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </Layout>
+          <ToastContainer />
+        </Router>
+      </CartProvider>
+    </ToastProvider>
   );
 };
 

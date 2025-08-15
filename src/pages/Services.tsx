@@ -41,7 +41,7 @@ const Services = () => {
     <div className="w-full md:w-1/2 h-auto md:h-full flex justify-center p-6">
         <img src={SemiPrivate} alt="Semi-private lesson" className="max-h-full object-contain" />
     </div>
-    <div className="bg-green w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
+    <div className="bg-greenSelf w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
         <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6">
         <FontAwesomeIcon icon="user-group" className="mr-2" />
         Semi-Private Lessons (2 People)
