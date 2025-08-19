@@ -80,10 +80,6 @@ const Dashboard: React.FC = () => {
       if (publishAt) {
         formData.append('publish_at', publishAt);
       }
-      console.log('Form Data Submitted:');
-      formData.forEach((value, key) => {
-        console.log(key, value);
-      });
       const response = await api.post('/material/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',

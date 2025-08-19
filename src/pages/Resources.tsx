@@ -27,7 +27,6 @@ const Resources = () => {
     });
 
     setSent('Message Envoyé');
-    console.log(sent);
     form.reset();
   };
 
@@ -42,7 +41,6 @@ const getFreeMaterials = async () => {
       return material;
     });
     setMaterials(materials);
-    console.log("Matériaux récupérés avec PDF transformé :", materials);
   } catch (error) {
     console.error("Erreur lors de la récupération des matériaux sans prix :", error);
     return [];
@@ -57,7 +55,7 @@ const getFreeMaterials = async () => {
       />
       <main className="px-[5%] bg-[#f9f9f4] p-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {materials.map((resource, index) => (
+          {[...materials].reverse().map((resource, index) => (
             <div
               key={index}
               className="flex flex-col justify-between items-center gap-4 p-4 bg-white rounded-xl shadow-md

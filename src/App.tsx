@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from './components/PrivateRoute';
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import ToastContainer from "./components/Toast/ToastContainer";
 import { CartProvider } from "./contexts/CartContext";
 import { ToastProvider } from "./contexts/ToastContext";
@@ -35,6 +36,7 @@ const App = () => {
               <Route path="/aboutme" element={<AboutMe />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
             </Routes>
           </Layout>
           <ToastContainer />

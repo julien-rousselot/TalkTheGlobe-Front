@@ -19,7 +19,6 @@ const [sent, setSent] = useState('');
           body: JSON.stringify({ email, message, name }),
       });
       setSent('Message Envoyé');
-      console.log("name", name);
       form.reset();
   };
 

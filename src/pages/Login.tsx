@@ -15,7 +15,6 @@ function Login() {
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err: any) {
-      console.log('Login error:', err);
 
       if (err.response) {
         if (err.response.status === 401) {

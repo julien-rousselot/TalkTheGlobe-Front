@@ -261,6 +261,7 @@ export default function MaterialPayment({ material }: { material: CartItem[] }) 
             id: item.id,
             price: item.price,
             quantity: item.quantity,
+            name: item.name,
           })),
         });
         

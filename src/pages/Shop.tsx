@@ -31,31 +31,32 @@ const Shop = () => {
     });
 
     setSent('Message Envoyé');
-    console.log(sent);
     form.reset();
   };
 
   const getPaidMaterials = async () => {
     try {
       const response = await api.get('/materials/shop');
-      const materials = response.data.map((material: Material) => {
-        if (material.pdf && material.pdf.data) {
-          const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-          return { ...material, pdfUrl: `http://localhost:3000${path}` };
-        }
-        return material;
-      });
+      const materials = response.data
+        // filtre : uniquement les matériaux liés à Stripe
+        .filter((material: Material) => material.stripePriceId)
+        .map((material: Material) => {
+          if (material.pdf && material.pdf.data) {
+            const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
+            return { ...material, pdfUrl: `http://localhost:3000${path}` };
+          }
+          return material;
+        });
+
       setMaterials(materials);
-      console.log("Matériaux récupérés avec PDF transformé :", materials);
     } catch (error) {
-      console.error("Erreur lors de la récupération des matériaux sans prix :", error);
-      return [];
+      console.error("Erreur lors de la récupération des matériaux :", error);
     }
-  }; 
+  };
 
   const viewProduct = (resource: Material) => {
     navigate(`/product/${resource.id}`);
-  }
+  };
 
   return (
     <section>
@@ -64,35 +65,44 @@ const Shop = () => {
         Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth"
       />
       <main className="px-[5%] bg-[#f9f9f4] p-16">
+        {/* Liste des matériaux */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {materials.map((resource, index) => (
+          {[...materials].reverse().map((resource, index) => (
             <div
               key={index}
               onClick={() => viewProduct(resource)}
               className="flex flex-col justify-between items-center gap-4 p-4 bg-white rounded-xl shadow-md 
-                        transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                         transform transition-transform duration-300 hover:scale-105 cursor-pointer"
               onKeyDown={e => e.key === 'Enter' && viewProduct(resource)}
               role="button"
               tabIndex={0}
             >
+              {/* Image */}
               <div className="w-full aspect-[1/1] overflow-hidden rounded-2xl border border-gray-200">
                 <img
                   src={`http://localhost:3000${encodeURI(resource.cover)}`}
                   loading="lazy"
                   alt={resource.title}
-                  className="w-full h-full"
+                  className="w-full h-full object-cover"
                   draggable={false}
                 />
               </div>
-              <h4 className="text-red-600 font-bold text-xl text-center">{resource.title}</h4>
-              <h3 className="text-2xl font-extrabold text-center">{resource.price} €</h3>
 
+              {/* Infos produit */}
+              <h4 className="text-red-600 font-bold text-xl text-center">
+                {resource.stripeName}
+              </h4>
+              <h3 className="text-2xl font-extrabold text-center">
+                {resource.price} €
+              </h3>
+
+              {/* Bouton panier */}
               <button
                 onClick={e => {
-                  e.stopPropagation(); // éviter que le clic sur le bouton déclenche la carte
+                  e.stopPropagation();
                   addToCart(resource);
                 }}
-                className="bg-red-600 rounded-full text-white hover:bg-red-700 px-6 py-2 shadow-lg flex items-center gap-2 select-none mt-2"
+                className="bg-red-600 rounded-full text-white hover:bg-red-700 px-6 py-2 shadow-lg flex items-center gap-2 select-none mt-2 transition-colors duration-300"
                 type="button"
               >
                 ADD TO CART
@@ -102,30 +112,35 @@ const Shop = () => {
           ))}
         </div>
 
-        <div className='flex flex-col justify-center items-center mt-20'>
-          <h2 className='text-redText text-center text-4xl p-4'>
+        {/* Section suggestions */}
+        <div className="flex flex-col justify-center items-center mt-20">
+          <h2 className="text-redText text-center text-4xl p-4">
             LOOKING FOR SOMETHING SPECIFIC ?
           </h2>
-          <div className='flex flex-col justify-center items-center mb-2 gap-10'>
-            <p className='text-2xl text-center'>Can’t find the kind of resource you need ? I’d love to hear your suggestions!</p>
+          <div className="flex flex-col justify-center items-center mb-2 gap-10">
+            <p className="text-2xl text-center">
+              Can’t find the kind of resource you need ? I’d love to hear your suggestions!
+            </p>
             <FontAwesomeIcon icon="envelope-open-text" className="text-redText text-7xl" />
           </div>
-          <div className='flex justify-center items-center w-full max-w-xl'>
-            <form onSubmit={handleMailSubmit} className='flex flex-col mt-6 w-full'>
-              <div className='flex flex-col'>
+
+          {/* Formulaire suggestion */}
+          <div className="flex justify-center items-center w-full max-w-xl">
+            <form onSubmit={handleMailSubmit} className="flex flex-col mt-6 w-full">
+              <div className="flex flex-col">
                 <textarea
-                  name='message'
-                  placeholder='Hello, what would you like to see ?'
-                  className='border-2 border-text p-1 my-2 mb-4 h-32 rounded-md bg-gray-100 text-left focus:outline-none'
+                  name="message"
+                  placeholder="Hello, what would you like to see ?"
+                  className="border-2 border-text p-1 my-2 mb-4 h-32 rounded-md bg-gray-100 text-left focus:outline-none"
                 />
               </div>
               <button
-                className='bg-[#cba7f8] hover:bg-[#c599fa] text-center border-2 border-[#667175] p-2 rounded-md font-semibold'
+                className="bg-[#cba7f8] hover:bg-[#c599fa] text-center border-2 border-[#667175] p-2 rounded-md font-semibold transition-colors duration-300"
                 type="submit"
               >
                 Send
               </button>
-              <p className='font-semibold'>{sent}</p>
+              <p className="font-semibold mt-2">{sent}</p>
             </form>
           </div>
         </div>
