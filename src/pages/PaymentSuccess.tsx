@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import api from "../api"; // ton instance axios/fetch vers le backend
+// Update the import path if the CartContext file exists elsewhere, for example:
+import { useCart } from "../contexts/CartContext";
+
+// export function clearCart() { /* implementation */ }
 
 interface PaymentSession {
   id: string;
@@ -15,6 +19,7 @@ export default function PaymentSuccess() {
   const [session, setSession] = useState<PaymentSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { clearCart } = useCart();
 
   useEffect(() => {
     const paymentIntentId = searchParams.get("payment_intent"); // PI réel
@@ -31,6 +36,7 @@ export default function PaymentSuccess() {
           payment_intent_id: paymentIntentId
         });
         setSession(response.data);
+        clearCart();
       } catch (err: any) {
         console.error(err);
         setError("Impossible de récupérer les détails du paiement");
@@ -49,6 +55,11 @@ return (
     <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-center text-green-600">
       Paiement réussi !
     </h1>
+    {session.customer_email && (
+      <p className="text-center text-gray-700 mb-6">
+        Un email de confirmation contenant votre reçu a été envoyé à <strong>{session.customer_email}</strong>.
+      </p>
+    )}
     <h2 className="text-2xl sm:text-3xl font-semibold mb-4 border-b pb-2">Détails de votre commande :</h2>
     <ul className="space-y-4">
       {session.items.map((item, i) => (

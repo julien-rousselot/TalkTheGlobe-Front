@@ -11,9 +11,11 @@ const Shop = () => {
   const [sent, setSent] = useState('');
   const [materials, setMaterials] = useState<Material[]>([]);
   const { addToCart } = useCart();
+  const [localMaterials, setLocalMaterials] = useState<Material[]>(JSON.parse(localStorage.getItem('materials') || '[]'));
 
   useEffect(() => {
-    getPaidMaterials();
+    localMaterials.length > 0 ? setMaterials(localMaterials) : getPaidMaterials();
+    console.log("Materials chargés depuis le localStorage :", localMaterials);
   }, []);
 
   const handleMailSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,6 +51,8 @@ const Shop = () => {
         });
 
       setMaterials(materials);
+      console.log("Materials mis en cache :", materials);
+      localStorage.setItem('materials', JSON.stringify(materials));
     } catch (error) {
       console.error("Erreur lors de la récupération des matériaux :", error);
     }

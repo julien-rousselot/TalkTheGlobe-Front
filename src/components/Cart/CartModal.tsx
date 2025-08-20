@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCart } from "../../contexts/CartContext";
 import MaterialPayment from "../../contexts/CartContext";
@@ -26,6 +26,7 @@ const sidebarVariants = {
 };
 
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
+  const [email, setEmail] = React.useState("");
   const { items, totalItems, totalPrice, updateQuantity, removeFromCart, clearCart } = useCart();
 
   return (
@@ -133,8 +134,17 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                   <span>Total:</span>
                   <span className="text-red-600">€{totalPrice.toFixed(2)}</span>
                 </div>
+                {/* Champ email */}
+                <input
+                  type="email"
+                  placeholder="Your email to receive the PDF"
+                  value={email}
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
                 <div className="space-y-2">
-                  <MaterialPayment material={items} />
+                  <MaterialPayment material={items} email={email} />
                   <button
                     onClick={clearCart}
                     className="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300"
