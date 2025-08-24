@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import api from "../api"; // ton instance axios/fetch vers le backend
-// Update the import path if the CartContext file exists elsewhere, for example:
+import api from "../api";
 import { useCart } from "../contexts/CartContext";
-
-// export function clearCart() { /* implementation */ }
 
 interface PaymentSession {
   id: string;
