@@ -42,7 +42,7 @@ const getFreeMaterials = async () => {
     });
     setMaterials(materials);
   } catch (error) {
-    console.error("Erreur lors de la récupération des matériaux sans prix :", error);
+    // Error handled silently
     return [];
   }
 };

@@ -50,7 +50,6 @@ export default function ProductDetail() {
 
       setMaterial(material); // Met à jour l'état avec l'objet matériel complet
     } catch (error) {
-      console.error("Erreur lors de la récupération du matériel :", error);
       setMaterial(undefined); // Ou gérer comme tu veux en cas d'erreur
     } finally {
       setLoading(false);
@@ -68,7 +67,6 @@ export default function ProductDetail() {
       const shuffled = otherProducts.sort(() => 0.5 - Math.random());
       setSuggestedProducts(shuffled.slice(0, 4));
     } catch (error) {
-      console.error("Error fetching suggested products:", error);
       setSuggestedProducts([]);
     } finally {
       setSuggestedLoading(false);

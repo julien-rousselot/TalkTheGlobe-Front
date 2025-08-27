@@ -35,7 +35,6 @@ export default function PaymentSuccess() {
         setSession(response.data);
         clearCart();
       } catch (err: any) {
-        console.error(err);
         setError("Impossible de récupérer les détails du paiement");
       } finally {
         setLoading(false);

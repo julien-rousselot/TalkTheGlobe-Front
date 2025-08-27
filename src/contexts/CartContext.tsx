@@ -118,22 +118,44 @@ function CheckoutForm({ email }: { email: string }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email) return setError("Veuillez saisir votre email");
-    if (!isValidEmail(email)) return setError("L'adresse email que vous avez saisie est invalide. Veuillez vérifier et réessayer.");
-    if (!stripe || !elements) return;
+    
+    if (!email) {
+      return setError("Veuillez saisir votre email");
+    }
+    
+    if (!isValidEmail(email)) {
+      return setError("L'adresse email que vous avez saisie est invalide. Veuillez vérifier et réessayer.");
+    }
+    
+    if (!stripe || !elements) {
+      return;
+    }
 
     setLoading(true);
     setError(null);
 
     try {
-      const { error } = await stripe.confirmPayment({ elements, confirmParams: { return_url: `${window.location.origin}/payment-success` } });
-      if (error) { setError(error.message || 'Payment failed'); addToast(error.message || 'Payment failed', 'error'); }
-      else addToast('Payment processing...', 'success');
+      const { error } = await stripe.confirmPayment({ 
+        elements, 
+        confirmParams: { 
+          return_url: `${window.location.origin}/payment-success` 
+        } 
+      });
+      
+      if (error) {
+        setError(error.message || 'Payment failed');
+        addToast(error.message || 'Payment failed', 'error');
+      } else {
+        addToast('Payment processing...', 'success');
+      }
     } catch (err: any) {
       const msg = err.message || 'An unexpected error occurred';
       setError(msg);
       addToast(msg, 'error');
-    } finally { setLoading(false); }
+    } finally { 
+      setLoading(false); 
+    }
+    
   };
 
   return (
@@ -154,12 +176,32 @@ export default function MaterialPayment({ material, email }: { material: CartIte
 
   useEffect(() => {
     const createPaymentIntent = async () => {
+      
       setLoading(true);
+      setError(null);
       try {
-        const response = await api.post("/stripe/create-payment-intent", { items: material.map(i => ({ id: i.id, price: i.material.price, quantity: i.quantity, name: i.material.title })), email });
-        if (response.data.clientSecret) setClientSecret(response.data.clientSecret);
-        else setError("Failed to create payment intent");
-      } finally { setLoading(false); }
+        const response = await api.post("/stripe/create-payment-intent", { 
+          items: material.map(i => ({ 
+            id: i.id, 
+            price: i.material.price, 
+            quantity: i.quantity, 
+            name: i.material.title 
+          })),
+          email
+        });
+        
+        
+        if (response.data.clientSecret) {
+          setClientSecret(response.data.clientSecret);
+        } else {
+          setError("Failed to create payment intent");
+        }
+      } catch (err: any) {
+        setError(err.response?.data?.message || "Failed to initialize payment");
+      } finally { 
+        setLoading(false); 
+      }
+      
     };
     createPaymentIntent();
   }, [material, email]);
