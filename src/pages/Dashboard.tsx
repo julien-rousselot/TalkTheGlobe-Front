@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import api from '../api';
+import { Material } from '../types/types';
 
 const Dashboard: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -15,22 +16,48 @@ const Dashboard: React.FC = () => {
   const [isDraft, setIsDraft] = useState(false);
   const [publishAt, setPublishAt] = useState<string | null>(null);
   const [pdf, setPDF] = useState<File | null>(null);
-  const [selectedResource, setSelectedResource] = useState<'free' | 'paid' | null>('free');
+  const [selectedResource, setSelectedResource] = useState<'free' | 'paid'>('free');
+
+  // New state for edit mode and materials management
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingMaterialId, setEditingMaterialId] = useState<string | null>(null);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [showMaterialsList, setShowMaterialsList] = useState(false);
 
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const savedToken = localStorage.getItem('token');
 
   const navigate = useNavigate();
   const allImages = cover ? [cover, ...pictures] : pictures;
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('token');
     if (!savedToken) {
       navigate('/');
     } else {
       setToken(savedToken);
+      fetchMaterials(savedToken);
     }
   }, [navigate]);
+
+  // Fetch all materials
+  const fetchMaterials = async (savedToken: string) => {
+    try {
+      const response = await api.get('/materials', {
+        headers: {
+          'Authorization': `Bearer ${savedToken}`,
+        },
+      });
+      setMaterials(response.data);
+      console.log('Fetched materials:', response.data);
+    } catch (err: any) {
+      console.error('Failed to fetch materials:', err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem('token');
+        navigate('/');
+      }
+    }
+  };
 
   const resetForm = () => {
     setTitle('');
@@ -45,13 +72,110 @@ const Dashboard: React.FC = () => {
     setSelectedResource('free');
     setSuccess('');
     setError('');
+    setIsEditMode(false);
+    setEditingMaterialId(null);
+  };
+
+  // Load material data for editing
+  const loadMaterialForEdit = (material: Material) => {
+    console.log('Full material object:', material);
+    
+    setTitle(material.title || '');
+    setDescription(material.description || '');
+    
+    // Fix price handling - check material.price to determine if it's free or paid
+    const priceValue = material.price?.toString() || '';
+    const priceNumber = parseFloat(priceValue) || 0;
+    const isActuallyFree = priceNumber === 0 || priceValue === '' || priceValue === '0' || priceValue === '0.00';
+    
+    if (isActuallyFree) {
+      setPrice('');
+      setSelectedResource('free');
+    } else {
+      setPrice(priceValue);
+      setSelectedResource('paid');
+    }
+        
+    // Prefill draft status
+    const isDraftValue = material.isDraft === true || material.isDraft === 'true' || material.isDraft === 1 || material.isDraft === '1';
+    setIsDraft(isDraftValue);
+    console.log('Setting isDraft to:', isDraftValue);
+    
+    // Prefill publish date - check publishAt first since that's what your backend uses
+    const publishAtValue = (material as any).publishAt || material.publish_at || (material as any).published_at || (material as any).publishedAt;
+    
+    if (publishAtValue) {
+      try {
+        const publishDate = new Date(publishAtValue);
+        if (!isNaN(publishDate.getTime())) {
+          // Convert to local time for datetime-local input
+          const year = publishDate.getFullYear();
+          const month = String(publishDate.getMonth() + 1).padStart(2, '0');
+          const day = String(publishDate.getDate()).padStart(2, '0');
+          const hours = String(publishDate.getHours()).padStart(2, '0');
+          const minutes = String(publishDate.getMinutes()).padStart(2, '0');
+          
+          const localDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+          setPublishAt(localDateTime);
+          console.log('Setting publishAt to:', localDateTime, 'from original:', publishAtValue);
+        } else {
+          console.error('Invalid date received for publish date:', publishAtValue);
+          setPublishAt(null);
+        }
+      } catch (error) {
+        console.error('Error parsing publish date:', publishAtValue, error);
+        setPublishAt(null);
+      }
+    } else {
+      setPublishAt(null);
+      console.log('No publish date found, setting publishAt to null');
+    }
+    
+    setIsEditMode(true);
+    setEditingMaterialId(material.id);
+    setShowMaterialsList(false);
+    setCover(null);
+    setPictures([]);
+    setPDF(null);
+    setSuccess('');
+    setError('');
+  };
+
+  // Delete material
+  const deleteMaterial = async (materialId: string) => {
+    if (!confirm('Are you sure you want to delete this material? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      await api.delete(`/material/${materialId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
+      setMaterials(prev => prev.filter(m => m.id !== materialId));
+      setSuccess('Material deleted successfully!');
+      
+      // If we're editing this material, reset the form
+      if (editingMaterialId === materialId) {
+        resetForm();
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Failed to delete material');
+    }
   };
 
   const submitForm = async () => {
-    if (!title || !description) {
-      setError('Title and description are required');
+    if (!title || !description || (selectedResource === 'paid' && !price)) {
+      let errorMsg = 'Title and description are required';
+      if (selectedResource === 'paid' && !price) {
+        errorMsg = 'Price is required for paid materials';
+      }
+      setError(errorMsg);
       return;
     }
+
 
     setLoading(true);
     setError('');
@@ -78,21 +202,43 @@ const Dashboard: React.FC = () => {
       
       formData.append('isDraft', isDraft ? 'true' : 'false');
       if (publishAt) {
+        // Send both field names to ensure compatibility
         formData.append('publish_at', publishAt);
+        formData.append('publishAt', publishAt);
       }
-      const response = await api.post('/material/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
 
-      if (response.status === 201) {
-        setSuccess('Material created successfully!');
+      let response;
+      if (isEditMode && editingMaterialId) {
+        // Update existing material
+        response = await api.put(`/material/${editingMaterialId}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+      } else {
+        // Create new material
+        response = await api.post('/material/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+      }
+
+      if (response.status === 200 || response.status === 201) {
+        const successMessage = isEditMode ? 'Material updated successfully!' : 'Material created successfully!';
+        setSuccess(successMessage);
         resetForm();
+        
+        // Refresh materials list
+        if (token) {
+          fetchMaterials(token);
+        }
       }
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to create material');
+      const errorMessage = isEditMode ? 'Failed to update material' : 'Failed to create material';
+      setError(err.response?.data?.detail || errorMessage);
     } finally {
       setLoading(false);
     }
@@ -159,6 +305,35 @@ const Dashboard: React.FC = () => {
               <p className="text-gray-600 mt-1">Create and manage your educational materials</p>
             </div>
             <div className="flex items-center gap-4">
+              {/* Navigation Buttons */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    setShowMaterialsList(false);
+                    if (isEditMode) resetForm();
+                  }}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    !showMaterialsList
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  <FontAwesomeIcon icon={isEditMode ? "edit" : "plus"} className="mr-2" />
+                  {isEditMode ? 'Edit Material' : 'Create Material'}
+                </button>
+                <button
+                  onClick={() => setShowMaterialsList(true)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    showMaterialsList
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  <FontAwesomeIcon icon="list" className="mr-2" />
+                  Manage Materials
+                </button>
+              </div>
+              
               <span className="text-sm text-gray-500">Welcome back, Admin</span>
               <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                 <FontAwesomeIcon icon="user" className="text-white text-sm" />
@@ -169,16 +344,138 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+        {showMaterialsList ? (
+          /* Materials List Section */
+          <div className="bg-white rounded-xl shadow-sm border p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <FontAwesomeIcon icon="list" className="text-purple-600" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900">All Materials</h2>
+                  <p className="text-sm text-gray-500">Manage your educational content ({materials.length} items)</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  resetForm();
+                  setShowMaterialsList(false);
+                }}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <FontAwesomeIcon icon="plus" className="mr-2" />
+                Add New Material
+              </button>
+            </div>
+
+            {/* Alert Messages */}
+            {error && (
+              <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
+                <FontAwesomeIcon icon="exclamation-triangle" className="text-red-500" />
+                <span className="text-red-700">{error}</span>
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
+                <FontAwesomeIcon icon="check-circle" className="text-green-500" />
+                <span className="text-green-700">{success}</span>
+              </div>
+            )}
+
+            {/* Materials Grid */}
+            {materials.length === 0 ? (
+              <div className="text-center py-12 text-gray-400">
+                <FontAwesomeIcon icon="file-alt" className="text-4xl mb-4" />
+                <p className="text-lg">No materials found</p>
+                <p className="text-sm">Create your first material to get started</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {materials.map((material) => (
+                  <div key={material.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                    {/* Material Cover */}
+                    {material.cover && (
+                      <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden mb-4">
+                        <img
+                          src={`http://localhost:3000${material.cover}`}
+                          alt={material.title}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    {/* Material Info */}
+                    <div className="space-y-2">
+                      <h3 className="font-semibold text-lg text-gray-900 line-clamp-2">{material.title}</h3>
+                      <p className="text-gray-600 text-sm line-clamp-3">{material.description}</p>
+                      
+                      {/* Resource Type & Price */}
+                      <div className="flex items-center justify-between">
+                        {(() => {
+                          const priceNumber = parseFloat(material.price?.toString() || '0');
+                          const isPaid = priceNumber > 0;
+                          return (
+                            <>
+                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                isPaid ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
+                              }`}>
+                                <FontAwesomeIcon 
+                                  icon={isPaid ? 'shopping-cart' : 'gift'} 
+                                  className="mr-1" 
+                                />
+                                {isPaid ? 'Shop Item' : 'Free Resource'}
+                              </span>
+                              {isPaid && (
+                                <span className="font-bold text-gray-900">${material.price}</span>
+                              )}
+                            </>
+                          );
+                        })()}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 pt-2">
+                        <button
+                          onClick={() => loadMaterialForEdit(material)}
+                          className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                        >
+                          <FontAwesomeIcon icon="edit" className="mr-2" />
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => deleteMaterial(material.id)}
+                          className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
+                        >
+                          <FontAwesomeIcon icon="trash" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Form Section - Keep the existing grid layout */
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
           {/* Form Section */}
           <div className="bg-white rounded-xl shadow-sm border p-6 h-fit">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <FontAwesomeIcon icon="plus" className="text-blue-600" />
+                <FontAwesomeIcon icon={isEditMode ? "edit" : "plus"} className="text-blue-600" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">Create New Material</h2>
-                <p className="text-sm text-gray-500">Add educational content to your resources</p>
+                <h2 className="text-xl font-semibold text-gray-900">
+                  {isEditMode ? 'Edit Material' : 'Create New Material'}
+                </h2>
+                <p className="text-sm text-gray-500">
+                  {isEditMode ? 'Update your educational content' : 'Add educational content to your resources'}
+                </p>
               </div>
             </div>
 
@@ -366,27 +663,32 @@ const Dashboard: React.FC = () => {
 
               {/* Additional Pictures */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <FontAwesomeIcon icon="images" className="mr-2" />
-                  Additional Images
-                </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleAddPictures}
-                    className="hidden"
-                    id="pictures-upload"
-                  />
-                  <label htmlFor="pictures-upload" className="cursor-pointer">
-                    <div className="text-gray-400">
-                      <FontAwesomeIcon icon="images" className="text-2xl mb-2" />
-                      <p className="text-sm">Click to upload multiple images</p>
-                      <p className="text-xs text-gray-400 mt-1">Hold Ctrl/Cmd to select multiple files</p>
+                {selectedResource === 'paid' && (
+                  <>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <FontAwesomeIcon icon="images" className="mr-2" />
+                      Additional Images
+                    </label>
+
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleAddPictures}
+                        className="hidden"
+                        id="pictures-upload"
+                      />
+                      <label htmlFor="pictures-upload" className="cursor-pointer">
+                        <div className="text-gray-400">
+                          <FontAwesomeIcon icon="images" className="text-2xl mb-2" />
+                          <p className="text-sm">Click to upload multiple images</p>
+                          <p className="text-xs text-gray-400 mt-1">Hold Ctrl/Cmd to select multiple files</p>
+                        </div>
+                      </label>
                     </div>
-                  </label>
-                </div>
+                  </>
+                )}
 
                 {/* Display uploaded pictures */}
                 {pictures.length > 0 && (
@@ -418,8 +720,8 @@ const Dashboard: React.FC = () => {
                   <label className="flex items-center">
                     <input
                       type="checkbox"
-                      checked={isDraft}
                       onChange={(e) => setIsDraft(e.target.checked)}
+                      checked={isDraft}
                       className="mr-2"
                     />
                     <span className="text-sm text-gray-700">
@@ -611,6 +913,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

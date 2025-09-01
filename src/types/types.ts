@@ -8,6 +8,10 @@ export interface Material {
     data: ArrayBuffer | Uint8Array;
   };
   pdfUrl?: string;
+  isDraft?: boolean | string | number;
+  publish_at?: string | Date | null;
+  publishAt?: string | Date | null; // Backend is using this field name
+  stripePriceId?: string;
   [key: string]: any;
 }
 

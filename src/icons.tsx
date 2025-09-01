@@ -36,7 +36,23 @@ import {
   faExclamationCircle,
   faPaperPlane,
   faDownload,
-  faCalendar
+  faCalendar,
+  faFileAlt,
+  faClipboard,
+  faList,
+  faFileUpload,
+  faPlus,
+  faUndo,
+  faSave,
+  faFileExport,
+  faImages,
+  faCloudUploadAlt,
+  faTags,
+  faAlignLeft,
+  faHeading,
+  faEdit,
+  faDollarSign,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -86,5 +102,21 @@ library.add(
   faExclamationCircle,
   faPaperPlane,
   faDownload,
-  faCalendar
+  faCalendar,
+  faFileAlt,
+  faClipboard,
+  faList,
+  faFileUpload,
+  faPlus,
+  faUndo,
+  faSave,
+  faFileExport,
+  faImages,
+  faCloudUploadAlt,
+  faTags,
+  faAlignLeft,
+  faHeading,
+  faEdit,
+  faDollarSign,
+  faSpinner
 )
