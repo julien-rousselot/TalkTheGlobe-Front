@@ -3,6 +3,7 @@ import api from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Material } from '../types/types';
+import FadeInSection from "../components/FadeInSection/FadeInSection";
 
 const Resources = () => {
   const [sent, setSent] = useState('');
@@ -49,11 +50,35 @@ const getFreeMaterials = async () => {
 
   return (
     <section>
+      <style>
+        {`
+          @keyframes learnPulse {
+            0%, 100% { 
+              transform: scale(1);
+              filter: brightness(1);
+            }
+            50% { 
+              transform: scale(1.1);
+              filter: brightness(1.2);
+              text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            }
+          }
+          .learn-animate {
+            animation: learnPulse 2s ease-in-out infinite;
+          }
+        `}
+      </style>
       <Banner
-        Title="LEARN ENGLISH AND SPANISH WITH ME!"
-        Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth"
+        Title="Free materials to boost your English!🚀"
+        Subtitle="The perfect place to boost your classes or practice on your own with downloadable and free materials!"
+        Span="📚"
       />
-      <main className="px-[5%] bg-[#f9f9f4] p-16">
+      <main className="px-[5%] bg-[#f9f9f4]">
+        <FadeInSection>
+          <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
+            Let's <span className="text-redText learn-animate">learn!</span>
+          </h2>
+        </FadeInSection>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
           {[...materials].reverse().map((resource, index) => (
             <div
@@ -77,7 +102,7 @@ const getFreeMaterials = async () => {
                 rel="noopener noreferrer"
                 className="bg-redText rounded-full text-white hover:bg-red-700 p-3 px-8 shadow-lg mt-6 inline-block text-center"
               >
-                OPEN PDF
+                Download
               </a>
             </div>
           ))}

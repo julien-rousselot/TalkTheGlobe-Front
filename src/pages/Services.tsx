@@ -1,4 +1,3 @@
-import Blackboard from '../assets/blackboard.png';
 import OneToOne from '../assets/onetoone.png';
 import SemiPrivate from '../assets/semi-private.png';
 import Group from '../assets/Group.png';
@@ -9,7 +8,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 const Services = () => {
   return (
     <section>
-        <Banner Title="LEARN ENGLISH AND SPANISH WITH ME!" Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth" Image={Blackboard}/>
+        <Banner 
+          Title="Learn English with me!👩🏻‍🏫" 
+          Subtitle="Personalized lessons tailored to your goals—whether you're learning for work, travel, or personal growth"
+          Span="✨"
+        />
         <main className="bg-[#f9f9f4] w-full">
   <h2 className="text-redText font-bold text-center text-3xl sm:text-4xl md:text-5xl px-4 pt-16 pb-12">
     <FontAwesomeIcon icon="star" className="text-redText pr-3" />

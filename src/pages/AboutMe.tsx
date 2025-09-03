@@ -9,8 +9,9 @@ const AboutMe = () => {
 	return (
 		<section>
 			<Banner
-				Title="LEARN ENGLISH AND SPANISH WITH ME!"
-				Subtitle="Personalized lessons tailored to your goals, whether you're learning for work, travel, or personal growth"
+				Title="👋Hey, I'm Fátima!👋"
+				Subtitle="Passionate about teaching languages and helping students explore the world through them"
+				Span="🌍"
 			/>
 			<main className="bg-[#f9f9f4] px-6 sm:px-12 lg:px-20 xl:px-32">
 				<FadeInSection>

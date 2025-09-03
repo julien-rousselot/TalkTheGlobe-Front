@@ -6,7 +6,11 @@ import Email from '../components/Email/Email';
 const Contact = () => {
   return (
     <section>
-        <Banner Title="LEARN ENGLISH AND SPANISH WITH ME!" Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth"/>
+        <Banner 
+          Title="Let's connect! 💌" 
+          Subtitle="Have questions? Ready to start learning? Send me a message, and I’ll get back to you as soon as possible!"
+          Span="💬"
+        />
         <main className="px-[5%] bg-[#f9f9f4] p-16">
           <h2 className='text-redText text-center text-4xl p-4'>
             SEND ME A MESSAGE

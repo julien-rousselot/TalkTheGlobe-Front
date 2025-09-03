@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import UK from '../assets/royaume-uni.png'
 import Student from '../assets/studentHome.png';
 import Teacher from '../assets/teacher.png';
 import Picme from '../assets/Picme.jpg';
@@ -12,24 +13,27 @@ const Home = () => {
   return (
     <section>
       <Banner Title={
-                <>
-                   LEARN{" "}
-                  <span className="text-redText animated-word">ENGLISH</span>
+                <div className='flex flex-col '>
+                  <div className='flex flex-row items-center'>
+                    Learn{" "}
+                    <span className="text-redText animated-word mx-4">English</span>{" "}
+                    <img src={UK} className='w-16 h-16 ml-2' alt="UK Flag" />
+                  </div>
+                  <span>to explore the world! </span>
                    {/* AND{" "} */}
                   {/* <span className="text-redText animated-word">SPANISH</span> */}
-                   <br /> TO EXPLORE THE WORLD ! 🗺️
-                </>
+                </div>
               } 
               Subtitle={
-                <>
-                  <FontAwesomeIcon icon="bolt" className="text-text mr-2" />  
-                  Interactive <span> online classes</span> and{" "} <span>resources</span> to help you master the language
-                  <FontAwesomeIcon icon="bolt" className="text-text ml-2" />                
-                </>
+              <h2 className="text-2xl inline align-start">
+                Interactive online classes and resources to help you master the language
+              </h2>
+
               } 
+              Span={"⚡"}
               Button={
                 <button className="items-center gap-2 p-4">
-                  <span>START LEARNING ! </span>
+                  <span>Start learning ! </span>
                   <FontAwesomeIcon icon="graduation-cap"/>
                 </button>
               }/>

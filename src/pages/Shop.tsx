@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Material } from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import FadeInSection from "../components/FadeInSection/FadeInSection";
 
 const Shop = () => {
   const navigate = useNavigate();
@@ -60,11 +61,40 @@ const Shop = () => {
 
   return (
     <section>
+      <style>
+        {`
+          @keyframes shopPulse {
+            0%, 100% { 
+              transform: scale(1);
+              filter: brightness(1);
+            }
+            50% { 
+              transform: scale(1.1);
+              filter: brightness(1.2);
+              text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            }
+          }
+          .shop-animate {
+            animation: shopPulse 2s ease-in-out infinite;
+          }
+        `}
+      </style>
       <Banner
-        Title="LEARN ENGLISH AND SPANISH WITH ME!"
-        Subtitle="Personalized lessons tailored to your  goals, whether you're learning for work, travel, or personal growth"
+        Title={
+          <>
+            Teach smarter,<br />
+            learn faster 💥
+          </>
+        }
+        Subtitle="Engaging materials to make language learning and teaching easier, more fun, and more effective"
+        Span="✅"
       />
-      <main className="px-[5%] bg-[#f9f9f4] p-16">
+      <main className="px-[5%] bg-[#f9f9f4]">
+        <FadeInSection>
+					<h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
+						Let's <span className="text-redText shop-animate">shop!</span>
+					</h2>
+				</FadeInSection>
         {/* Liste des matériaux */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
           {[...materials].reverse().map((resource, index) => (
