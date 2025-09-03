@@ -17,7 +17,7 @@ const Banner: React.FC<BannerProps> = ({Title, Subtitle, Span, Button}) => {
           <img src={Talktheglobe} className='block mx-auto px-6 pt-6 w-full md:mx-0' alt="Logo website"/>
         </div>
 
-        <div className='w-1/2 flex flex-col pl-12 gap-8 justify-center'>
+        <div className='w-1/2 flex flex-col justify-center pl-12 gap-8'>
           <h1 className="md:text-6xl font-extrabold">{Title}</h1>
           <h2 className='text-2xl my-6 md:my-0 '> {Subtitle} <span className='text-3xl'>{Span}</span></h2>
           {/* {Image &&(<img className='w-[30%] pb-6 md:pb-0 block mx-auto md:w-[13%]' src={Image} alt="board"/>)} */}

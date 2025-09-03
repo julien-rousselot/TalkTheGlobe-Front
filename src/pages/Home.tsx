@@ -14,7 +14,7 @@ const Home = () => {
     <section>
       <Banner Title={
                 <div className='flex flex-col '>
-                  <div className='flex flex-row items-center'>
+                  <div className='flex flex-row'>
                     Learn{" "}
                     <span className="text-redText animated-word mx-4">English</span>{" "}
                     <img src={UK} className='w-16 h-16 ml-2' alt="UK Flag" />
