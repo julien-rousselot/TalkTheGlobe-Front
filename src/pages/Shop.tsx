@@ -89,7 +89,7 @@ const Shop = () => {
         Subtitle="Engaging materials to make language learning and teaching easier, more fun, and more effective"
         Span="✅"
       />
-      <main className="px-[5%] bg-[#f9f9f4]">
+      <main className="px-[5%] bg-[#f9f9f4] pb-16">
         <FadeInSection>
 					<h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
 						Let's <span className="text-redText shop-animate">shop!</span>
@@ -161,16 +161,16 @@ const Shop = () => {
                 <textarea
                   name="message"
                   placeholder="Hello, what would you like to see ?"
-                  className="border-2 border-text p-1 my-2 mb-4 h-32 rounded-md bg-gray-100 text-left focus:outline-none"
+                  className="border-2 border-text p-3 my- mb-4 h-32 font-extrabold rounded-md bg-gray-100 text-left focus:outline-none"
                 />
               </div>
               <button
-                className="bg-[#cba7f8] hover:bg-[#c599fa] text-center border-2 border-[#667175] p-2 rounded-md font-semibold transition-colors duration-300"
+                className="bg-[#cba7f8] hover:bg-[#c599fa] text-center border-2 border-[#667175] p-2 rounded-md font-extrabold transition-colors duration-300"
                 type="submit"
               >
                 Send
               </button>
-              <p className="font-semibold mt-2">{sent}</p>
+              <p className="mt-2">{sent}</p>
             </form>
           </div>
         </div>

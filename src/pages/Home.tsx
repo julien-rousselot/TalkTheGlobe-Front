@@ -10,6 +10,16 @@ import FadeInSection from "../components/FadeInSection/FadeInSection";
 
 const Home = () => {
 
+  const scrollToMain = () => {
+    const mainSection = document.getElementById('main-content');
+    if (mainSection) {
+      mainSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start' 
+      });
+    }
+  };
+
   return (
     <section>
       <Banner Title={
@@ -32,15 +42,17 @@ const Home = () => {
               } 
               Span={"⚡"}
               Button={
-                <button className="items-center gap-2 p-4">
+                <button onClick={scrollToMain} className="items-center gap-2 p-4 cursor-pointer">
                   <span>Start learning ! </span>
                   <FontAwesomeIcon icon="graduation-cap"/>
                 </button>
               }/>
-      <div className="px-[5%] md:px-[15%] bg-[#f9f9f4] p-16">
-        <main  className='3xl:w-[60%] m-auto'>
+      <div className="px-[5%] md:px-[15%] bg-[#f9f9f4] pb-16">
+        <main id="main-content" className='3xl:w-[60%] m-auto '>
           <FadeInSection>
-            <h2 className='text-red-500 font-bold text-center text-5xl p-5'>WHAT I OFFER</h2>
+            <h2 className='text-text font-extrabold text-center text-6xl sm:text-7xl py-20'>
+              What <span className="text-redText learn-animate">I Offer</span>
+            </h2>
           </FadeInSection>
 
           <div className='flex flex-col justify-center gap-14 m-auto md:flex-row md:py-4'>
@@ -49,21 +61,20 @@ const Home = () => {
                 <h3 className='text-center text-5xl font-semibold'>I’M A <strong>STUDENT</strong>  !</h3>
                 <img className='h-[200px] md:h-[270px] mx-auto my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
                 <div className='flex justify-around gap-4'>
-                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
-                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Classes</button></Link>
+                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg font-bold text-center'><button>Free ressources</button></Link>
+                  <Link to="/services" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg font-bold text-center flex justify-center'><button >Classes</button></Link>
                 </div>
               </div>
 
               <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[12px] md:p-[30px] hover:bg-text hover:text-white'>
-                <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>  !</h3>
+                <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>!</h3>
                 <img className='h-[200px] md:h-[270px] md:w-[250px] mx-auto my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
                 <div className='flex justify-around gap-4'>
-                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center'><button>Free ressources</button></Link>
-                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg text-center flex justify-center'><button >Shop</button></Link>
+                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg font-bold text-center'><button>Free ressources</button></Link>
+                  <Link to="/shop" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-lg font-bold text-center flex justify-center'><button >Shop</button></Link>
                 </div>
               </div>
           </FadeInSection>
-
           </div>
         </main>
         <section className='pt-8 md:mt-16'> 
@@ -147,24 +158,19 @@ const Home = () => {
         </section>
         <footer>
           <FadeInSection>
-            <h2 className='text-redText text-center text-2xl md:text-4xl pt-16'>
-              <FontAwesomeIcon icon="star" className="text-redText pr-5"/>
-              WHAT MY AMAZING STUDENTS SAY
-              <FontAwesomeIcon icon="star" className="text-redText pl-5"/>
+            <h2 className='text-text font-extrabold text-center text-6xl sm:text-4xl pt-16'>
+              ⭐ WHAT MY AMAZING STUDENTS SAY ⭐
             </h2>
           
-            <div className='flex flex-row gap-8 py-10 font-bold'>
-              <div className='flex flex-col md:flex-row justify-center items-center gap-2 md:gap-0 text-center w-1/3'>
-                <FontAwesomeIcon icon="user-graduate" className="text-redText md:pr-5"/>
-                <p>+100 students</p>
+            <div className='flex flex-row justify-around py-5 font-extrabold w-2/3 m-auto'>
+              <div className='flex flex-col items-center gap-2 md:gap-0 text-center w-1/3'>
+                <p>👩🏻‍🎓 +100 students</p>
               </div>
-              <div className='flex flex-col md:flex-row md:justify-center items-center gap-2 md:gap-0 text-center w-1/3'>
-                <FontAwesomeIcon icon="earth-europe" className="text-redText md:pr-5"/>
-                <p>8 countries</p>
+              <div className='flex flex-col items-center gap-2 md:gap-0 text-center w-1/3'>
+                <p>🌍 8 countries</p>
               </div>
-              <div className='flex flex-col md:flex-row justify-center items-center gap-2 md:gap-0 text-center w-1/3'>
-                <FontAwesomeIcon icon="graduation-cap" className="text-redText md:pr-5"/>
-                <p>+5 years of experience</p>
+              <div className='flex flex-col items-center gap-2 md:gap-0 text-center w-1/3'>
+                <p>🎓 +5 years of experience</p>
               </div>
             </div>
           </FadeInSection>

@@ -12,34 +12,46 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const location = useLocation();
-  const { totalItems } = useCart();
+  const {totalItems} = useCart();
 
-  const baseLinkClass = "transition-colors duration-300 whitespace-nowrap font-semibold";
-  const getActiveClass = ({ isActive }: { isActive: boolean }) => isActive ? `${baseLinkClass} text-redText border-b-2 border-redText pb-1` : `${baseLinkClass}`;
-
-  const getLinkClass = (path: string) => {
+  const baseLinkClass = "transition-all duration-100 ease-in-out whitespace-nowrap text-text font-bold text-lg transform hover:scale-110 relative";
+  
+  const getActiveClass = (path: string) => {
     const isActive = location.pathname === path || (path === '/home' && location.pathname === '/');
-    return isActive
-      ? `${baseLinkClass} text-redText border-b-2 border-redText pb-1`
-      : baseLinkClass;
+    return isActive ? `${baseLinkClass} text-redText nav-link-active` : baseLinkClass;
   };
 
   return (
-    <nav className="fixed px-[60px] bg-white w-full z-50 text-black h-[5rem] flex items-center justify-between">
+    <>
+      <style>
+        {`
+          .nav-link-active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #ef4444;
+            border-radius: 2px;
+          }
+        `}
+      </style>
+      <nav className="fixed px-[60px] bg-white w-full z-50 text-black h-[5rem] flex items-center justify-between">
       {/* Logo */}
       <NavLink className="w-1/5" to="/home">
-        <img className="  md:w-[4rem]" src={Talktheglobe} alt="Logo site web" />
+        <img className="md:w-[4rem]" src={Talktheglobe} alt="Logo site web"/>
       </NavLink>
 
       {/* Version Desktop */}
       {!isMobile ? (
-        <div className="flex space-x-5 w-3/5 justify-between">
-          <NavLink to="/home" className={() => getLinkClass("/home")}>HOME</NavLink>
-          <NavLink to="/aboutme" className={getActiveClass}>ABOUT ME</NavLink>
-          <NavLink to="/services" className={getActiveClass}>SERVICES</NavLink>
-          <NavLink to="/resources" className={getActiveClass}>RESOURCES</NavLink>
-          <NavLink to="/contact" className={getActiveClass}>CONTACT</NavLink>
-          <NavLink to="/shop" className={getActiveClass}>SHOP</NavLink>
+        <div className="flex space-x-5 w-3/5 justify-between relative">
+          <NavLink to="/home" className={getActiveClass("/home")}>HOME</NavLink>
+          <NavLink to="/aboutme" className={getActiveClass('/aboutme')}>ABOUT ME</NavLink>
+          <NavLink to="/services" className={getActiveClass('/services')}>SERVICES</NavLink>
+          <NavLink to="/resources" className={getActiveClass('/resources')}>RESOURCES</NavLink>
+          <NavLink to="/contact" className={getActiveClass('/contact')}>CONTACT</NavLink>
+          <NavLink to="/shop" className={getActiveClass('/shop')}>SHOP</NavLink>
         </div>
       ) : (
         // Version Mobile avec menu burger
@@ -50,12 +62,12 @@ const Navbar = () => {
 
           {menuOpen && (
             <div className="absolute flex flex-col items-center justify-around top-20 right-0 bg-white shadow-md py-[10rem] space-y-4 w-full h-[calc(100vh-5rem)] z-10">
-              <NavLink to="/home" onClick={() => setMenuOpen(false)} className={() => getLinkClass("/home")}>HOME</NavLink>
-              <NavLink to="/aboutme" onClick={() => setMenuOpen(false)} className={getActiveClass}>ABOUT ME</NavLink>
-              <NavLink to="/services" onClick={() => setMenuOpen(false)} className={getActiveClass}>SERVICES</NavLink>
-              <NavLink to="/resources" onClick={() => setMenuOpen(false)} className={getActiveClass}>RESOURCES</NavLink>
-              <NavLink to="/contact" onClick={() => setMenuOpen(false)} className={getActiveClass}>CONTACT</NavLink>
-              <NavLink to="/shop" onClick={() => setMenuOpen(false)} className={getActiveClass}>SHOP</NavLink>
+              <NavLink to="/home" onClick={() => setMenuOpen(false)} className={getActiveClass("/home")}>HOME</NavLink>
+              <NavLink to="/aboutme" onClick={() => setMenuOpen(false)} className={getActiveClass('/aboutme')}>ABOUT ME</NavLink>
+              <NavLink to="/services" onClick={() => setMenuOpen(false)} className={getActiveClass('/services')}>SERVICES</NavLink>
+              <NavLink to="/resources" onClick={() => setMenuOpen(false)} className={getActiveClass('/resources')}>RESOURCES</NavLink>
+              <NavLink to="/contact" onClick={() => setMenuOpen(false)} className={getActiveClass('/contact')}>CONTACT</NavLink>
+              <NavLink to="/shop" onClick={() => setMenuOpen(false)} className={getActiveClass('/shop')}>SHOP</NavLink>
             </div>
           )}
         </div>
@@ -80,6 +92,7 @@ const Navbar = () => {
       {/* Cart Modal */}
       <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </nav>
+    </>
   );
 };
 

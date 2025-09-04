@@ -98,7 +98,7 @@ return (
     </button>
 
     {/* Cadre fixe (avec responsive) */}
-    <div className="flex-1 mx-2 sm:mx-6 bg-white/10 p-4 sm:p-6 rounded-xl backdrop-blur-md shadow-md flex flex-col justify-center items-center overflow-hidden h-[200px] text-center">
+    <div className="flex-1 mx-2 sm:mx-6 p-4 sm:p-6 rounded-xl backdrop-blur-md shadow-md flex flex-col justify-center items-center overflow-hidden h-[200px] text-center bg-white">
       <AnimatePresence custom={direction} mode="wait">
         <motion.div
           key={count}

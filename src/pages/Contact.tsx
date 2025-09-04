@@ -2,6 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Banner from '../components/Banner/Banner';
 import Email from '../components/Email/Email';
+import FadeInSection from '../components/FadeInSection/FadeInSection';
 
 const Contact = () => {
   return (
@@ -11,10 +12,12 @@ const Contact = () => {
           Subtitle="Have questions? Ready to start learning? Send me a message, and I’ll get back to you as soon as possible!"
           Span="💬"
         />
-        <main className="px-[5%] bg-[#f9f9f4] p-16">
-          <h2 className='text-redText text-center text-4xl p-4'>
-            SEND ME A MESSAGE
-          </h2>
+        <main className="px-[5%] bg-[#f9f9f4]">
+          <FadeInSection>
+            <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
+              SEND ME A <span className="text-redText shop-animate">MESSAGE</span>
+            </h2>
+				  </FadeInSection>
           <Email/>
           <div className="py-16 bg-[#f9f9f4]">
             <h2 className="text-redText text-center text-4xl font-bold mb-12">

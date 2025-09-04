@@ -73,7 +73,7 @@ const getFreeMaterials = async () => {
         Subtitle="The perfect place to boost your classes or practice on your own with downloadable and free materials!"
         Span="📚"
       />
-      <main className="px-[5%] bg-[#f9f9f4]">
+      <main className="px-[5%] bg-[#f9f9f4] pb-16">
         <FadeInSection>
           <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
             Let's <span className="text-redText learn-animate">learn!</span>
@@ -122,11 +122,11 @@ const getFreeMaterials = async () => {
                 <textarea
                   name='message'
                   placeholder='Hello, what would you like to see ?'
-                  className='border-2 border-text p-1 my-2 mb-4 h-32 rounded-md bg-gray-100 text-left focus:outline-none'
+                  className='border-2 border-text p-3 my-2 mb-4 h-32 rounded-md bg-gray-100 font-extrabold text-left focus:outline-none'
                 />
               </div>
               <button
-                className='bg-[#cba7f8] hover:bg-[#c599fa] text-center border-2 border-[#667175] p-2 rounded-md font-semibold'
+                className='bg-[#cba7f8] hover:bg-[#c599fa] text-center border-2 border-[#667175] p-2 rounded-md font-extrabold'
                 type="submit"
               >
                 Send
