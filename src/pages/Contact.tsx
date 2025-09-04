@@ -15,7 +15,7 @@ const Contact = () => {
         <main className="px-[5%] bg-[#f9f9f4]">
           <FadeInSection>
             <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
-              SEND ME A <span className="text-redText shop-animate">MESSAGE</span>
+              Send me a <span className="text-redText shop-animate">message ✍️</span>
             </h2>
 				  </FadeInSection>
           <Email/>

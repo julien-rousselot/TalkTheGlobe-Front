@@ -143,10 +143,10 @@ const Shop = () => {
         </div>
 
         {/* Section suggestions */}
-        <div className="flex flex-col justify-center items-center mt-20">
-          <h2 className="text-redText text-center text-4xl p-4">
-            LOOKING FOR SOMETHING SPECIFIC ?
-          </h2>
+        <div className="flex flex-col justify-center items-center ">
+          <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
+            Looking for something specific ? 🤔
+          </h2>  
           <div className="flex flex-col justify-center items-center mb-2 gap-10">
             <p className="text-2xl text-center">
               Can’t find the kind of resource you need ? I’d love to hear your suggestions!
