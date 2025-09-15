@@ -56,8 +56,8 @@ const Home = () => {
           </FadeInSection>
 
           <div className='flex flex-col justify-center gap-14 m-auto md:flex-row md:py-4'>
-            <FadeInSection className="flex flex-col justify-center gap-14 m-auto md:flex-row md:py-4">
-              <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[12px] md:p-[30px]  hover:bg-text hover:text-white'>
+            <FadeInSection className="flex flex-col justify-center gap-14 m-auto lg:flex-row md:py-4">
+              <div className='bg-talktheglobe lg:w-[400px] border-[3px] border-text rounded-3xl p-[12px] md:p-[70px] lg:p-[30px] hover:bg-text hover:text-white'>
                 <h3 className='text-center text-5xl font-semibold'>I’M A <strong>STUDENT</strong>  !</h3>
                 <img className='h-[200px] md:h-[270px] mx-auto my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
                 <div className='flex justify-around gap-4'>
@@ -66,7 +66,7 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className='bg-talktheglobe md:w-[400px] border-[3px] border-text rounded-3xl p-[12px] md:p-[30px] hover:bg-text hover:text-white'>
+              <div className='bg-talktheglobe lg:w-[400px] border-[3px] border-text rounded-3xl p-[12px] md:p-[70px] lg:p-[30px] hover:bg-text hover:text-white'>
                 <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>!</h3>
                 <img className='h-[200px] md:h-[270px] md:w-[250px] mx-auto my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
                 <div className='flex justify-around gap-4'>
@@ -94,7 +94,7 @@ const Home = () => {
                   className="absolute inset-0 w-full h-full object-cover object-top brightness-90 rounded-xl"
                 />
 
-                <div className="hidden md:flex relative z-10 flex-col items-center justify-center h-full text-white text-center px-4">
+                <div className="hidden lg:flex relative z-10 flex-col items-center justify-center h-full text-white text-center px-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-32 max-w-5xl w-full justify-items-center">
                     <FadeInSection>
                       <div className="bg-white/10 p-2 flex justify-center flex-col text rounded-xl backdrop-blur-md w-[350px]">
@@ -125,7 +125,7 @@ const Home = () => {
               </div>
 
               {/* Texte sous l’image en mobile */}
-              <div className="md:hidden mt-6 px-4 text-center">
+              <div className="lg:hidden mt-6 px-4 text-center">
                 <div className="space-y-4">
                   <FadeInSection>
                     <div className="bg-[#E8FDF4] p-4 rounded-xl shadow-md">
@@ -158,19 +158,19 @@ const Home = () => {
         </section>
         <footer>
           <FadeInSection>
-            <h2 className='text-text font-extrabold text-center text-6xl sm:text-4xl pt-16'>
+            <h2 className='text-text font-extrabold text-center text-2xl sm:text-5xl lg:text-5xl pt-16'>
               ⭐ WHAT MY AMAZING STUDENTS SAY ⭐
             </h2>
-          
-            <div className='flex flex-row justify-around py-5 font-extrabold w-2/3 m-auto'>
-              <div className='flex flex-col items-center gap-2 md:gap-0 text-center w-1/3'>
-                <p>👩🏻‍🎓 +100 students</p>
+
+            <div className='flex flex-col justify-center items-center gap-5 md:flex-row md:justify-around py-5 font-extrabold lg:w-2/3 m-auto'>
+              <div className='flex flex-col w-full items-center gap-2 md:gap-0 text-center md:w-1/3'>
+                <p className='bg-white rounded-md p-2 w-2/3 h-full'>👩🏻‍🎓 +100 students</p>
               </div>
-              <div className='flex flex-col items-center gap-2 md:gap-0 text-center w-1/3'>
-                <p>🌍 8 countries</p>
+              <div className='flex flex-col w-full items-center gap-2 md:gap-0 text-center md:w-1/3'>
+                <p className='bg-white rounded-md p-2 w-2/3 h-full'>🌍 8 countries</p>
               </div>
-              <div className='flex flex-col items-center gap-2 md:gap-0 text-center w-1/3'>
-                <p>🎓 +5 years of experience</p>
+              <div className='flex flex-col w-full items-center gap-2 md:gap-0 text-center md:w-1/3'>
+                <p className='bg-white rounded-md p-2 w-2/3 h-full'>🎓 +5 years of experience</p>
               </div>
             </div>
           </FadeInSection>
