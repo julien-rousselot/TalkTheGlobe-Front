@@ -89,9 +89,9 @@ const Shop = () => {
         Subtitle="Engaging materials to make language learning and teaching easier, more fun, and more effective"
         Span="✅"
       />
-      <main className="px-[5%] bg-[#f9f9f4] pb-16">
+      <main className="px-[12%] bg-[#f9f9f4] pb-16">
         <FadeInSection>
-					<h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
+          <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-12 md:py-20">
 						Let's <span className="text-redText shop-animate">shop!</span>
 					</h2>
 				</FadeInSection>
@@ -145,11 +145,11 @@ const Shop = () => {
         {/* Section suggestions */}
         <div className="flex flex-col justify-center items-center ">
           <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
-            Looking for something specific ? 🤔
+            Looking for something specific? 🤔
           </h2>  
           <div className="flex flex-col justify-center items-center mb-2 gap-10">
             <p className="text-2xl text-center">
-              Can’t find the kind of resource you need ? I’d love to hear your suggestions!
+              Can’t find the kind of resource you need? I’d love to hear your suggestions!
             </p>
             <FontAwesomeIcon icon="envelope-open-text" className="text-redText text-7xl" />
           </div>
@@ -160,7 +160,7 @@ const Shop = () => {
               <div className="flex flex-col">
                 <textarea
                   name="message"
-                  placeholder="Hello, what would you like to see ?"
+                  placeholder="Hello, what would you like to see?"
                   className="border-2 border-text p-3 my- mb-4 h-32 font-extrabold rounded-md bg-gray-100 text-left focus:outline-none"
                 />
               </div>

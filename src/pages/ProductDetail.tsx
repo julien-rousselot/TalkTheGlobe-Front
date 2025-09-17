@@ -109,7 +109,7 @@ export default function ProductDetail() {
       </div>
       
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-[5%]">
+      <div className="flex-1 flex flex-col items-center justify-center px-[12%] md:px-[5%]">
         {/* Carrousel + description */}
         <div className="flex flex-col justify-center items-center lg:flex-row gap-8 w-full max-w-7xl">
         {/* Carrousel */}

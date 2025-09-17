@@ -14,7 +14,7 @@ const Services = () => {
           Span="✨"
         />
         <main className="bg-[#f9f9f4] w-full">
-  <h2 className="text-redText font-bold text-center text-3xl sm:text-4xl md:text-5xl px-4 pt-16 pb-12">
+  <h2 className="text-redText font-bold text-center text-3xl sm:text-4xl md:text-5xl px-4 pt-16 md:pb-12">
     <FontAwesomeIcon icon="star" className="text-redText pr-3" />
     CHOOSE THE BEST OPTION FOR YOU !
     <FontAwesomeIcon icon="star" className="text-redText pl-3" />
@@ -25,7 +25,7 @@ const Services = () => {
     <div className="bg-[#ffe8a3] w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
         <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6">
         <FontAwesomeIcon icon="earth-europe" className="mr-2" />
-        Small Group Classes (3–6 People) — Coming Soon!
+        Small Group Classes (3–6 People)
         </h4>
         <ul className="space-y-4 text-lg sm:text-xl">
         <li>Join a small, supportive learning community.</li>

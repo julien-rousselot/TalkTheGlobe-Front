@@ -73,9 +73,9 @@ const getFreeMaterials = async () => {
         Subtitle="The perfect place to boost your classes or practice on your own with downloadable and free materials!"
         Span="📚"
       />
-      <main className="px-[5%] bg-[#f9f9f4] pb-16">
+      <main className="px-[12%] md:px-[5%] bg-[#f9f9f4] pb-16">
         <FadeInSection>
-          <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
+          <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-12 md:py-20">
             Let's <span className="text-redText learn-animate">learn!</span>
           </h2>
         </FadeInSection>
@@ -110,10 +110,10 @@ const getFreeMaterials = async () => {
 
         <div className='flex flex-col justify-center items-center mt-20'>
           <h2 className='text-redText text-center text-4xl p-4'>
-            LOOKING FOR SOMETHING SPECIFIC ?
+            LOOKING FOR SOMETHING SPECIFIC?
           </h2>     
           <div className='flex flex-col justify-center items-center mb-2 gap-10'>
-            <p className='text-2xl text-center'>Can’t find the kind of resource you need ? I’d love to hear your suggestions!</p>
+            <p className='text-2xl text-center'>Can’t find the kind of resource you need? I’d love to hear your suggestions!</p>
             <FontAwesomeIcon icon="envelope-open-text" className="text-redText text-7xl" />
           </div>
           <div className='flex justify-center items-center w-full max-w-xl'>
@@ -121,7 +121,7 @@ const getFreeMaterials = async () => {
               <div className='flex flex-col'>
                 <textarea
                   name='message'
-                  placeholder='Hello, what would you like to see ?'
+                  placeholder='Hello, what would you like to see?'
                   className='border-2 border-text p-3 my-2 mb-4 h-32 rounded-md bg-gray-100 font-extrabold text-left focus:outline-none'
                 />
               </div>

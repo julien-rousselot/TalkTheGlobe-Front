@@ -15,7 +15,7 @@ const AboutMe = () => {
 			/>
 			<main className="bg-[#f9f9f4] px-6 sm:px-12 lg:px-20 xl:px-32">
 				<FadeInSection>
-					<h2 className="text-redText font-bold text-center text-4xl sm:text-5xl pt-20">
+					<h2 className="text-redText font-extrabold text-center text-5xl sm:text-5xl pt-20">
 						MY STORY
 					</h2>
 				</FadeInSection>

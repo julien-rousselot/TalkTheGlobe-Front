@@ -12,7 +12,7 @@ const Contact = () => {
           Subtitle="Have questions? Ready to start learning? Send me a message, and I’ll get back to you as soon as possible!"
           Span="💬"
         />
-        <main className="px-[5%] bg-[#f9f9f4]">
+        <main className="px-[10%] md:px-[5%] bg-[#f9f9f4]">
           <FadeInSection>
             <h2 className="text-text font-extrabold text-center text-6xl sm:text-6xl py-20">
               Send me a <span className="text-redText shop-animate">message ✍️</span>
@@ -26,21 +26,21 @@ const Contact = () => {
 
             <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 px-4">
               {/* Email */}
-              <div className="flex flex-col justify-center items-center text-center bg-talktheglobe p-8 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 w-full md:w-1/3">
-                <FontAwesomeIcon icon="envelope" className="text-6xl text-text transition-colors duration-200 mb-4" />
-                <p className="text-2xl font-semibold text-[#262a38]">talktheglobe7@gmail.com</p>
+              <div className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full md:w-1/3">
+                <FontAwesomeIcon icon="envelope" className="text-6xl transition-colors duration-200 mb-4" />
+                <p className="text-[1.2rem] font-semibold">talktheglobe7@gmail.com</p>
               </div>
 
               {/* Instagram */}
-              <div className="flex flex-col justify-center items-center text-center bg-talktheglobe p-8 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 w-full md:w-1/3">
-                <FontAwesomeIcon icon={['fab', 'instagram']} className="text-6xl text-text transition-colors duration-200 mb-4" />
-                <p className="text-2xl font-semibold text-[#262a38]">@talktheglobe</p>
+              <div className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full md:w-1/3">
+                <FontAwesomeIcon icon={['fab', 'instagram']} className="text-6xl transition-colors duration-200 mb-4" />
+                <p className="text-[1.2rem] font-semibold">@talktheglobe</p>
               </div>
 
               {/* Messenger */}
-              <div className="flex flex-col justify-center items-center text-center bg-talktheglobe p-8 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 w-full md:w-1/3">
-                <FontAwesomeIcon icon={['fab', 'facebook-messenger']} className="text-6xl text-text transition-colors duration-200 mb-4" />
-                <p className="text-2xl font-semibold text-[#262a38]">Talk The Globe</p>
+              <div className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full md:w-1/3">
+                <FontAwesomeIcon icon={['fab', 'facebook-messenger']} className="text-6xl transition-colors duration-200 mb-4" />
+                <p className="text-[1.2rem] font-semibold">Talk The Globe</p>
               </div>
             </div>
           </div>
