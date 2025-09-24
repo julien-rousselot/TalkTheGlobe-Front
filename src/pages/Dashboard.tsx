@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import api from '../api';
 import { Material } from '../types/types';
+import { materialsCache } from '../utils/materialsCache';
 
 const Dashboard: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -49,8 +50,8 @@ const Dashboard: React.FC = () => {
         },
       });
       setMaterials(response.data);
-      console.log('Fetched materials:', response.data);
     } catch (err: any) {
+      setError(err);
       console.error('Failed to fetch materials:', err);
       if (err.response?.status === 401) {
         localStorage.removeItem('token');
@@ -70,7 +71,7 @@ const Dashboard: React.FC = () => {
     setPublishAt(null);
     setPDF(null);
     setSelectedResource('free');
-    setSuccess('');
+    // Don't clear success message here - let it persist
     setError('');
     setIsEditMode(false);
     setEditingMaterialId(null);
@@ -78,7 +79,6 @@ const Dashboard: React.FC = () => {
 
   // Load material data for editing
   const loadMaterialForEdit = (material: Material) => {
-    console.log('Full material object:', material);
     
     setTitle(material.title || '');
     setDescription(material.description || '');
@@ -99,7 +99,6 @@ const Dashboard: React.FC = () => {
     // Prefill draft status
     const isDraftValue = material.isDraft === true || material.isDraft === 'true' || material.isDraft === 1 || material.isDraft === '1';
     setIsDraft(isDraftValue);
-    console.log('Setting isDraft to:', isDraftValue);
     
     // Prefill publish date - check publishAt first since that's what your backend uses
     const publishAtValue = (material as any).publishAt || material.publish_at || (material as any).published_at || (material as any).publishedAt;
@@ -117,7 +116,6 @@ const Dashboard: React.FC = () => {
           
           const localDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
           setPublishAt(localDateTime);
-          console.log('Setting publishAt to:', localDateTime, 'from original:', publishAtValue);
         } else {
           console.error('Invalid date received for publish date:', publishAtValue);
           setPublishAt(null);
@@ -128,7 +126,6 @@ const Dashboard: React.FC = () => {
       }
     } else {
       setPublishAt(null);
-      console.log('No publish date found, setting publishAt to null');
     }
     
     setIsEditMode(true);
@@ -137,7 +134,7 @@ const Dashboard: React.FC = () => {
     setCover(null);
     setPictures([]);
     setPDF(null);
-    setSuccess('');
+    setSuccess(''); // Clear success message when starting to edit
     setError('');
   };
 
@@ -156,6 +153,9 @@ const Dashboard: React.FC = () => {
       
       setMaterials(prev => prev.filter(m => m.id !== materialId));
       setSuccess('Material deleted successfully!');
+      
+      // Clear cache to ensure users see updated content immediately
+      materialsCache.clearCache();
       
       // If we're editing this material, reset the form
       if (editingMaterialId === materialId) {
@@ -179,7 +179,7 @@ const Dashboard: React.FC = () => {
 
     setLoading(true);
     setError('');
-    setSuccess('');
+    setSuccess(''); // Clear any previous success messages when starting new submit
 
     try {
       const formData = new FormData();
@@ -228,17 +228,28 @@ const Dashboard: React.FC = () => {
 
       if (response.status === 200 || response.status === 201) {
         const successMessage = isEditMode ? 'Material updated successfully!' : 'Material created successfully!';
-        setSuccess(successMessage);
+        
+        // Reset form first, then set success message so it persists
         resetForm();
+        setSuccess(successMessage);
+        
+        // Clear cache to ensure users see updated content immediately
+        materialsCache.clearCache();
         
         // Refresh materials list
         if (token) {
           fetchMaterials(token);
         }
+        
+        // Auto-clear success message after 5 seconds
+        setTimeout(() => {
+          setSuccess('');
+        }, 5000);
       }
     } catch (err: any) {
       const errorMessage = isEditMode ? 'Failed to update material' : 'Failed to create material';
-      setError(err.response?.data?.detail || errorMessage);
+      console.log(err);
+      setError(err.response.data.error || errorMessage);
     } finally {
       setLoading(false);
     }
@@ -431,7 +442,7 @@ const Dashboard: React.FC = () => {
                                 {isPaid ? 'Shop Item' : 'Free Resource'}
                               </span>
                               {isPaid && (
-                                <span className="font-bold text-gray-900">${material.price}</span>
+                                <span className="font-bold text-gray-900">{material.price}€</span>
                               )}
                             </>
                           );
@@ -478,21 +489,6 @@ const Dashboard: React.FC = () => {
                 </p>
               </div>
             </div>
-
-            {/* Alert Messages */}
-            {error && (
-              <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
-                <FontAwesomeIcon icon="exclamation-triangle" className="text-red-500" />
-                <span className="text-red-700">{error}</span>
-              </div>
-            )}
-
-            {success && (
-              <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
-                <FontAwesomeIcon icon="check-circle" className="text-green-500" />
-                <span className="text-green-700">{success}</span>
-              </div>
-            )}
 
             <div className="space-y-6">
               {/* Basic Information */}
@@ -564,7 +560,7 @@ const Dashboard: React.FC = () => {
               {selectedResource === 'paid' && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon="dollar-sign" className="mr-2" />
+                    <FontAwesomeIcon icon="euro-sign" className="mr-2" />
                     Price
                   </label>
                   <input
@@ -757,11 +753,7 @@ const Dashboard: React.FC = () => {
                 <button
                   onClick={submitForm}
                   disabled={loading}
-                  className={`flex-1 py-3 px-6 rounded-lg font-medium transition-colors ${
-                    loading
-                      ? 'bg-gray-300 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
-                  }`}
+                  className={`flex-1 py-3 px-6 rounded-lg font-medium transition-colors ${loading ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
                 >
                   {loading ? (
                     <span className="flex items-center justify-center">
@@ -784,6 +776,21 @@ const Dashboard: React.FC = () => {
                   Reset
                 </button>
               </div>
+
+              {/* Alert Messages - Placed after buttons */}
+              {error && (
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
+                  <FontAwesomeIcon icon="exclamation-triangle" className="text-red-500" />
+                  <span className="text-red-700">{error}</span>
+                </div>
+              )}
+
+              {success && (
+                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
+                  <FontAwesomeIcon icon="check-circle" className="text-green-500" />
+                  <span className="text-green-700">{success}</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -869,7 +876,7 @@ const Dashboard: React.FC = () => {
                     </div>
                     
                     {selectedResource === 'paid' && price && (
-                      <span className="text-xl font-bold text-gray-900">${price}</span>
+                      <span className="text-xl font-bold text-gray-900">{price}€</span>
                     )}
                   </div>
 

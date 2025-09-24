@@ -1,21 +1,30 @@
 import Banner from '../components/Banner/Banner';
-import api from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Material } from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import FadeInSection from "../components/FadeInSection/FadeInSection";
+import { useShopMaterials } from '../hooks/useMaterials';
+import { usePagination } from '../hooks/usePagination';
+import Pagination from '../components/Pagination/Pagination';
 
 const Shop = () => {
   const navigate = useNavigate();
   const [sent, setSent] = useState('');
-  const [materials, setMaterials] = useState<Material[]>([]);
   const { addToCart } = useCart();
-
-  useEffect(() => {
-    getPaidMaterials();
-  }, []);
+  
+  // Use cached materials hook instead of manual API calls
+  const { materials, loading, error } = useShopMaterials();
+  
+  // Add pagination (8 items per page)
+  const {
+    currentItems,
+    currentPage,
+    totalPages,
+    totalItems,
+    goToPage
+  } = usePagination({ items: materials, itemsPerPage: 8 });
 
   const handleMailSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,26 +42,6 @@ const Shop = () => {
 
     setSent('Message Envoyé');
     form.reset();
-  };
-
-  const getPaidMaterials = async () => {
-    try {
-      const response = await api.get('/materials/shop');
-      const materials = response.data
-        // filtre : uniquement les matériaux liés à Stripe
-        .filter((material: Material) => material.stripePriceId)
-        .map((material: Material) => {
-          if (material.pdf && material.pdf.data) {
-            const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-            return { ...material, pdfUrl: `http://localhost:3000${path}` };
-          }
-          return material;
-        });
-
-      setMaterials(materials);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des matériaux :", error);
-    }
   };
 
   const viewProduct = (resource: Material) => {
@@ -95,9 +84,39 @@ const Shop = () => {
 						Let's <span className="text-redText shop-animate">shop!</span>
 					</h2>
 				</FadeInSection>
-        {/* Liste des matériaux */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {[...materials].reverse().map((resource, index) => (
+        
+        {/* Loading state */}
+        {loading && (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-red-600"></div>
+            <p className="ml-4 text-lg text-gray-600">Loading materials...</p>
+          </div>
+        )}
+
+        {/* Error state */}
+        {error && (
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center text-red-600">
+              <FontAwesomeIcon icon="exclamation-triangle" className="text-4xl mb-4" />
+              <p className="text-lg">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Materials count info */}
+        {!loading && !error && totalItems > 0 && (
+          <div className="text-center mb-8">
+            <p className="text-gray-600">
+              Showing {currentItems.length} of {totalItems} materials
+              {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
+            </p>
+          </div>
+        )}
+
+        {/* Materials grid */}
+        {!loading && !error && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+          {currentItems.map((resource, index) => (
             <div
               key={index}
               onClick={() => viewProduct(resource)}
@@ -140,7 +159,17 @@ const Shop = () => {
               </button>
             </div>
           ))}
-        </div>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {!loading && !error && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={goToPage}
+          />
+        )}
 
         {/* Section suggestions */}
         <div className="flex flex-col justify-center items-center ">

@@ -52,7 +52,15 @@ import {
   faHeading,
   faEdit,
   faDollarSign,
+  faEuroSign,
   faSpinner,
+  faChevronLeft,
+  faChevronRight,
+  faCookieBite,
+  faCog,
+  faChartBar,
+  faNewspaper,
+  faShieldAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -118,5 +126,13 @@ library.add(
   faHeading,
   faEdit,
   faDollarSign,
-  faSpinner
+  faEuroSign,
+  faSpinner,
+  faChevronLeft,
+  faChevronRight,
+  faCookieBite,
+  faCog,
+  faChartBar,
+  faNewspaper,
+  faShieldAlt
 )

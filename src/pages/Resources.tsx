@@ -1,17 +1,25 @@
 import Banner from '../components/Banner/Banner';
-import api from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
-import { Material } from '../types/types';
+import { useState } from 'react';
 import FadeInSection from "../components/FadeInSection/FadeInSection";
+import { useResourceMaterials } from '../hooks/useMaterials';
+import { usePagination } from '../hooks/usePagination';
+import Pagination from '../components/Pagination/Pagination';
 
 const Resources = () => {
   const [sent, setSent] = useState('');
-  const [materials, setMaterials] = useState<any[]>([]);
-
-  useEffect(() => {
-    getFreeMaterials();
-  }, []);
+  
+  // Use cached materials hook instead of manual API calls
+  const { materials, loading, error } = useResourceMaterials();
+  
+  // Add pagination (8 items per page)
+  const {
+    currentItems,
+    currentPage,
+    totalPages,
+    totalItems,
+    goToPage
+  } = usePagination({ items: materials, itemsPerPage: 8 });
 
   const handleMailSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,23 +38,6 @@ const Resources = () => {
     setSent('Message Envoyé');
     form.reset();
   };
-
-const getFreeMaterials = async () => {
-  try {
-    const response = await api.get('/materials/resource');
-    const materials = response.data.map((material: Material) => {
-      if (material.pdf && material.pdf.data) {
-        const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-        return { ...material, pdfUrl: `http://localhost:3000${path}` };
-      }
-      return material;
-    });
-    setMaterials(materials);
-  } catch (error) {
-    // Error handled silently
-    return [];
-  }
-};
 
   return (
     <section>
@@ -79,8 +70,39 @@ const getFreeMaterials = async () => {
             Let's <span className="text-redText learn-animate">learn!</span>
           </h2>
         </FadeInSection>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {[...materials].reverse().map((resource, index) => (
+
+        {/* Loading state */}
+        {loading && (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-red-600"></div>
+            <p className="ml-4 text-lg text-gray-600">Loading resources...</p>
+          </div>
+        )}
+
+        {/* Error state */}
+        {error && (
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center text-red-600">
+              <FontAwesomeIcon icon="exclamation-triangle" className="text-4xl mb-4" />
+              <p className="text-lg">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Resources count info */}
+        {!loading && !error && totalItems > 0 && (
+          <div className="text-center mb-8">
+            <p className="text-gray-600">
+              Showing {currentItems.length} of {totalItems} resources
+              {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
+            </p>
+          </div>
+        )}
+
+        {/* Resources grid */}
+        {!loading && !error && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+          {currentItems.map((resource, index) => (
             <div
               key={index}
               className="flex flex-col justify-between items-center gap-4 p-4 bg-white rounded-xl shadow-md
@@ -106,7 +128,17 @@ const getFreeMaterials = async () => {
               </a>
             </div>
           ))}
-        </div>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {!loading && !error && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={goToPage}
+          />
+        )}
 
         <div className='flex flex-col justify-center items-center mt-20'>
           <h2 className='text-redText text-center text-4xl p-4'>

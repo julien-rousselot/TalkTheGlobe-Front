@@ -53,26 +53,10 @@ const Navbar = () => {
           <NavLink to="/contact" className={getActiveClass('/contact')}>CONTACT</NavLink>
           <NavLink to="/shop" className={getActiveClass('/shop')}>SHOP</NavLink>
         </div>
-      ) : (
-        // Version Mobile avec menu burger
-        <div>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none">
-            {menuOpen ? <X size={32} /> : <Menu size={32} />}
-          </button>
+      ) : null}
 
-          {menuOpen && (
-            <div className="absolute flex flex-col items-center justify-around top-20 right-0 bg-white shadow-md py-[10rem] space-y-4 w-full h-[calc(100vh-5rem)] z-10">
-              <NavLink to="/home" onClick={() => setMenuOpen(false)} className={getActiveClass("/home")}>HOME</NavLink>
-              <NavLink to="/aboutme" onClick={() => setMenuOpen(false)} className={getActiveClass('/aboutme')}>ABOUT ME</NavLink>
-              <NavLink to="/services" onClick={() => setMenuOpen(false)} className={getActiveClass('/services')}>SERVICES</NavLink>
-              <NavLink to="/resources" onClick={() => setMenuOpen(false)} className={getActiveClass('/resources')}>RESOURCES</NavLink>
-              <NavLink to="/contact" onClick={() => setMenuOpen(false)} className={getActiveClass('/contact')}>CONTACT</NavLink>
-              <NavLink to="/shop" onClick={() => setMenuOpen(false)} className={getActiveClass('/shop')}>SHOP</NavLink>
-            </div>
-          )}
-        </div>
-      )}
-      <div className="w-1/5 flex justify-end items-center relative">
+      {/* Section droite avec panier et menu burger */}
+      <div className="w-1/5 flex justify-end items-center gap-4 relative">
         {/* Icône panier */}
         <button
           onClick={() => setCartOpen(true)}
@@ -83,11 +67,84 @@ const Navbar = () => {
 
         {/* Bulle du nombre d'articles */}
         {totalItems > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg pointer-events-none">
+          <span className="absolute top-0 left-4 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg pointer-events-none">
             {totalItems}
           </span>
         )}
+
+        {/* Menu burger (mobile uniquement) */}
+        {isMobile && (
+          <button 
+            onClick={() => setMenuOpen(!menuOpen)} 
+            className="focus:outline-none transition-transform duration-300 hover:scale-110"
+          >
+            <div className="relative w-8 h-8">
+              <Menu 
+                size={32} 
+                className={`absolute transition-all duration-300 ${menuOpen ? 'opacity-0 rotate-90' : 'opacity-100 rotate-0'}`} 
+              />
+              <X 
+                size={32} 
+                className={`absolute transition-all duration-300 ${menuOpen ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'}`} 
+              />
+            </div>
+          </button>
+        )}
       </div>
+
+      {/* Menu mobile avec animation smooth */}
+      {isMobile && (
+        <div className={`absolute top-20 right-0 bg-white shadow-lg w-full h-[50vh] z-10 transition-all duration-500 ease-in-out ${
+          menuOpen 
+            ? 'opacity-100 translate-x-0' 
+            : 'opacity-0 translate-x-full pointer-events-none'
+        }`}>
+          <div className="flex flex-col items-center justify-around py-8 space-y-4 h-full">
+            <NavLink 
+              to="/home" 
+              onClick={() => setMenuOpen(false)} 
+              className={`${getActiveClass("/home")} transition-all duration-300 delay-100 ${menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            >
+              HOME
+            </NavLink>
+            <NavLink 
+              to="/aboutme" 
+              onClick={() => setMenuOpen(false)} 
+              className={`${getActiveClass('/aboutme')} transition-all duration-300 delay-150 ${menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            >
+              ABOUT ME
+            </NavLink>
+            <NavLink 
+              to="/services" 
+              onClick={() => setMenuOpen(false)} 
+              className={`${getActiveClass('/services')} transition-all duration-300 delay-200 ${menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            >
+              SERVICES
+            </NavLink>
+            <NavLink 
+              to="/resources" 
+              onClick={() => setMenuOpen(false)} 
+              className={`${getActiveClass('/resources')} transition-all duration-300 delay-250 ${menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            >
+              RESOURCES
+            </NavLink>
+            <NavLink 
+              to="/contact" 
+              onClick={() => setMenuOpen(false)} 
+              className={`${getActiveClass('/contact')} transition-all duration-300 delay-300 ${menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            >
+              CONTACT
+            </NavLink>
+            <NavLink 
+              to="/shop" 
+              onClick={() => setMenuOpen(false)} 
+              className={`${getActiveClass('/shop')} transition-all duration-300 delay-350 ${menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            >
+              SHOP
+            </NavLink>
+          </div>
+        </div>
+      )}
       
       {/* Cart Modal */}
       <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} />

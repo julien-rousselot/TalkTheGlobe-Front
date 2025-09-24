@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Contact from "./pages/Contact";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Dashboard from "./pages/Dashboard";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import PrivateRoute from './components/PrivateRoute';
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
@@ -16,6 +17,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import ToastContainer from "./components/Toast/ToastContainer";
 import { CartProvider } from "./contexts/CartContext";
 import { ToastProvider } from "./contexts/ToastContext";
+import CookieConsent from "./components/CookieConsent/CookieConsent";
 
 const App = () => {
   return (
@@ -36,10 +38,12 @@ const App = () => {
               <Route path="/aboutme" element={<AboutMe />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
             </Routes>
           </Layout>
           <ToastContainer />
+          <CookieConsent />
         </Router>
       </CartProvider>
     </ToastProvider>
