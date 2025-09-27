@@ -23,10 +23,10 @@ const Home = () => {
   return (
     <section>
       <Banner Title={
-                <div className='flex flex-col '>
+                <div className='flex flex-col justify-center items-center md:items-start text-center md:text-lefts'>
                   <div className='flex flex-row'>
                     Learn{" "}
-                    <span className="text-redText animated-word mx-4">English</span>{" "}
+                    <span className="text-redText animated-word mx-2">English</span>{" "}
                     <img src={UK} className=' hidden md:block w-16 h-16 ml-2' alt="UK Flag" />
                   </div>
                   <span>to explore the world! </span>
@@ -42,11 +42,16 @@ const Home = () => {
               } 
               Span={"⚡"}
               Button={
-                <button onClick={scrollToMain} className="items-center gap-2 p-4 cursor-pointer">
+                <button 
+                  onClick={scrollToMain} 
+                  className="bg-redText rounded-full text-white text-sm md:text-md hover:bg-red-700 px-4 md:px-6 py-4 w-fit pulse flex items-center gap-2 cursor-pointer"
+                  style={{ boxShadow: '10px 5px 5px black' }}
+                >
                   <span>Start learning ! </span>
                   <FontAwesomeIcon icon="graduation-cap"/>
                 </button>
-              }/>
+              }
+              Image={UK}/>
       <div className="px-[5%] md:px-[15%] bg-[#f9f9f4] pb-16">
         <main id="main-content" className='3xl:w-[60%] m-auto '>
           <FadeInSection>
@@ -59,19 +64,19 @@ const Home = () => {
             <FadeInSection className="flex flex-col justify-center gap-14 m-auto lg:flex-row md:py-4">
               <div className='bg-talktheglobe lg:w-[400px] border-[2px] md:border-[3px] border-text rounded-3xl p-[15px] md:p-[70px] lg:p-[30px] hover:bg-text hover:text-white'>
                 <h3 className='text-center text-5xl font-semibold'>I’M A <strong>STUDENT</strong>  !</h3>
-                <img className='h-[200px] md:h-[270px] mx-auto my-4 md:my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
+                <img className='h-[200px] md:h-[200px] mx-auto my-4 md:my-10' src={Student} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
                 <div className='flex justify-around gap-4'>
-                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-md font-bold text-center'><button>Free ressources</button></Link>
-                  <Link to="/services" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-md font-bold text-center flex justify-center'><button >Classes</button></Link>
+                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-xl md:rounded-md w-1/2 p-2 text-md font-extrabold text-center'><button>Free ressources</button></Link>
+                  <Link to="/services" className='bg-redText hover:bg-red-700 text-white rounded-xl md:rounded-md w-1/2 p-2 text-md font-extrabold text-center flex justify-center'><button >Classes</button></Link>
                 </div>
               </div>
 
               <div className='bg-talktheglobe lg:w-[400px] border-[2px] md:border-[3px] border-text rounded-3xl p-[15px] md:p-[70px] lg:p-[30px] hover:bg-text hover:text-white'>
                 <h3 className='text-center text-5xl font-semibold'>I’M A <strong>TEACHER</strong>!</h3>
-                <img className='h-[200px] md:h-[270px] md:w-[250px] mx-auto my-4 md:my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
+                <img className='h-[200px] md:h-[200px] md:w-[200px] mx-auto my-4 md:my-10 ' src={Teacher} alt="image to select if you are a student and you want to get free resources or go to the classes part"/>
                 <div className='flex justify-around gap-4'>
-                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-md font-bold text-center'><button>Free ressources</button></Link>
-                  <Link to="/shop" className='bg-redText hover:bg-red-700 text-white rounded-full w-1/2 p-1 text-md font-bold text-center flex justify-center'><button >Shop</button></Link>
+                  <Link to="/resources" className='bg-redText hover:bg-red-700 text-white rounded-xl md:rounded-md w-1/2 p-2 text-md font-extrabold text-center'><button>Free ressources</button></Link>
+                  <Link to="/shop" className='bg-redText hover:bg-red-700 text-white rounded-xl md:rounded-md w-1/2 p-2 text-md font-extrabold text-center flex justify-center'><button >Shop</button></Link>
                 </div>
               </div>
           </FadeInSection>

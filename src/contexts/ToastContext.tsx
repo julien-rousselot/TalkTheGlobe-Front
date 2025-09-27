@@ -23,10 +23,10 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     
     setToasts(prev => [...prev, newToast]);
     
-    // Auto remove after 3 seconds
+    // Auto remove after 2 seconds
     setTimeout(() => {
       removeToast(id);
-    }, 3000);
+    }, 2000);
   };
 
   const removeToast = (id: string) => {

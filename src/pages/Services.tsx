@@ -25,7 +25,7 @@ const Services = () => {
     <div className="bg-[#ffe8a3] w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
         <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6">
         <FontAwesomeIcon icon="earth-europe" className="mr-2" />
-        Small Group Classes (3–6 People)
+        Small group classes (3–6 People)
         </h4>
         <ul className="space-y-4 text-lg sm:text-xl">
         <li>Join a small, supportive learning community.</li>
@@ -47,7 +47,7 @@ const Services = () => {
     <div className="bg-greenSelf w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
         <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6">
         <FontAwesomeIcon icon="user-group" className="mr-2" />
-        Semi-Private Lessons (2 People)
+        Semi-private lessons (2 People)
         </h4>
         <ul className="space-y-4 text-lg sm:text-xl">
         <li>Ideal for friends or family learning together.</li>
@@ -63,7 +63,7 @@ const Services = () => {
     <div className="bg-purple w-full md:w-1/2 h-auto md:h-full flex flex-col justify-center p-6 sm:p-10">
         <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6">
         <FontAwesomeIcon icon="map-pin" className="mr-2" />
-        1-on-1 Private Lessons
+        1-on-1 Private lessons
         </h4>
         <ul className="space-y-4 text-lg sm:text-xl">
         <li>Personalized lessons tailored to your level and goals.</li>

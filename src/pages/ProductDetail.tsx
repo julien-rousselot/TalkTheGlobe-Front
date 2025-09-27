@@ -5,6 +5,8 @@ import { Material } from '../types/types';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import api from '../api';
+import { materialsCache } from '../utils/materialsCache';
+import CartModal from '../components/Cart/CartModal';
 
 export default function ProductDetail() {
     const { id } = useParams<{ id: string }>();
@@ -16,6 +18,7 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [suggestedProducts, setSuggestedProducts] = useState<Material[]>([]);
   const [suggestedLoading, setSuggestedLoading] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const pictures = material
     ? [...(material.pictures || [])]
@@ -37,6 +40,13 @@ export default function ProductDetail() {
     setCurrentIndex((currentIndex + 1) % pictures.length)
   }
 
+  const handleBuyNow = () => {
+    if (material) {
+      addToCart(material);
+      setCartOpen(true);
+    }
+  }
+
   const getMaterialById = async (id: string) => {
     try {
       setLoading(true);
@@ -56,17 +66,28 @@ export default function ProductDetail() {
     }
   };
 
-  const fetchSuggestedProducts = async (currentId: string) => {
+  const fetchSuggestedProducts = (currentId: string) => {
     try {
       setSuggestedLoading(true);
-      const response = await api.get('/materials/shop');
-      const allMaterials: Material[] = response.data;
       
-      // Filter out current product and get 4 random products
-      const otherProducts = allMaterials.filter(product => product.id !== currentId);
-      const shuffled = otherProducts.sort(() => 0.5 - Math.random());
-      setSuggestedProducts(shuffled.slice(0, 4));
+      // Get materials from localStorage
+      const cachedMaterials = materialsCache.getShopMaterials();
+      
+      if (cachedMaterials && cachedMaterials.length > 0) {
+        // Filter out current product and get 4 random products
+        const otherProducts = cachedMaterials.filter(product => 
+          product.id.toString() !== currentId
+        );
+        
+        // Shuffle and get 4 products
+        const shuffled = otherProducts.sort(() => 0.5 - Math.random());
+        setSuggestedProducts(shuffled.slice(0, 4));
+      } else {
+        // No cached materials available
+        setSuggestedProducts([]);
+      }
     } catch (error) {
+      console.error('Error fetching suggested products from cache:', error);
       setSuggestedProducts([]);
     } finally {
       setSuggestedLoading(false);
@@ -101,7 +122,7 @@ export default function ProductDetail() {
       <div className="px-[5%] pt-4">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors duration-300"
+          className="inline-flex items-center px-4 py-4 text-red-600 font-bold hover:text-red-700 transition-colors duration-300"
         >
           <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
           Back to Products
@@ -180,13 +201,16 @@ export default function ProductDetail() {
                     addToCart(material);
                   }
                 }}
-                className="bg-red-600 rounded-full text-white hover:bg-red-700 px-8 py-3 shadow-lg flex items-center justify-center gap-2 select-none text-lg font-semibold transition-all duration-300 hover:scale-105"
+                className="bg-red-600 rounded-full text-white hover:bg-red-500 px-8 py-3 shadow-lg flex items-center justify-center gap-2 select-none text-lg font-semibold transition-all duration-300 hover:scale-105"
                 type="button"
               >
                 ADD TO CART
                 <FontAwesomeIcon icon="cart-plus" className="text-white text-lg" />
               </button>
-              <button className="bg-green-600 rounded-full text-white hover:bg-green-700 px-8 py-3 shadow-lg flex items-center justify-center gap-2 select-none text-lg font-semibold transition-all duration-300 hover:scale-105">
+              <button
+                onClick={handleBuyNow}
+                className="bg-text rounded-full text-white hover:bg-blue-600 px-8 py-3 shadow-lg flex items-center justify-center gap-2 select-none text-lg font-semibold transition-all duration-300 hover:scale-105"
+              >
                 BUY NOW
                 <FontAwesomeIcon icon="credit-card" className="text-white text-lg" />
               </button>
@@ -206,7 +230,11 @@ export default function ProductDetail() {
       <div className="mt-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">You might also like</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
+              <FontAwesomeIcon icon="heart" className="text-red-500" />
+              You might also like
+              <FontAwesomeIcon icon="heart" className="text-red-500" />
+            </h2>
             <p className="text-gray-600">Discover more amazing educational materials</p>
           </div>
 
@@ -233,23 +261,19 @@ export default function ProductDetail() {
                       }}
                     />
                   </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-2">
+                  <div className="p-4 relative min-h-[120px]">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 pr-2">
                       {product.title}
                     </h3>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xl font-bold text-red-600">
+                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                      <span className="text-xl font-extrabold text-[#EF4444]">
                         {product.price} €
                       </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addToCart(product);
-                        }}
-                        className="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition-colors duration-200 shadow-md hover:shadow-lg"
-                      >
-                        <FontAwesomeIcon icon="cart-plus" className="text-sm" />
-                      </button>
+                        <FontAwesomeIcon                         
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart(product);
+                          }} icon="cart-plus" className="text-xl hover:text-2xl text-[#DC2626] transition-colors duration-200" />
                     </div>
                   </div>
                 </div>
@@ -263,6 +287,9 @@ export default function ProductDetail() {
         </div>
       </div>
       </div>
+
+      {/* Cart Modal */}
+      <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   )
 }

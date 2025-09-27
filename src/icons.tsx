@@ -60,7 +60,9 @@ import {
   faCog,
   faChartBar,
   faNewspaper,
-  faShieldAlt
+  faShieldAlt,
+  faHeart,
+  faArrowUp
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -134,5 +136,7 @@ library.add(
   faCog,
   faChartBar,
   faNewspaper,
-  faShieldAlt
+  faShieldAlt,
+  faHeart,
+  faArrowUp
 )

@@ -37,7 +37,7 @@ const Navbar = () => {
           }
         `}
       </style>
-      <nav className="fixed px-[60px] bg-white w-full z-50 text-black h-[5rem] flex items-center justify-between">
+      <nav className="fixed px-[60px] bg-[#fafafa] w-full z-50 text-black h-[5rem] flex items-center justify-between">
       {/* Logo */}
       <NavLink className="w-1/5" to="/home">
         <img className="md:w-[4rem]" src={Talktheglobe} alt="Logo site web"/>
@@ -56,21 +56,23 @@ const Navbar = () => {
       ) : null}
 
       {/* Section droite avec panier et menu burger */}
-      <div className="w-1/5 flex justify-end items-center gap-4 relative">
-        {/* Icône panier */}
-        <button
-          onClick={() => setCartOpen(true)}
-          className="text-2xl text-text transition-transform duration-300 origin-right hover:scale-125 focus:outline-none"
-        >
-          <FontAwesomeIcon icon="shopping-cart" />
-        </button>
+      <div className="w-1/5 flex justify-end items-center gap-4">
+        {/* Icône panier avec badge */}
+        <div className="relative">
+          <button
+            onClick={() => setCartOpen(true)}
+            className="text-2xl text-text transition-transform duration-300 origin-right hover:scale-125 focus:outline-none"
+          >
+            <FontAwesomeIcon icon="shopping-cart" />
+          </button>
 
-        {/* Bulle du nombre d'articles */}
-        {totalItems > 0 && (
-          <span className="absolute top-0 left-4 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg pointer-events-none">
-            {totalItems}
-          </span>
-        )}
+          {/* Bulle du nombre d'articles */}
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg pointer-events-none">
+              {totalItems}
+            </span>
+          )}
+        </div>
 
         {/* Menu burger (mobile uniquement) */}
         {isMobile && (
