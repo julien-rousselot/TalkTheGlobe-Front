@@ -26,22 +26,35 @@ const Contact = () => {
 
             <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 px-4">
               {/* Email */}
-              <div className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full md:w-1/3">
+              <a 
+                href="mailto:talktheglobe7@gmail.com"
+                className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 w-full md:w-1/3 hover:scale-105 cursor-pointer"
+              >
                 <FontAwesomeIcon icon="envelope" className="text-6xl transition-colors duration-200 mb-4" />
                 <p className="text-[1.2rem] font-semibold">talktheglobe7@gmail.com</p>
-              </div>
+              </a>
 
               {/* Instagram */}
-              <div className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full md:w-1/3">
+              <a 
+                href="https://instagram.com/talktheglobe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 w-full md:w-1/3 hover:scale-105 cursor-pointer"
+              >
                 <FontAwesomeIcon icon={['fab', 'instagram']} className="text-6xl transition-colors duration-200 mb-4" />
                 <p className="text-[1.2rem] font-semibold">@talktheglobe</p>
-              </div>
+              </a>
 
               {/* Messenger */}
-              <div className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full md:w-1/3">
+              <a 
+                href="https://m.me/talktheglobe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col justify-center items-center text-center bg-text text-[#F9F9F4] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 w-full md:w-1/3 hover:scale-105 cursor-pointer"
+              >
                 <FontAwesomeIcon icon={['fab', 'facebook-messenger']} className="text-6xl transition-colors duration-200 mb-4" />
                 <p className="text-[1.2rem] font-semibold">Talk The Globe</p>
-              </div>
+              </a>
             </div>
           </div>
         </main>

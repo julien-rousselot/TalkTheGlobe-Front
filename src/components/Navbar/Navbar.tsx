@@ -45,7 +45,7 @@ const Navbar = () => {
 
       {/* Version Desktop */}
       {!isMobile ? (
-        <div className="flex space-x-5 w-3/5 justify-between relative">
+        <div className="flex space-x-5 md:w-[78%] w-3/5 justify-between relative">
           <NavLink to="/home" className={getActiveClass("/home")}>HOME</NavLink>
           <NavLink to="/aboutme" className={getActiveClass('/aboutme')}>ABOUT ME</NavLink>
           <NavLink to="/services" className={getActiveClass('/services')}>SERVICES</NavLink>

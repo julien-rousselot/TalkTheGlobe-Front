@@ -150,11 +150,11 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                         alt={item.material.title}
                         className="w-16 h-16 object-cover rounded"
                       />
-                      <div className="flex-1">
+                      <div className="flex-1">s
                         <h3 className="font-semibold text-sm text-gray-800">
                           {item.material.title}
                         </h3>
-                        <p className="text-red-600 font-bold">
+                        <p className="text-redText font-bold">
                           €{safePrice(item.material.price).toFixed(2)}
                         </p>
                         <div className="flex items-center mt-2 space-x-2">
@@ -220,7 +220,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                     </label>
                     {/* Error Display */}
                     {error && (
-                      <div className="text-red-600 text-sm bg-red-50 p-3 rounded-lg">
+                      <div className="text-redText text-sm bg-red-50 p-3 rounded-lg">
                         {error}
                       </div>
                     )}
@@ -228,13 +228,13 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                       <button
                         onClick={handleGoToPayment}
                         disabled={loading}
-                        className="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-redText text-white py-3 rounded-lg hover:bg-red-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {loading ? 'Processing...' : 'Go to Payment'}
                       </button>
                       <button
                         onClick={clearCart}
-                        className="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300"
+                        className="w-full bg-gray-200 text-text py-2 rounded-lg hover:bg-gray-300"
                       >
                         Clear Cart
                       </button>

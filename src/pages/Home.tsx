@@ -23,13 +23,13 @@ const Home = () => {
   return (
     <section>
       <Banner Title={
-                <div className='flex flex-col justify-center items-center md:items-start text-center md:text-lefts'>
+                <div className='flex flex-col justify-center items-center md:items-start text-center md:text-left'>
                   <div className='flex flex-row'>
                     Learn{" "}
                     <span className="text-redText animated-word mx-2">English</span>{" "}
                     <img src={UK} className=' hidden md:block w-16 h-16 ml-2' alt="UK Flag" />
                   </div>
-                  <span>to explore the world! </span>
+                  <span className='md:text-left'>to explore the world! </span>
                    {/* AND{" "} */}
                   {/* <span className="text-redText animated-word">SPANISH</span> */}
                 </div>

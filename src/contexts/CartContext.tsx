@@ -207,7 +207,7 @@ export default function MaterialPayment({ material, email }: { material: CartIte
   }, [material, email]);
 
   if (loading) return <p>Initializing payment...</p>;
-  if (error) return <p className="text-red-600">Error: {error}</p>;
+  if (error) return <p className="text-redText">Error: {error}</p>;
   if (!clientSecret) return <p>Payment not available</p>;
 
   return <Elements stripe={stripePromise} options={{ clientSecret }}><CheckoutForm email={email} /></Elements>;

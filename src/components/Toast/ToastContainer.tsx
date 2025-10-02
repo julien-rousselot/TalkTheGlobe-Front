@@ -14,9 +14,9 @@ const ToastContainer: React.FC = () => {
           key={toast.id}
           className={`
             flex items-center justify-between p-4 rounded-lg shadow-lg max-w-sm
-            ${toast.type === 'success' ? 'bg-green-500 text-white' : ''}
-            ${toast.type === 'error' ? 'bg-red-500 text-white' : ''}
-            ${toast.type === 'info' ? 'bg-blue-500 text-white' : ''}
+            ${toast.type === 'success' ? 'bg-text text-white' : ''}
+            ${toast.type === 'error' ? 'bg-redText text-white' : ''}
+            ${toast.type === 'info' ? 'bg-green-500 text-white' : ''}
             animate-slide-in-right
           `}
         >
