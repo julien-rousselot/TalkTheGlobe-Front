@@ -41,6 +41,20 @@ const Dashboard: React.FC = () => {
     }
   }, [navigate]);
 
+  // Set initial publish date when component mounts
+  useEffect(() => {
+    if (!publishAt) {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      
+      setPublishAt(`${year}-${month}-${day}T${hours}:${minutes}`);
+    }
+  }, []);
+
   // Fetch all materials
   const fetchMaterials = async (savedToken: string) => {
     try {
@@ -52,7 +66,9 @@ const Dashboard: React.FC = () => {
       setMaterials(response.data);
     } catch (err: any) {
       setError(err);
-      console.error('Failed to fetch materials:', err);
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('Failed to fetch materials:', err);
+      }
       if (err.response?.status === 401) {
         localStorage.removeItem('token');
         navigate('/');
@@ -68,13 +84,24 @@ const Dashboard: React.FC = () => {
     setPictures([]);
     setCurrentIndex(0);
     setIsDraft(false);
-    setPublishAt(null);
+    setPublishAt(formatDateForInput(new Date())); // Set current date as default
     setPDF(null);
     setSelectedResource('free');
     // Don't clear success message here - let it persist
     setError('');
     setIsEditMode(false);
     setEditingMaterialId(null);
+  };
+
+  // Helper function to format date for datetime-local input
+  const formatDateForInput = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
 
   // Load material data for editing
@@ -107,25 +134,21 @@ const Dashboard: React.FC = () => {
       try {
         const publishDate = new Date(publishAtValue);
         if (!isNaN(publishDate.getTime())) {
-          // Convert to local time for datetime-local input
-          const year = publishDate.getFullYear();
-          const month = String(publishDate.getMonth() + 1).padStart(2, '0');
-          const day = String(publishDate.getDate()).padStart(2, '0');
-          const hours = String(publishDate.getHours()).padStart(2, '0');
-          const minutes = String(publishDate.getMinutes()).padStart(2, '0');
-          
-          const localDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-          setPublishAt(localDateTime);
+          setPublishAt(formatDateForInput(publishDate));
         } else {
-          console.error('Invalid date received for publish date:', publishAtValue);
-          setPublishAt(null);
+          if (process.env.NODE_ENV !== 'production') {
+            console.error('Invalid date received for publish date:', publishAtValue);
+          }
+          setPublishAt(formatDateForInput(new Date()));
         }
       } catch (error) {
-        console.error('Error parsing publish date:', publishAtValue, error);
-        setPublishAt(null);
+        if (process.env.NODE_ENV !== 'production') {
+          console.error('Error parsing publish date:', publishAtValue, error);
+        }
+        setPublishAt(formatDateForInput(new Date()));
       }
     } else {
-      setPublishAt(null);
+      setPublishAt(formatDateForInput(new Date()));
     }
     
     setIsEditMode(true);
@@ -248,7 +271,6 @@ const Dashboard: React.FC = () => {
       }
     } catch (err: any) {
       const errorMessage = isEditMode ? 'Failed to update material' : 'Failed to create material';
-      console.log(err);
       setError(err.response.data.error || errorMessage);
     } finally {
       setLoading(false);
@@ -734,7 +756,7 @@ const Dashboard: React.FC = () => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     <FontAwesomeIcon icon="calendar" className="mr-2" />
-                    Publish Date (optional)
+                    Want to schedule?
                   </label>
                   <input
                     type="datetime-local"

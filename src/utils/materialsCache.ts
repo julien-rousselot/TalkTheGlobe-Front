@@ -41,7 +41,9 @@ export const materialsCache = {
       };
       localStorage.setItem(SHOP_CACHE_KEY, JSON.stringify(cacheData));
     } catch (error) {
-      console.warn('Failed to cache shop materials:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Failed to cache shop materials:', error);
+      }
     }
   },
 
@@ -76,7 +78,9 @@ export const materialsCache = {
       };
       localStorage.setItem(RESOURCES_CACHE_KEY, JSON.stringify(cacheData));
     } catch (error) {
-      console.warn('Failed to cache resource materials:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Failed to cache resource materials:', error);
+      }
     }
   },
 
@@ -86,7 +90,9 @@ export const materialsCache = {
       localStorage.removeItem(SHOP_CACHE_KEY);
       localStorage.removeItem(RESOURCES_CACHE_KEY);
     } catch (error) {
-      console.warn('Failed to clear materials cache:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Failed to clear materials cache:', error);
+      }
     }
   },
 
@@ -95,7 +101,9 @@ export const materialsCache = {
     try {
       localStorage.removeItem(SHOP_CACHE_KEY);
     } catch (error) {
-      console.warn('Failed to clear shop cache:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Failed to clear shop cache:', error);
+      }
     }
   },
 
@@ -103,7 +111,9 @@ export const materialsCache = {
     try {
       localStorage.removeItem(RESOURCES_CACHE_KEY);
     } catch (error) {
-      console.warn('Failed to clear resource cache:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Failed to clear resource cache:', error);
+      }
     }
   }
 };

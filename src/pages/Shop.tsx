@@ -138,8 +138,8 @@ const Shop = () => {
               </div>
 
               {/* Infos produit */}
-              <h4 className="text-red-600 font-bold text-xl text-center">
-                {resource.stripeName}
+              <h4 className="text-red-600 font-bold text-xl text-left w-full">
+                {resource.title}
               </h4>
               <h3 className="text-2xl font-extrabold text-center">
                 {resource.price} €

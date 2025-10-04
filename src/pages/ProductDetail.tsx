@@ -87,7 +87,9 @@ export default function ProductDetail() {
         setSuggestedProducts([]);
       }
     } catch (error) {
-      console.error('Error fetching suggested products from cache:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('Error fetching suggested products from cache:', error);
+      }
       setSuggestedProducts([]);
     } finally {
       setSuggestedLoading(false);
@@ -140,7 +142,7 @@ export default function ProductDetail() {
               <img
                 src={`http://localhost:3000${pictures[currentIndex].url}`}
                 alt={`${material?.title} image ${currentIndex + 1}`}
-                className="w-full aspect-[4/3] lg:aspect-[3/2] select-none object-cover"
+                className="w-full aspect-[4/3] lg:aspect-[3/2] select-none"
                 draggable={false}
               />
 

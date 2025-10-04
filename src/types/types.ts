@@ -10,7 +10,7 @@ export interface Material {
   pdfUrl?: string;
   isDraft?: boolean | string | number;
   publish_at?: string | Date | null;
-  publishAt?: string | Date | null; // Backend is using this field name
+  publishAt?: Date; // Backend is using this field name
   stripePriceId?: string;
   [key: string]: any;
 }

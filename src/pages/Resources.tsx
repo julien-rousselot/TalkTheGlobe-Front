@@ -116,7 +116,9 @@ const Resources = () => {
                     alt={resource.title}
                   />
                 </div>
-                <h4 className="text-redText font-bold text-center text-xl">{resource.title}</h4>
+              <h4 className="text-red-600 font-bold text-xl text-left w-full">
+                  {resource.title}
+                </h4>
                 <p className="text-center text-md line-clamp-3">{resource.description}</p>
               </div>
               <a href={resource.pdfUrl}

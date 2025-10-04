@@ -25,7 +25,7 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onAccept, onDecline }) =>
       }
 
       // 🎯 Check with backend using your API structure
-      const response = await fetch('http://localhost:3000/api/consent', {
+      const response = await fetch('http://localhost:3000/api/consent/check', {
         method: 'GET',
         credentials: 'include',
       });
@@ -41,7 +41,6 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onAccept, onDecline }) =>
             analytics: data.analytics_allowed
           }));
           localStorage.setItem('consentDate', data.timestamp);
-          console.log('✅ Existing consent found in database:', data);
           return; // Don't show banner
         }
       }
@@ -49,7 +48,9 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onAccept, onDecline }) =>
       // No consent found, show banner after delay
       setTimeout(() => setIsVisible(true), 2000);
     } catch (error) {
-      console.error('❌ Error checking consent:', error);
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('❌ Error checking consent:', error);
+      }
       // Show banner on error to be safe
       setTimeout(() => setIsVisible(true), 2000);
     }
@@ -78,11 +79,8 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onAccept, onDecline }) =>
         throw new Error('Failed to record consent');
       }
 
-      const result = await response.json();
-      console.log('✅ Consent recorded in database:', result);
       return true;
     } catch (error) {
-      console.error('❌ Error recording consent in database:', error);
       return false;
     }
   };
@@ -90,22 +88,13 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onAccept, onDecline }) =>
   const handleAccept = async () => {
     setIsSubmitting(true);
     
-    // Store locally for immediate UI response
     localStorage.setItem('cookieConsent', 'accepted');
     localStorage.setItem('consentDate', new Date().toISOString());
     
-    // 🚀 Send to backend database
-    const success = await sendConsentToBackend('accepted');
+    await sendConsentToBackend('accepted');
     
     setIsVisible(false);
     setIsSubmitting(false);
-    
-    if (success) {
-      console.log('✅ Cookie consent saved to database successfully!');
-    } else {
-      console.warn('⚠️ Database save failed, but localStorage updated');
-    }
-    
     onAccept?.();
   };
 
@@ -116,18 +105,10 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onAccept, onDecline }) =>
     localStorage.setItem('cookieConsent', 'declined');
     localStorage.setItem('consentDate', new Date().toISOString());
     
-    // 🚀 Send to backend database
-    const success = await sendConsentToBackend('declined');
-    
+    await sendConsentToBackend('declined');
+
     setIsVisible(false);
-    setIsSubmitting(false);
-    
-    if (success) {
-      console.log('✅ Cookie consent saved to database successfully!');
-    } else {
-      console.warn('⚠️ Database save failed, but localStorage updated');
-    }
-    
+    setIsSubmitting(false); 
     onDecline?.();
   };
 
@@ -149,17 +130,10 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onAccept, onDecline }) =>
     localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
     localStorage.setItem('consentDate', new Date().toISOString());
     
-    // 🚀 Send to backend database
-    const success = await sendConsentToBackend('custom', preferences);
-    
+    await sendConsentToBackend('custom', preferences);
+
     setIsVisible(false);
     setIsSubmitting(false);
-    
-    if (success) {
-      console.log('✅ Custom cookie preferences saved to database successfully!');
-    } else {
-      console.warn('⚠️ Database save failed, but localStorage updated');
-    }
     onAccept?.();
   };
 
