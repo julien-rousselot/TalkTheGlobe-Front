@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Material } from '../types/types';
 import { materialsCache } from '../utils/materialsCache';
 import api from '../api';
+import { getImageUrl } from '../config/storage';
 
 interface UseMaterialsReturn {
   materials: Material[];
@@ -39,13 +40,17 @@ const fetchMaterials = async () => {
       .map((material: Material) => {
         if (material.pdf && material.pdf.data) {
           const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-          return { ...material, pdfUrl: `http://localhost:3000${path}` };
+          return { ...material, pdfUrl: getImageUrl(path) };
         }
         return material;
       })
       // 🔹 Sort by publish_at (newest first)
       .sort(
-        (a, b) => new Date(b.publishAt).getTime() - new Date(a.publishAt).getTime()
+        (a: Material, b: Material) => {
+          const dateA = new Date(a.publishAt || '').getTime();
+          const dateB = new Date(b.publishAt || '').getTime();
+          return dateB - dateA;
+        }
       );
 
     setMaterials(processedMaterials);
@@ -87,26 +92,30 @@ const fetchMaterials = async () => {
     const cachedMaterials = materialsCache.getResourceMaterials();
     if (cachedMaterials) {
       const sortedCached = [...cachedMaterials].sort(
-        (a, b) => new Date(b.publishAt).getTime() - new Date(a.publishAt).getTime()
+        (a: Material, b: Material) => {
+          const dateA = new Date(a.publishAt || '').getTime();
+          const dateB = new Date(b.publishAt || '').getTime();
+          return dateB - dateA;
+        }
       );
       setMaterials(sortedCached);
       setLoading(false);
       return;
     }
-
     // If no cache, fetch from API
     const response = await api.get('/materials/resource');
-    const processedMaterials = response.data
-      .map((material: Material) => {
+    const processedMaterials = response.data.map((material: Material) => {
         if (material.pdf && material.pdf.data) {
           const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-          return { ...material, pdfUrl: `http://localhost:3000${path}` };
+          return { ...material, pdfUrl: getImageUrl(path) };
         }
         return material;
-      })
-      // 🔹 Sort from newest to oldest by publishAt
-      .sort(
-        (a, b) => new Date(b.publishAt).getTime() - new Date(a.publishAt).getTime()
+      }).sort(
+        (a: Material, b: Material) => {
+          const dateA = new Date(a.publishAt || '').getTime();
+          const dateB = new Date(b.publishAt || '').getTime();
+          return dateB - dateA;
+        }
       );
 
     setMaterials(processedMaterials);

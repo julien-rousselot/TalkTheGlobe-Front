@@ -1,30 +1,62 @@
-import Banner from '../components/Banner/Banner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Material } from '../types/types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
-import FadeInSection from "../components/FadeInSection/FadeInSection";
 import { useShopMaterials } from '../hooks/useMaterials';
-import { usePagination } from '../hooks/usePagination';
+import { getImageUrl } from '../config/storage';
+import Banner from '../components/Banner/Banner';
+import FadeInSection from "../components/FadeInSection/FadeInSection";
 import Pagination from '../components/Pagination/Pagination';
 
 const Shop = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [sent, setSent] = useState('');
   const { addToCart } = useCart();
+  
+  // Check if we need to restore state
+  const shouldRestoreState = location.state?.restoreScroll;
+  const savedPage = shouldRestoreState ? sessionStorage.getItem('shopCurrentPage') : null;
+  const initialPage = savedPage ? parseInt(savedPage) : 1;
   
   // Use cached materials hook instead of manual API calls
   const { materials, loading, error } = useShopMaterials();
   
-  // Add pagination (8 items per page)
-  const {
-    currentItems,
-    currentPage,
-    totalPages,
-    totalItems,
-    goToPage
-  } = usePagination({ items: materials, itemsPerPage: 8 });
+  // Add pagination (8 items per page) with initial page from saved state
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  
+  const totalPages = Math.ceil(materials.length / 8);
+  const totalItems = materials.length;
+  
+  const currentItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * 8;
+    const endIndex = startIndex + 8;
+    return materials.slice(startIndex, endIndex);
+  }, [materials, currentPage]);
+  
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Handle scroll position restoration when returning from product detail
+  useEffect(() => {
+    if (shouldRestoreState) {
+      const savedScrollPosition = sessionStorage.getItem('shopScrollPosition');
+      
+      if (savedScrollPosition) {
+        // Restore scroll position after a brief delay to ensure content is loaded
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(savedScrollPosition));
+          // Clear the stored data
+          sessionStorage.removeItem('shopScrollPosition');
+          sessionStorage.removeItem('shopCurrentPage');
+        }, 100);
+      }
+    }
+  }, [shouldRestoreState, materials]); // Depend on materials to ensure they're loaded
 
   const handleMailSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,6 +77,9 @@ const Shop = () => {
   };
 
   const viewProduct = (resource: Material) => {
+    // Save current scroll position and page before navigating
+    sessionStorage.setItem('shopScrollPosition', window.scrollY.toString());
+    sessionStorage.setItem('shopCurrentPage', currentPage.toString());
     navigate(`/product/${resource.id}`);
   };
 
@@ -116,7 +151,7 @@ const Shop = () => {
         {/* Materials grid */}
         {!loading && !error && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {currentItems.map((resource, index) => (
+          {currentItems.map((resource: Material, index: number) => (
             <div
               key={index}
               onClick={() => viewProduct(resource)}
@@ -129,7 +164,7 @@ const Shop = () => {
               {/* Image */}
               <div className="w-full aspect-[1/1] overflow-hidden rounded-2xl border border-gray-200">
                 <img
-                  src={`http://localhost:3000${encodeURI(resource.cover)}`}
+                  src={getImageUrl(resource.cover)}
                   loading="lazy"
                   alt={resource.title}
                   className="w-full h-full object-cover"

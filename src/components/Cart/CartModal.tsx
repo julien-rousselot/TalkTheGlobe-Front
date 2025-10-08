@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCart } from "../../contexts/CartContext";
 import MaterialPayment from "../../contexts/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { getImageUrl } from "../../config/storage";
 
 interface CartModalProps {
   isOpen: boolean;
@@ -146,7 +147,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                       transition={{ duration: 0.2 }}
                     >
                       <img
-                        src={`http://localhost:3000${item.material.cover}`}
+                        src={getImageUrl(item.material.cover)}
                         alt={item.material.title}
                         className="w-16 h-16 object-cover rounded"
                       />

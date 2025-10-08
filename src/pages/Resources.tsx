@@ -1,9 +1,10 @@
-import Banner from '../components/Banner/Banner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import FadeInSection from "../components/FadeInSection/FadeInSection";
 import { useResourceMaterials } from '../hooks/useMaterials';
 import { usePagination } from '../hooks/usePagination';
+import { getImageUrl } from '../config/storage';
+import Banner from '../components/Banner/Banner';
+import FadeInSection from "../components/FadeInSection/FadeInSection";
 import Pagination from '../components/Pagination/Pagination';
 
 const Resources = () => {
@@ -110,7 +111,7 @@ const Resources = () => {
               <div className="flex flex-col items-center gap-4 flex-grow">
                 <div className="w-full aspect-[1/1] overflow-hidden rounded-2xl border">
                   <img
-                    src={`http://localhost:3000${encodeURI(resource.cover)}`}
+                    src={getImageUrl(resource.cover)}
                     loading="lazy"
                     className="w-full h-full"
                     alt={resource.title}

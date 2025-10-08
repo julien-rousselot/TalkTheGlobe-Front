@@ -4,8 +4,9 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import { Material } from '../types/types';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
-import api from '../api';
 import { materialsCache } from '../utils/materialsCache';
+import { getImageUrl } from '../config/storage';
+import api from '../api';
 import CartModal from '../components/Cart/CartModal';
 
 export default function ProductDetail() {
@@ -46,6 +47,11 @@ export default function ProductDetail() {
       setCartOpen(true);
     }
   }
+
+  const handleBackToProducts = () => {
+    // Navigate back with state to indicate scroll restoration should happen
+    navigate('/shop', { state: { restoreScroll: true } });
+  };
 
   const getMaterialById = async (id: string) => {
     try {
@@ -123,7 +129,7 @@ export default function ProductDetail() {
       {/* Back Button */}
       <div className="px-[5%] pt-4">
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleBackToProducts}
           className="inline-flex items-center px-4 py-4 text-red-600 font-bold hover:text-red-700 transition-colors duration-300"
         >
           <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
@@ -140,7 +146,7 @@ export default function ProductDetail() {
           {pictures.length > 0 ? (
             <>
               <img
-                src={`http://localhost:3000${pictures[currentIndex].url}`}
+                src={getImageUrl(pictures[currentIndex].url)}
                 alt={`${material?.title} image ${currentIndex + 1}`}
                 className="w-full aspect-[4/3] lg:aspect-[3/2] select-none"
                 draggable={false}
@@ -254,13 +260,9 @@ export default function ProductDetail() {
                 >
                   <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200">
                     <img
-                      src={`http://localhost:3000${product.cover}`}
+                      src={getImageUrl(product.cover)}
                       alt={product.title}
                       className="aspect-[1/1] w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/src/assets/placeholder.png';
-                      }}
                     />
                   </div>
                   <div className="p-4 relative min-h-[120px]">

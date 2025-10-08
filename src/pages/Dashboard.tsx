@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import api from '../api';
 import { Material } from '../types/types';
 import { materialsCache } from '../utils/materialsCache';
+import { getImageUrl } from '../config/storage';
 
 const Dashboard: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -199,10 +200,9 @@ const Dashboard: React.FC = () => {
       return;
     }
 
-
     setLoading(true);
     setError('');
-    setSuccess(''); // Clear any previous success messages when starting new submit
+    setSuccess('');
 
     try {
       const formData = new FormData();
@@ -432,7 +432,7 @@ const Dashboard: React.FC = () => {
                     {material.cover && (
                       <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden mb-4">
                         <img
-                          src={`http://localhost:3000${material.cover}`}
+                          src={getImageUrl(material.cover)}
                           alt={material.title}
                           className="w-full h-full object-cover"
                           onError={(e) => {
