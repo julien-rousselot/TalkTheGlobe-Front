@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import api from "../api";
 import { useCart } from "../contexts/CartContext";
+import { getImageUrl } from "../config/storage";
 
 interface PaymentSession {
   id: string;
@@ -72,7 +73,7 @@ return (
           {item.cover && (
             <div className="relative w-full sm:w-32 h-32 mt-4 sm:mt-0 sm:ml-6">
               <img
-                src={`https://tondomaine.com${item.cover}`} // adapte ton domaine ici
+                src={getImageUrl(item.cover)} // adapte ton domaine ici
                 alt={item.title}
                 className="w-full h-full object-cover rounded-lg"
               />
