@@ -14,6 +14,18 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onAccept, onDecline }) =>
 
   useEffect(() => {
     checkExistingConsent();
+    
+    // Écouter l'événement de reset du consentement
+    const handleConsentCleared = () => {
+      setIsVisible(true);
+      setShowDetails(false);
+    };
+
+    window.addEventListener('consentCleared', handleConsentCleared);
+    
+    return () => {
+      window.removeEventListener('consentCleared', handleConsentCleared);
+    };
   }, []);
 
   const checkExistingConsent = async () => {

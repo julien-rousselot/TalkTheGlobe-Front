@@ -63,10 +63,46 @@ export const cookieUtils = {
   },
 
   // Clear all consent (for testing or reset)
-  clearConsent: (): void => {
+  clearConsent: async (): Promise<void> => {
+    // Clear localStorage first
     localStorage.removeItem('cookieConsent');
     localStorage.removeItem('cookiePreferences');
     localStorage.removeItem('consentDate');
+
+    // Also clear backend consent data
+    try {
+      await fetch('http://localhost:3000/api/consent/clear', {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    } catch (error) {
+      console.warn('⚠️ Could not clear backend consent data:', error);
+    }
+
+    // Déclencher un événement pour réafficher la bannière
+    window.dispatchEvent(new CustomEvent('consentCleared'));
+  },
+
+  // Force clear all consent data (more aggressive cleanup)
+  forceReset: (): void => {
+    // Clear all possible localStorage keys
+    localStorage.removeItem('cookieConsent');
+    localStorage.removeItem('cookiePreferences');
+    localStorage.removeItem('consentDate');
+    
+    // Clear any other related data
+    localStorage.removeItem('cart');
+    sessionStorage.clear();
+    
+    // Clear cookies if any
+    document.cookie.split(";").forEach(cookie => {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    });
   },
 
   // Check if consent is still valid (e.g., within 12 months)
@@ -78,6 +114,11 @@ export const cookieUtils = {
     twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
     
     return consentDate > twelveMonthsAgo;
+  },
+
+  // Réafficher manuellement la bannière des cookies
+  showCookieBanner: (): void => {
+    window.dispatchEvent(new CustomEvent('consentCleared'));
   }
 };
 

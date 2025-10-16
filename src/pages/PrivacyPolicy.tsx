@@ -3,9 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { cookieUtils } from '../utils/cookieConsent';
 
 const PrivacyPolicy: React.FC = () => {
-  const handleResetConsent = () => {
-    cookieUtils.clearConsent();
-    window.location.reload(); // Reload to show cookie banner again
+  const handleResetConsent = async () => {
+    try {
+      await cookieUtils.clearConsent();
+    } catch (error) {
+      window.dispatchEvent(new CustomEvent('consentCleared'));
+    }
   };
 
   return (
@@ -141,7 +144,7 @@ const PrivacyPolicy: React.FC = () => {
                 or your personal data, please contact us:
               </p>
               <div className="mt-3">
-                <p><strong>Email:</strong> privacy@talktheglobe.com</p>
+                <p><strong>Email:</strong> talktheglobe7@gmail.com</p>
                 <p><strong>Website:</strong> www.talktheglobe.com/contact</p>
               </div>
             </div>

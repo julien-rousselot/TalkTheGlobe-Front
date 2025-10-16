@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { materialsCache } from '../utils/materialsCache';
 import { getImageUrl } from '../config/storage';
+import placeholder from '../assets/placeholder.png';
 import api from '../api';
 import CartModal from '../components/Cart/CartModal';
 
@@ -32,6 +33,16 @@ export default function ProductDetail() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (material) {
+      document.title = `${material.title} - TalkTheGlobe`;
+      
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute('content', material.description || 'Professional language learning material');
+      }
+    }
+  }, [material]);
 
   const handlePrev = () => {
     setCurrentIndex((currentIndex - 1 + pictures.length) % pictures.length)
@@ -58,12 +69,6 @@ export default function ProductDetail() {
       setLoading(true);
       const response = await api.get(`/material/${id}`);
       let material: Material = response.data;
-
-      if (material.pdf && material.pdf.data) {
-        const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-        material = { ...material, pdfUrl: `http://localhost:3000${path}` };
-      }
-
       setMaterial(material); // Met à jour l'état avec l'objet matériel complet
     } catch (error) {
       setMaterial(undefined); // Ou gérer comme tu veux en cas d'erreur
@@ -138,7 +143,7 @@ export default function ProductDetail() {
       </div>
       
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-[12%] md:px-[5%]">
+      <main role="main" className="flex-1 flex flex-col items-center justify-center px-[12%] md:px-[5%]">
         {/* Carrousel + description */}
         <div className="flex flex-col justify-center items-center lg:flex-row gap-8 w-full max-w-7xl">
         {/* Carrousel */}
@@ -150,6 +155,14 @@ export default function ProductDetail() {
                 alt={`${material?.title} image ${currentIndex + 1}`}
                 className="w-full aspect-[4/3] lg:aspect-[3/2] select-none"
                 draggable={false}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (!target.src.includes('placeholder.png')) {
+                    target.src = placeholder;
+                  } else {
+                    target.src = getImageUrl(null);
+                  }
+                }}
               />
 
               {/* Flèches */}
@@ -261,8 +274,17 @@ export default function ProductDetail() {
                   <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200">
                     <img
                       src={getImageUrl(product.cover)}
-                      alt={product.title}
-                      className="aspect-[1/1] w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      alt={`Cover image for ${product.title} - ${product.description?.substring(0, 100) || 'Learning material'}`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        if (!target.src.includes('placeholder.png')) {
+                          target.src = placeholder;
+                        } else {
+                          target.src = getImageUrl(null);
+                        }
+                      }}
                     />
                   </div>
                   <div className="p-4 relative min-h-[120px]">
@@ -290,7 +312,7 @@ export default function ProductDetail() {
           )}
         </div>
       </div>
-      </div>
+      </main>
 
       {/* Cart Modal */}
       <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} />

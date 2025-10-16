@@ -4,9 +4,7 @@ export interface Material {
   title: string;
   description: string;
   price: number | string;
-  pdf?: {
-    data: ArrayBuffer | Uint8Array;
-  };
+  pdf?: string;
   pdfUrl?: string;
   isDraft?: boolean | string | number;
   publish_at?: string | Date | null;

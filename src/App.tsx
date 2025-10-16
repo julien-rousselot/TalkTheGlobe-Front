@@ -18,6 +18,8 @@ import ToastContainer from "./components/Toast/ToastContainer";
 import { CartProvider } from "./contexts/CartContext";
 import { ToastProvider } from "./contexts/ToastContext";
 import CookieConsent from "./components/CookieConsent/CookieConsent";
+import TermsConditions from "./pages/TermsConditions";
+import LegalNotice from "./pages/LegalNotice";
 
 const App = () => {
   return (
@@ -38,8 +40,10 @@ const App = () => {
               <Route path="/aboutme" element={<AboutMe />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-conditions" element={<TermsConditions />} />
+              <Route path="/legal-notice" element={<LegalNotice />} />
             </Routes>
           </Layout>
           <ToastContainer />

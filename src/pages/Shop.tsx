@@ -8,6 +8,7 @@ import { getImageUrl } from '../config/storage';
 import Banner from '../components/Banner/Banner';
 import FadeInSection from "../components/FadeInSection/FadeInSection";
 import Pagination from '../components/Pagination/Pagination';
+import placeholder from '../assets/placeholder.png';
 
 const Shop = () => {
   const navigate = useNavigate();
@@ -169,6 +170,14 @@ const Shop = () => {
                   alt={resource.title}
                   className="w-full h-full object-cover"
                   draggable={false}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (!target.src.includes('placeholder.png')) {
+                      target.src = placeholder;
+                    } else {
+                      target.src = getImageUrl(null);
+                    }
+                  }}
                 />
               </div>
 

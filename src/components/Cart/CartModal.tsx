@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCart } from "../../contexts/CartContext";
 import MaterialPayment from "../../contexts/CartContext";
@@ -29,9 +29,11 @@ const sidebarVariants = {
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = React.useState("");
   const [consent, setConsent] = useState(true);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [step, setStep] = useState(1); // 1 = email/consent, 2 = payment
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const modal = useRef<HTMLDivElement>(null);
 
   const { items, totalItems, totalPrice, updateQuantity, removeFromCart, clearCart } = useCart();
 
@@ -40,6 +42,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
     if (!isOpen) {
       setEmail("");
       setConsent(true);
+      setTermsAccepted(false);
       setStep(1);
       setError(null);
       setLoading(false);
@@ -57,6 +60,11 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!termsAccepted) {
+      setError("You must accept the Terms & Conditions to proceed");
       return;
     }
 
@@ -88,6 +96,27 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  // Focus trap
+  useEffect(() => {
+    if (isOpen) {
+      const focusableElements = modal.current?.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableElements?.[0]) {
+        (focusableElements[0] as HTMLElement).focus();
+      }
+    }
+  }, [isOpen]);
+
+  // Escape key handler
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -104,6 +133,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
 
           {/* Cart Sidebar */}
           <motion.div
+            ref={modal}
             className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-lg flex flex-col overflow-y-auto scrollbar-none"
             variants={sidebarVariants}
             initial="hidden"
@@ -151,7 +181,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                         alt={item.material.title}
                         className="w-16 h-16 object-cover rounded"
                       />
-                      <div className="flex-1">s
+                      <div className="flex-1">
                         <h3 className="font-semibold text-sm text-gray-800">
                           {item.material.title}
                         </h3>
@@ -208,13 +238,44 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full border border-gray-300 rounded-lg px-3 py-2"
                     />
+                    <label htmlFor="terms" className="flex items-start gap-2 text-sm cursor-pointer">
+                      <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        checked={termsAccepted}
+                        className="w-4 h-4 mt-0.5 flex-shrink-0"
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                      />
+                      <span>
+                        I accept the{' '}
+                        <a 
+                          href="/terms-conditions" 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline font-medium"
+                        >
+                          Terms & Conditions
+                        </a>
+                        {' '}and{' '}
+                        <a 
+                          href="/privacy-policy" 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline font-medium"
+                        >
+                          Privacy Policy
+                        </a>
+                        <span className="text-red-500 ml-1">*</span>
+                      </span>
+                    </label>
                     <label htmlFor="consent" className="flex items-center gap-2 text-sm cursor-pointer">
                       <input
                         type="checkbox"
                         id="consent"
                         name="consent"
                         checked={consent}
-                        className="w-3 h-3"
+                        className="w-4 h-4 mt-0.5 flex-shrink-0"
                         onChange={(e) => setConsent(e.target.checked)}
                       />
                       Keep me updated with news and exclusive offers via email.

@@ -6,10 +6,12 @@ import { getImageUrl } from '../config/storage';
 import Banner from '../components/Banner/Banner';
 import FadeInSection from "../components/FadeInSection/FadeInSection";
 import Pagination from '../components/Pagination/Pagination';
+import placeholder from '../assets/placeholder.png';
 
 const Resources = () => {
   const [sent, setSent] = useState('');
-  
+  const [suggestionLoading, setSuggestionLoading] = useState(false);
+
   // Use cached materials hook instead of manual API calls
   const { materials, loading, error } = useResourceMaterials();
   
@@ -24,20 +26,33 @@ const Resources = () => {
 
   const handleMailSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSuggestionLoading(true);
+    setSent('');
+
     const form = e.target as HTMLFormElement;
     const formdata = new FormData(form);
     const message = formdata.get('message');
 
-    await fetch("http://localhost:3000/api/send-suggestion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message }),
-    });
+    try {
+      const response = await fetch("http://localhost:3000/api/send-suggestion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
 
-    setSent('Message Envoyé');
-    form.reset();
+      if (!response.ok) {
+        throw new Error('Failed to send suggestion');
+      }
+
+      setSent('Suggestion envoyée avec succès!');
+      form.reset();
+    } catch (error) {
+      console.error('Suggestion send error:', error);
+    } finally {
+      setSuggestionLoading(false);
+    }
   };
 
   return (
@@ -115,6 +130,14 @@ const Resources = () => {
                     loading="lazy"
                     className="w-full h-full"
                     alt={resource.title}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (!target.src.includes('placeholder.png')) {
+                        target.src = placeholder;
+                      } else {
+                        target.src = getImageUrl(null);
+                      }
+                    }}
                   />
                 </div>
               <h4 className="text-red-600 font-bold text-xl text-left w-full">
@@ -122,7 +145,7 @@ const Resources = () => {
                 </h4>
                 <p className="text-center text-md line-clamp-3">{resource.description}</p>
               </div>
-              <a href={resource.pdfUrl}
+              <a href={resource.pdf}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-redText rounded-full text-white hover:bg-red-700 p-3 px-8 shadow-lg mt-6 inline-block text-center"
@@ -157,15 +180,24 @@ const Resources = () => {
                 <textarea
                   name='message'
                   placeholder='Hello, what would you like to see?'
+                  disabled={suggestionLoading} 
                   className='border-2 border-text p-3 my-2 mb-4 h-32 rounded-md bg-gray-100 font-extrabold text-left focus:outline-none'
                 />
               </div>
-              <button
-                className='bg-[#cba7f8] hover:bg-[#c599fa] text-center border-2 border-[#667175] p-2 rounded-md font-extrabold'
-                type="submit"
-              >
-                Send
-              </button>
+            <button
+              className='bg-[#cba7f8] hover:bg-[#c599fa] text-center border-2 border-[#667175] p-2 rounded-md font-extrabold disabled:opacity-50 disabled:cursor-not-allowed'
+              type="submit"
+              disabled={suggestionLoading}
+            >
+              {suggestionLoading ? (
+                <span className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Envoi en cours...
+                </span>
+              ) : (
+                'Send'
+              )}
+            </button>
               <p className='font-semibold'>{sent}</p>
             </form>
           </div>

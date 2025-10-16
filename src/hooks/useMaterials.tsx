@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import { Material } from '../types/types';
 import { materialsCache } from '../utils/materialsCache';
 import api from '../api';
-import { getImageUrl } from '../config/storage';
-
 interface UseMaterialsReturn {
   materials: Material[];
   loading: boolean;
+  setLoading: (loading: boolean) => void;
   error: string | null;
   refetch: () => Promise<void>;
 }
@@ -38,14 +37,8 @@ const fetchMaterials = async () => {
     const processedMaterials = response.data
       .filter((material: Material) => material.stripePriceId)
       .map((material: Material) => {
-        if (material.pdf && material.pdf.data) {
-          const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-          return { ...material, pdfUrl: getImageUrl(path) };
-        }
         return material;
-      })
-      // 🔹 Sort by publish_at (newest first)
-      .sort(
+      }).sort(
         (a: Material, b: Material) => {
           const dateA = new Date(a.publishAt || '').getTime();
           const dateB = new Date(b.publishAt || '').getTime();
@@ -65,7 +58,6 @@ const fetchMaterials = async () => {
   }
 };
 
-
   useEffect(() => {
     fetchMaterials();
   }, []);
@@ -73,6 +65,7 @@ const fetchMaterials = async () => {
   return {
     materials,
     loading,
+    setLoading,
     error,
     refetch: fetchMaterials
   };
@@ -105,10 +98,6 @@ const fetchMaterials = async () => {
     // If no cache, fetch from API
     const response = await api.get('/materials/resource');
     const processedMaterials = response.data.map((material: Material) => {
-        if (material.pdf && material.pdf.data) {
-          const path = new TextDecoder().decode(new Uint8Array(material.pdf.data));
-          return { ...material, pdfUrl: getImageUrl(path) };
-        }
         return material;
       }).sort(
         (a: Material, b: Material) => {
@@ -138,6 +127,7 @@ const fetchMaterials = async () => {
   return {
     materials,
     loading,
+    setLoading,
     error,
     refetch: fetchMaterials
   };

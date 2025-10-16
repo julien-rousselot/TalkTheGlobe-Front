@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://talktheglobe.com/sitemap.xml
